@@ -56,19 +56,53 @@ int main()
     // Mesh data. 
     // We are using points we make in data.
     // With loading this should be commented out upon load.
-    glm::vec3 vertices[] =
-    {
-       glm::vec3(0.5f, 0.5f, 0),
-       glm::vec3(0.5f, -0.5f, 0),
-       glm::vec3(-0.5f, 0.5f, 0),
+    // These are 'local co-ordinates I beleive'
+    float vertices[] = {
+          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-       glm::vec3(0.5f, -0.5f, 0),
-       glm::vec3(-0.5f, -0.5f, 0),
-       glm::vec3(-0.5f, 0.5f, 0),
+          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+          -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+          -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+          -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
     // This is dumb. 
     // Everytime I change the model I need to adjust this number.
-    int verts = 6;
+    
 
     // This is used when using a IBO.
     // It draws the order of objects. I feel there should be a pattern that is easily dealt with
@@ -94,7 +128,7 @@ int main()
 
     
     unsigned int IBO;
-    glGenBuffers(1, &IBO);
+    //glGenBuffers(1, &IBO);
     
 
 
@@ -103,13 +137,13 @@ int main()
     // Bind the VBO to the current array buffer.
     glBindBuffer(GL_ARRAY_BUFFER ,VBO);
     // The current array buffer data is now defined. 
-    glBufferData(GL_ARRAY_BUFFER, verts * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
 
 
     // IBO shenanigans
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    // Define what d
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(int), index_buffer, GL_STATIC_DRAW);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    //// Define what d
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
     
 
 
@@ -119,7 +153,7 @@ int main()
     glEnableVertexAttribArray(0);
 
     // The vertex attributes are these.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
 
     glBindVertexArray(0);
     
@@ -132,13 +166,15 @@ int main()
 
     // For projection matrix.
     glm::mat4 projection = glm::perspective(1.507f, 16.0f/9.0f, 0.1f, 50.0f);
-    // For view of camera
-    glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
-   
+    // For view of camera.
+    // Note that this is all arbitrary informaion.
+    //glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
     // Model?
     glm::mat4 model = glm::mat4(1);
-
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
     unsigned int vertex_shader_ID = 0;
@@ -262,6 +298,7 @@ int main()
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
     // The loop for the window.
     // Game stuff goes in there.
     // Note as well the escape key should only work when in context with the window.
@@ -269,17 +306,26 @@ int main()
     while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
     {
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Rgb and alpha
-        // Swaps the front buffer and back buffer
         // Should do all shader shenanigans. 
        
+        // Shenanigans for rotate
+        // Note that this is the model matrix in local space.
+        // It is passed to the shader in the code above as a uniform.
+        // Then it is modified down here and it happens all over again next frame.
 
+
+        // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
-        glm::vec4 color = glm::vec4(r,g,b,1);
+
+
+        // Passed to the shader to adjust the color on the fly.
+        glm::vec4 color = glm::vec4(sinf(glfwGetTime() * 0.2f),sinf(glfwGetTime()* 0.5f),sinf(glfwGetTime() * 0.1f),1);
 
         glUseProgram(shader_program_ID);
 
+        // All the data being passed to the shaders goes here.
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
@@ -287,19 +333,21 @@ int main()
         uniform_location = glGetUniformLocation(shader_program_ID, "color");
         glUniform4fv(uniform_location, 1, glm::value_ptr(color));
 
-        // Shenanigans for rotate.
-        model = glm::rotate(model, 0.001f, glm::vec3(0,1,0));
 
         // This is used with the vao to draw shapes in an order.
         // It uses the 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, verts);
+        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(0.0005f), glm::vec3(0.5f,1,0));
+
+
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
         
 
         
+        // Swaps the front buffer and back buffer
         glfwSwapBuffers(window);
         
         glfwPollEvents();
