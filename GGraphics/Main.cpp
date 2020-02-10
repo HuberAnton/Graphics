@@ -58,24 +58,24 @@ int main()
     // With loading this should be commented out upon load.
     glm::vec3 vertices[] =
     {
-       glm::vec3(-0.5f, -0.5f, 0),
-       glm::vec3(-0.5f, -0.5f, 1),
-       glm::vec3(0.5f, -0.5f, 1),
-       glm::vec3(-0.5f, 0.5f, 1),
-       glm::vec3(0.5f, 0.5f, 1),
+       glm::vec3(0.5f, 0.5f, 0),
+       glm::vec3(0.5f, -0.5f, 0),
        glm::vec3(-0.5f, 0.5f, 0),
-       glm::vec3(0.5f, 0.5f, 0)
+
+       glm::vec3(0.5f, -0.5f, 0),
+       glm::vec3(-0.5f, -0.5f, 0),
+       glm::vec3(-0.5f, 0.5f, 0),
     };
     // This is dumb. 
     // Everytime I change the model I need to adjust this number.
-    int verts = 12;
+    int verts = 6;
 
     // This is used when using a IBO.
     // It draws the order of objects. I feel there should be a pattern that is easily dealt with
 
 
     // Note this is refeerenced later.
-    int index_buffer[]{ 0,1,2,1,2,3 };
+    int index_buffer[]{ 0,1,3,1,2,3 };
     
 
     //*********
@@ -135,6 +135,8 @@ int main()
     // For view of camera
     glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
    
+
+    // Model?
     glm::mat4 model = glm::mat4(1);
 
 
@@ -149,18 +151,18 @@ int main()
 
     // Vert Shader
     //************************************************************
-    std::string shader_data;
-    std::ifstream in_file_stream("..\\Shaders\\simple_vert.glsl", std::ifstream::in);
-    std::stringstream string_stream;
-    if (in_file_stream.is_open())
+    std::string shader_data_vert;
+    std::ifstream in_file_stream_vert("..\\Shaders\\simple_vert.glsl", std::ifstream::in);
+    std::stringstream string_stream_vert;
+    if (in_file_stream_vert.is_open())
     {
-        string_stream << in_file_stream.rdbuf();
-        shader_data = string_stream.str();
-        in_file_stream.close();
+        string_stream_vert << in_file_stream_vert.rdbuf();
+        shader_data_vert = string_stream_vert.str();
+        in_file_stream_vert.close();
     }
     vertex_shader_ID = glCreateShader(GL_VERTEX_SHADER);
-    const char* data = shader_data.c_str();
-    glShaderSource(vertex_shader_ID, 1, (const GLchar**)&data, 0);
+    const char* data_vert = shader_data_vert.c_str();
+    glShaderSource(vertex_shader_ID, 1, (const GLchar**)&data_vert, 0);
 
 
     glCompileShader(vertex_shader_ID);
@@ -176,8 +178,7 @@ int main()
         printf("Vertex shader failed.");
     }
 
-    string_stream.clear();
-
+     
     //Fragment shader
     //************************************************************
 
@@ -287,16 +288,15 @@ int main()
         glUniform4fv(uniform_location, 1, glm::value_ptr(color));
 
         // Shenanigans for rotate.
-        model = glm::rotate(model, 0.01f, glm::vec3(0,1,0));
+        model = glm::rotate(model, 0.001f, glm::vec3(0,1,0));
 
         // This is used with the vao to draw shapes in an order.
         // It uses the 
         glBindVertexArray(VAO);
-        //glDrawArrays(GL_TRIANGLES, 0, verts);
+        glDrawArrays(GL_TRIANGLES, 0, verts);
         
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
-        //projection = glm::perspective(fov, 16.0f / 9.0f, 0.1f, 50.0f);
         
 
         
