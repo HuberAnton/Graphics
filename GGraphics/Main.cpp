@@ -114,7 +114,7 @@ int main()
 
     //*********
     // Note that this is like a state machine.
-    //*********
+     //*********
 
     // Unsigned int designator for the array of data.
     unsigned int VAO;
@@ -307,13 +307,9 @@ int main()
     {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // Rgb and alpha
-        // Should do all shader shenanigans. 
+        
        
-        // Shenanigans for rotate
-        // Note that this is the model matrix in local space.
-        // It is passed to the shader in the code above as a uniform.
-        // Then it is modified down here and it happens all over again next frame.
+        
 
 
         // This is passed to the shader below to scale the models on screen.
