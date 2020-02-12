@@ -3,12 +3,19 @@
 // Default for test
 Camera::Camera()
 {
-	m_cameraPostion = glm::vec3(0,0,-3.0f);	
-	// Note the initial idea that you should change the 
-	// target is incorrect and is in fact the center of the screen.
-	// Meaning that it is derived from other coordinates.
-	// m_cameraTarget = glm::vec3(0,0,0);
+	// Camera starts off at 0.
+	m_cameraPostion = glm::vec3(0,0,0);	
+	// Camera facing is set and note that this value
+	// is only ever adjusted when you start rotation.
+	// If you think about it it makes sense. 
+	// The camera positon + the 
+	m_cameraFront = glm::vec3(0, 0, -1.0f);
+	m_yaw = -90.0f;
+	m_pitch = 0;
 
+
+
+	// World up
 	m_up = glm::vec3(0,1,0);
 	UpdateCamera();
 }
@@ -20,6 +27,13 @@ Camera::Camera()
 // Some thinking about roll needs to happen I suppose.
 void Camera::UpdateCamera()
 {
+	glm::vec3 front;
+	// I will have to change this to Quartonians
+	//front.x
+	//front.y
+	//front.z
+
+
 	//m_viewMatrix = glm::lookAt(m_cameraPostion, , m_up);
 	m_projectionViewMatrix = m_projectionMatrix * m_viewMatrix;
 }

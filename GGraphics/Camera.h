@@ -53,6 +53,10 @@ public:
 	// front.
 
 	//glm::vec3 m_cameraTarget; //*** Needs to be accesible.
+	// Changed to camera front.
+	// Needs to get a fair bit of info from rotation as well
+	// Think of this as the direction the camera is facing.(or opposite)
+	glm::vec3 m_cameraFront;
 
 	// We then minus the camera position by the camera target.
 	// Eg: (cam) x1, y2 , z6 - (target) x-2, y2, z 3 = camdireciotn x3 y0 z3
@@ -109,10 +113,14 @@ public:
 
 	glm::mat4 m_projectionMatrix;
 
-
 	//Combined projection view matrix to be passed into the 
 
 	glm::mat4 m_projectionViewMatrix;
+
+
+	// Angle shenanigans
+	float m_yaw;
+	float m_pitch;
 private:
 	glm::mat4 GetPerspeciveMatrix();
 

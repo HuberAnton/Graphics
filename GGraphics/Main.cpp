@@ -7,7 +7,7 @@
 #include "..\glm\gtx\quaternion.hpp"
 #include <fstream>
 #include <sstream>
-
+#include "Application.h"
 
 
 
@@ -49,8 +49,6 @@ int main()
 
     printf("GL: %i.%i\n", major, minor);
     
-
-
 
 
     // Mesh data. 
@@ -292,9 +290,12 @@ int main()
     float g = 0.0f;
     float b = 0.2f;
 
-    float m_delta;
-
     
+    
+
+ 
+
+    Application app;
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -305,14 +306,14 @@ int main()
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
     {
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        app.UpdateApplication();
         
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
 
         // Passed to the shader to adjust the color on the fly.
-        glm::vec4 color = glm::vec4(sinf(glfwGetTime() * 0.2f),sinf(glfwGetTime()* 0.5f),sinf(glfwGetTime() * 0.1f),1);
+        glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),sinf((float)glfwGetTime() * 0.1f),1);
 
         glUseProgram(shader_program_ID);
 
@@ -328,7 +329,7 @@ int main()
         // This is used with the vao to draw shapes in an order.
         // It uses the 
         glBindVertexArray(VAO);
-        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(0.0005f), glm::vec3(0.5f,1,0));
+        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(0.05f)* app.GetDeltaTime(), glm::vec3(0.5f,1,0));
 
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
