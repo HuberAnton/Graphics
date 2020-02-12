@@ -308,13 +308,8 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-       
-        
-
-
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
-
 
         // Passed to the shader to adjust the color on the fly.
         glm::vec4 color = glm::vec4(sinf(glfwGetTime() * 0.2f),sinf(glfwGetTime()* 0.5f),sinf(glfwGetTime() * 0.1f),1);

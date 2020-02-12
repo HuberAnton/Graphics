@@ -4,6 +4,12 @@
 #include "glfw3.h"
 #include "ext.hpp"
 
+// Just a note that the tuorial doesn't cover certain variables.
+// I'm going to seperate them out and try to justify why they exist.
+// I imagine that most of the storage is more about saving math so
+// it doesn't have to happen if the variables don't change.
+
+
 class Camera
 {
 public:
@@ -14,9 +20,17 @@ public:
 
 	void SetPosition(glm::vec3 a_newPositoin);
 
-	void SetTarget(glm::vec3 a_newTarget);
+	
 
-	glm::mat4 GetView();
+
+	// Front is missing.
+	// Actually front is a normaised value so it's
+	// and I feel like it's used to show which way the camera is pointing.
+	// It's position + front and the result will be a vector a unit besides
+	// the camera. So then that would mean the camera is not neccesarily made
+	// up of 1 position but 2 since it probably gets normalized after it's
+	// passed into lookat.
+
 	// Note that this is the view that is  
 	// multiplied by the perspective then 
 	// passed into the shaders.
@@ -34,7 +48,11 @@ public:
 	// Camera diercion is worked out by getting the camera Target first
 	// So where ever the camera should be looking at in xyz postion which 
 	// should be the center(?) of the screen.
-	glm::vec3 m_cameraTarget; //*** Needs to be accesible.
+	// ***
+	// Turns out we are able to get this from some quick math by storing the
+	// front.
+
+	//glm::vec3 m_cameraTarget; //*** Needs to be accesible.
 
 	// We then minus the camera position by the camera target.
 	// Eg: (cam) x1, y2 , z6 - (target) x-2, y2, z 3 = camdireciotn x3 y0 z3
@@ -88,7 +106,6 @@ public:
 	// it is out of place. The quesiton is should I default the projection matrix
 	// construciton or should I allow for passing it in?
 
-	void SetPerspeciveMatrix();
 
 	glm::mat4 m_projectionMatrix;
 
@@ -96,6 +113,9 @@ public:
 	//Combined projection view matrix to be passed into the 
 
 	glm::mat4 m_projectionViewMatrix;
+private:
+	glm::mat4 GetPerspeciveMatrix();
+
 
 };
 
