@@ -18,8 +18,7 @@ public:
 
 private:
 	float m_lastFrame;
-	float m_thisFrame;
-
+	float m_deltaTime;
 
 	// This should contain the camera.
 };
