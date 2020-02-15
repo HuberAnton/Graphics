@@ -9,14 +9,12 @@ Camera::Camera()
 	// is only ever adjusted when you start rotation.
 	// If you think about it it makes sense. 
 	// The camera positon + the 
+	m_up = glm::vec3(0,1,0);
 	m_cameraFront = glm::vec3(0, 0, -1.0f);
 	m_yaw = -90.0f;
 	m_pitch = 0;
 
-
-
 	// World up
-	m_up = glm::vec3(0,1,0);
 	UpdateCamera();
 }
 
@@ -29,9 +27,12 @@ void Camera::UpdateCamera()
 {
 	glm::vec3 front;
 	// I will have to change this to Quartonians
-	//front.x
-	//front.y
-	//front.z
+	front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+	front.y = sin(glm::radians(m_pitch));
+	front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+	m_cameraFront = glm::normalize(front);
+	m_cameraRight = glm::normalize(glm::cross(m_cameraFront, m_up));
+	m_cameraUp = glm::normalize(glm::cross(m_cameraRight, m_cameraFront));
 
 
 	//m_viewMatrix = glm::lookAt(m_cameraPostion, , m_up);

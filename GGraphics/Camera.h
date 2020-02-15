@@ -117,13 +117,14 @@ public:
 
 	glm::mat4 m_projectionViewMatrix;
 
+	glm::mat4 GetPerspeciveMatrix();
 
 	// Angle shenanigans
 	float m_yaw;
 	float m_pitch;
 private:
-	glm::mat4 GetPerspeciveMatrix();
 
+	float m_speed;
 
 };
 

@@ -192,12 +192,12 @@ int main()
 
 
     //********************
-    // Only in charge of delta time and ultimatly
+    // Only in charge of delta time atm and ultimatly
     // needs to contain all the above.
     //********************
     Application app;
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
     
