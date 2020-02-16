@@ -21,9 +21,6 @@
     <ClCompile Include="..\Dependencies\glcore\gl_core_4_5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Quartonians.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

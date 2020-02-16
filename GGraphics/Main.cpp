@@ -10,7 +10,8 @@
 #include "Shader.h"
 #include "Application.h"
 #include "Camera.h"
-
+#define STB_IMAGE_IMPLEMENTAION
+ 
 
 
 int main()
@@ -56,51 +57,62 @@ int main()
     // With loading this should be commented out upon load.
     // These are 'local co-ordinates I beleive'
     float vertices[] = {
-          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-          -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        // I can't actually remeber what data this is anymore.
+        // It's too many points for positions.
 
-          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-    // This is dumb. 
-    // Everytime I change the model I need to adjust this number.
     
+            // Positions            // This is currently skipped. Could be for tex coords.
+           0.5f, -0.5f, -0.5f,        //  1.0f, 0.0f,
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 0.0f,
+           0.5f,  0.5f, -0.5f,        //  1.0f, 1.0f,
+           0.5f,  0.5f, -0.5f,        //  1.0f, 1.0f,
+          -0.5f,  0.5f, -0.5f,        //  0.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 0.0f,
+                                      //
+          -0.5f, -0.5f,  0.5f,        //  0.0f, 0.0f,
+           0.5f, -0.5f,  0.5f,        //  1.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,        //  1.0f, 1.0f,
+           0.5f,  0.5f,  0.5f,        //  1.0f, 1.0f,
+          -0.5f,  0.5f,  0.5f,        //  0.0f, 1.0f,
+          -0.5f, -0.5f,  0.5f,        //  0.0f, 0.0f,
+                                      //
+          -0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+          -0.5f,  0.5f, -0.5f,        //  1.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+          -0.5f, -0.5f,  0.5f,        //  0.0f, 0.0f,
+          -0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+                                      //
+           0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+           0.5f,  0.5f, -0.5f,        //  1.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+           0.5f, -0.5f,  0.5f,        //  0.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+                                      //
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+           0.5f, -0.5f, -0.5f,        //  1.0f, 1.0f,
+           0.5f, -0.5f,  0.5f,        //  1.0f, 0.0f,
+           0.5f, -0.5f,  0.5f,        //  1.0f, 0.0f,
+          -0.5f, -0.5f,  0.5f,        //  0.0f, 0.0f,
+          -0.5f, -0.5f, -0.5f,        //  0.0f, 1.0f,
+                                      //
+          -0.5f,  0.5f, -0.5f,        //  0.0f, 1.0f,
+           0.5f,  0.5f, -0.5f,        //  1.0f, 1.0f,
+           0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+           0.5f,  0.5f,  0.5f,        //  1.0f, 0.0f,
+          -0.5f,  0.5f,  0.5f,        //  0.0f, 0.0f,
+          -0.5f,  0.5f, -0.5f        // 0.0f, 1.0f
+    };
+
+    
+
+
+    
+
+
+
 
     // This is used when using a IBO.
     // It draws the order of objects. I feel there should be a pattern that is easily dealt with
@@ -131,9 +143,10 @@ int main()
     glBindVertexArray(VAO);
     // Bind the VBO to the current array buffer.
     glBindBuffer(GL_ARRAY_BUFFER ,VBO);
-    // The current array buffer data is now defined. 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+    // The current array buffer data is now defined.
+    glBufferData(GL_ARRAY_BUFFER, 36 * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
+    size_t size = sizeof(vertices);
 
     // IBO shenanigans
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
@@ -148,13 +161,19 @@ int main()
     glEnableVertexAttribArray(0);
 
     // The vertex attributes are these.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+
+    glEnableVertexAttribArray(1);
+
+    
+
 
     glBindVertexArray(0);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     
+
 
     // Camera
     //************************************************************
@@ -171,7 +190,7 @@ int main()
     glm::mat4 model = glm::mat4(1);
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    Camera camera;
+    //Camera camera;
 
 
 
@@ -210,7 +229,7 @@ int main()
         // Since the window is not created in app it needs to be passed for input.
         app.UpdateApplication(window);
         // Input needs to be checked by app then passed to whatever requires it.
-        camera.CheckInput(app.GetDeltaTime(), window);
+        //camera.CheckInput(app.GetDeltaTime(), window);
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
 
@@ -221,8 +240,8 @@ int main()
 
         // All the data being passed to the shaders goes here.
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
-        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
-        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(camera.GetPerspectiveViewMatrix()));
+        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
+        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(camera.GetPerspectiveViewMatrix()));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
         uniform_location = glGetUniformLocation(shader_program_ID, "color");
