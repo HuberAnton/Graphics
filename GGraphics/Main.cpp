@@ -9,7 +9,7 @@
 #include <sstream>
 #include "Shader.h"
 #include "Application.h"
-
+#include "Camera.h"
 
 
 
@@ -171,7 +171,7 @@ int main()
     glm::mat4 model = glm::mat4(1);
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-
+    Camera camera;
 
 
 
@@ -207,8 +207,10 @@ int main()
     while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        app.UpdateApplication();
-
+        // Since the window is not created in app it needs to be passed for input.
+        app.UpdateApplication(window);
+        // Input needs to be checked by app then passed to whatever requires it.
+        camera.CheckInput(app.GetDeltaTime(), window);
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
 
@@ -219,7 +221,8 @@ int main()
 
         // All the data being passed to the shaders goes here.
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
-        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
+        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
+        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(camera.GetPerspectiveViewMatrix()));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
         uniform_location = glGetUniformLocation(shader_program_ID, "color");

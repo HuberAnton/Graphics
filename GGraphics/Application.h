@@ -5,14 +5,17 @@
 
 
 
+
+
+
 class Application
 {
 public:
 	Application();
 
 	// Should be done at the start of everyframe?
-	void UpdateApplication();
-
+	void UpdateApplication(GLFWwindow* window);
+	
 	float GetDeltaTime();
 	
 
