@@ -9,7 +9,7 @@
 #include <sstream>
 #include "Shader.h"
 #include "Application.h"
-
+#include "OBJMesh.h"
 
 
 
@@ -165,12 +165,21 @@ int main()
     // Note that this is all arbitrary informaion.
     //glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
     glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    view = glm::translate(view, glm::vec3(0.0f, -5.0f, -5.0f));
 
     // Model?
     glm::mat4 model = glm::mat4(1);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));*/
 
+
+    // Mesh Loading attempt
+    //************************************************************
+
+    // Load fucntion is now called in constructor... for better or worse.
+    OBJMesh Bunny("..\\Dependencies\\OBJ\\Bunny.obj");
+
+    
+    //Bunny.load("..\\Dependencies\\OBJ\\Bunny.obj");
 
 
 
@@ -197,9 +206,10 @@ int main()
     //********************
     Application app;
 
-    //glPolygonMode(GL_FRONT, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
+    glm::vec4 color = glm::vec4(1, 0, 0, 1);
     
     // The loop for the window.
     // Game stuff goes in there.
@@ -213,30 +223,32 @@ int main()
         glm::mat4 pv = projection * view;
 
         // Passed to the shader to adjust the color on the fly.
-        glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
-
+        //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
         glUseProgram(shader_program_ID);
 
-        // All the data being passed to the shaders goes here.
+        // All the data being passed to the shaders goes here. 
+        // This is for the mesh square.
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
         uniform_location = glGetUniformLocation(shader_program_ID, "color");
         glUniform4fv(uniform_location, 1, glm::value_ptr(color));
-
-
+        // This should happen before being sent to the grpahics card.
         // This is used with the vao to draw shapes in an order.
         // It uses the 
-        glBindVertexArray(VAO);
-        model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
+        //glBindVertexArray(VAO);
+
+        //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
 
 
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
         
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
-        
+
+        Bunny.draw();
 
         
         // Swaps the front buffer and back buffer
