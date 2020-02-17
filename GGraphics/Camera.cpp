@@ -14,7 +14,6 @@ Camera::Camera()
 	m_yaw = -90.0f;
 	m_pitch = 1;
 
-	// World up
 	UpdateCamera();
 }
 

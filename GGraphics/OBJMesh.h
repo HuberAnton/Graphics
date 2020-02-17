@@ -62,9 +62,11 @@ public:
 	Material& getMaterial(size_t index) { return m_materials[index];  }
 
 private:
-
+	// Is this used for textures
 	void calculateTangents(std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
+
+	// Mesh chunks for what?
 	struct MeshChunk {
 		unsigned int	vao, vbo, ibo;
 		unsigned int	indexCount;

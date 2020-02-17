@@ -165,11 +165,11 @@ int main()
     // Note that this is all arbitrary informaion.
     //glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
     glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, -5.0f, -5.0f));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
     // Model?
     glm::mat4 model = glm::mat4(1);
-    // model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));*/
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
     // Mesh Loading attempt
@@ -243,12 +243,14 @@ int main()
 
 
 
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
-
-        Bunny.draw();
+        //********************************
+        // Bunny model
+        //********************************
+        //Bunny.draw();
 
         
         // Swaps the front buffer and back buffer

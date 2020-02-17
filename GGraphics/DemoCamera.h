@@ -23,7 +23,13 @@ public:
 
 	void setUp(glm::vec3& a_up);
 
+	void setFacing(glm::vec3& a_facing);
 
+	glm::mat4 getWorldTransform() {return m_worldMatrix;}
+
+	glm::mat4 getView() { return m_viewMatrix; }
+
+	glm::mat4 getProjection() { return m_projectionMatrix; }
 
 
 	glm::mat4 getProjectionViewMatrix() { return m_projectionViewMatrix; }

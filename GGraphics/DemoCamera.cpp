@@ -38,14 +38,16 @@ void DemoCamera::UpdateMatrices()
 
 void DemoCamera::setPostion(glm::vec3 &a_position)
 {
-	m_worldMatrix[3] = glm::vec4(a_position, 1);
-	// Something else. 
 
 }
 
-
+// Probably not correct
 void DemoCamera::setUp(glm::vec3& a_up)
 {
-	m_worldMatrix[2] = glm::vec4(a_up, 1);
+
+}
+// Probably not correct.
+void DemoCamera::setFacing(glm::vec3& a_forward)
+{
 
 }
