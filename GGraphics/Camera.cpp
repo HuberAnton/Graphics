@@ -4,7 +4,7 @@
 Camera::Camera()
 {
 	// Camera starts off at 0.
-	m_cameraPostion = glm::vec3(0,0,0);	
+	m_cameraPostion = glm::vec3(1);	
 	// Camera facing is set and note that this value
 	// is only ever adjusted when you start rotation.
 	// If you think about it it makes sense. 
@@ -12,7 +12,7 @@ Camera::Camera()
 	m_up = glm::vec3(0,1,0);
 	m_cameraFront = glm::vec3(0, 0, -1.0f);
 	m_yaw = -90.0f;
-	m_pitch = 0;
+	m_pitch = 1;
 
 	// World up
 	UpdateCamera();
