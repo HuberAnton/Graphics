@@ -206,7 +206,7 @@ int main()
     //********************
     Application app;
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
     glm::vec4 color = glm::vec4(1, 0, 0, 1);
