@@ -10,10 +10,10 @@ DemoCamera::DemoCamera()
 	m_projectionViewMatrix = glm::mat4(1.0f);
 	//m_aspectRatio = 1.0f;
 	m_aspectRatio = 16.0f / 9.0f;
-	m_cameraSpeed = 3.0f;
+	m_cameraSpeed = 30.0f;
 	SetPerspective(3.14159f * 0.5f, m_aspectRatio, 0.01f, 100.0f);
 	// Currently does not look at anything.
-	//SetLookAt();
+	SetLookAt(glm::vec3(0,0,-3.0f), glm::vec3(0,0,0), glm::vec3(0,1,0));
 }
 
 
@@ -27,9 +27,9 @@ void DemoCamera::SetPerspective(float a_fov_y, float a_aspect_ratio,
 }
 
 
-void DemoCamera::SetLookAt(glm::vec3& a_fromPostion, glm::vec3& a_toPosition, glm::vec3& a_yawAxis)
+void DemoCamera::SetLookAt(glm::vec3 a_camPosition, glm::vec3 a_lookPosition, glm::vec3 a_camUp)
 {
-	m_viewMatrix = glm::lookAt(a_fromPostion, a_toPosition, a_yawAxis);
+	m_viewMatrix = glm::lookAt(a_camPosition, a_lookPosition, a_camUp);
 	m_worldMatrix = glm::inverse(m_viewMatrix);
 	UpdateMatrices();
 }
@@ -41,10 +41,11 @@ void DemoCamera::UpdateMatrices()
 }
 
 
-void DemoCamera::SetPostion(glm::vec3 &a_position)
+void DemoCamera::SetPostion(glm::vec3 a_position)
 {
 	m_worldMatrix[3] = glm::vec4(a_position,1);
-	m_viewMatrix = glm::inverse(m_worldMatrix);
+	//glm::translate(m_worldMatrix, a_position);
+	UpdateMatrices();
 }
 
 // Probably not correct
@@ -64,15 +65,55 @@ void DemoCamera::Update(float a_deltaTime)
 	// Note this is the ideal way to get the window 
 	// instead of passing it around.
 	auto window = glfwGetCurrentContext();
+	bool input = false;
+	// Identity matrix
+	m_displacementVector = glm::vec3();
+	// A vector for storing the data.
+	// I'll move it into the 
 
+	// Movement
+
+	if (glfwGetKey(window, GLFW_KEY_W))
+	{
+		// I need to get the forward of the camera here.
+		// I should know this
+
+		m_displacementVector; //+=;
+		input = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S))
+	{
+		// I need to get the forward of the camera here.
+		// I should know this
+		m_displacementVector; //-=;
+		input = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A))
+	{
+		m_displacementVector -= glm::vec3(m_worldMatrix[0]);
+		input = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D))
+	{
+		m_displacementVector += glm::vec3(m_worldMatrix[0]);
+		input = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL))
+	{
+		m_displacementVector -= glm::vec3(0.0f, 1.0f, 0.0f);
+		input = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE))
+	{
+		m_displacementVector += glm::vec3(0.0f, 1.0f, 0.0f);
+		input = true;
+	}
+
+	if (input == true)
+	{
+		SetPostion(m_displacementVector);
+	}
 
 }
 
 
-void DemoCamera::Rotation()
-{
-	
-	auto roration = glm::mat4(1.0f);
-	//ro
-
-}

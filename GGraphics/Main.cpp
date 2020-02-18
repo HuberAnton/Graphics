@@ -11,6 +11,8 @@
 #include "Application.h"
 #include "OBJMesh.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include "DemoCamera.h"
+
 
 #include "..\stbimage\stb_image.h"
 
@@ -209,14 +211,20 @@ int main()
     //************************************************************
 
     // For projection matrix.
-    glm::mat4 projection = glm::perspective(1.507f, 16.0f/9.0f, 0.1f, 50.0f);
+    //glm::mat4 projection = glm::perspective(1.507f, 16.0f/9.0f, 0.1f, 50.0f);
     // For view of camera.
     // Note that this is all arbitrary informaion.
     //glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    //glm::mat4 view = glm::mat4(1.0f);
+    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    DemoCamera camera;
+
+
+
 
     // Model?
+    // Should be a part of the indivdual objects
     glm::mat4 model = glm::mat4(1);
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -275,9 +283,9 @@ int main()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
-
+        camera.Update(app.GetDeltaTime());
         // This is passed to the shader below to scale the models on screen.
-        glm::mat4 pv = projection * view;
+        glm::mat4 pv = camera.getProjectionViewMatrix();
         //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);

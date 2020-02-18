@@ -13,7 +13,7 @@ Camera::Camera()
 	m_cameraFront = glm::vec3(0, 0, -1.0f);
 	m_yaw = -90.0f;
 	m_pitch = 1;
-
+	
 	UpdateCamera();
 }
 
@@ -51,7 +51,7 @@ glm::mat4 Camera::GetPerspeciveMatrix()
 // I don't think this is correct either.
 void Camera::SetPosition(glm::vec3 a_newPositoin)
 {
-	m_cameraPostion = -a_newPositoin;
+	m_cameraPostion += a_newPositoin;
 	UpdateCamera();
 }
 

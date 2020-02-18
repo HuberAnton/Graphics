@@ -18,9 +18,9 @@ public:
 
 	void SetPerspective(float a_fov_y, float a_aspect_ratio, float a_near_distance, float a_far_distance);
 
-	void SetLookAt(glm::vec3 &a_fromPostion, glm::vec3 &a_toPosition, glm::vec3 &a_yawAxis);
+	void SetLookAt(glm::vec3 a_fromPostion, glm::vec3 a_toPosition, glm::vec3 a_yawAxis);
 
-	void SetPostion(glm::vec3 &a_position);
+	void SetPostion(glm::vec3 a_position);
 
 	void SetUp(glm::vec3& a_up);
 
@@ -43,7 +43,7 @@ public:
 
 private:
 
-	void Rotation();
+
 
 
 	// UpdateMatrices only needs to be called internaly 
@@ -64,6 +64,9 @@ private:
 	glm::mat4 m_projectionViewMatrix;
 
 	float m_cameraSpeed;
+	float m_rotationSpeed;
 
+
+	glm::vec3 m_displacementVector;
 };
 
