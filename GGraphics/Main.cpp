@@ -182,7 +182,7 @@ int main()
 
 
     // Need the texture locaiton
-    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
+    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\scrabble.jpg", &x, &y, &n, 0);
 
     // Open gl assaigns a number to this int and knows the number is 
     // a reference to a texture.
@@ -193,7 +193,9 @@ int main()
     // type of file the texture is.
     if (data)
     {
+        //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
@@ -261,7 +263,8 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glm::vec4 color = glm::vec4(1, 0, 0, 1);
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -287,7 +290,8 @@ int main()
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
         //uniform_location = glGetUniformLocation(shader_program_ID, "color");
         //glUniform4fv(uniform_location, 1, glm::value_ptr(color));
-
+        /*uniform_location = glGetUniformLocation(shader_program_ID, "diffuse_texture");
+        glUniform1i(uniform_location, 0);*/
    
 
         // Has something to do with using multiple textures.
