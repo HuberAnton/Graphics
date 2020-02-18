@@ -284,6 +284,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
         camera.Update(app.GetDeltaTime());
+        //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = camera.getProjectionViewMatrix();
         //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));

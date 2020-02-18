@@ -96,7 +96,7 @@ public:
 	// So in short we need:
 	// A postion of the camera
 	// A target postion
-	// A World up.
+	// A camera up.
 
 	// The rest will be worked out GLM but it is worth knowing.
 

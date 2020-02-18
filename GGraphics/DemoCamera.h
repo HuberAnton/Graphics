@@ -22,13 +22,10 @@ public:
 
 	void SetPostion(glm::vec3 a_position);
 
-	void SetUp(glm::vec3& a_up);
-
-	void SetFacing(glm::vec3& a_facing);
+	void SetRotation(glm::mat4 a_rotation);
 
 	// Window passed in for context.
 	void Update(float a_deltaTime);
-
 
 	// Getters
 	// I feel some aren't neccesary but you never know.
@@ -41,8 +38,10 @@ public:
 	
 	glm::mat4 getProjectionViewMatrix() { return m_projectionViewMatrix; }
 
+
 private:
 
+	
 
 
 
@@ -53,8 +52,7 @@ private:
 	float m_aspectRatio;
 
 
-
-
+	
 
 	glm::mat4 m_worldMatrix;
 
@@ -66,7 +64,7 @@ private:
 	float m_cameraSpeed;
 	float m_rotationSpeed;
 
-
+	// Just so I don't have to create it each update.
 	glm::vec3 m_displacementVector;
 };
 
