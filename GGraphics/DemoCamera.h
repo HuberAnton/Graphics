@@ -14,32 +14,47 @@ public:
 
 	DemoCamera();
 
+	//Setters
 
-	void setPerspective(float a_fov_y, float a_aspect_ratio, float a_near_distance, float a_far_distance);
+	void SetPerspective(float a_fov_y, float a_aspect_ratio, float a_near_distance, float a_far_distance);
 
-	void setLookAt(glm::vec3 &a_fromPostion, glm::vec3 &a_toPosition, glm::vec3 &a_yawAxis);
+	void SetLookAt(glm::vec3 &a_fromPostion, glm::vec3 &a_toPosition, glm::vec3 &a_yawAxis);
 
-	void setPostion(glm::vec3 &a_position);
+	void SetPostion(glm::vec3 &a_position);
 
-	void setUp(glm::vec3& a_up);
+	void SetUp(glm::vec3& a_up);
 
-	void setFacing(glm::vec3& a_facing);
+	void SetFacing(glm::vec3& a_facing);
+
+	// Window passed in for context.
+	void Update(float a_deltaTime);
+
+
+	// Getters
+	// I feel some aren't neccesary but you never know.
 
 	glm::mat4 getWorldTransform() {return m_worldMatrix;}
 
 	glm::mat4 getView() { return m_viewMatrix; }
 
 	glm::mat4 getProjection() { return m_projectionMatrix; }
-
-
+	
 	glm::mat4 getProjectionViewMatrix() { return m_projectionViewMatrix; }
 
 private:
 
+	void Rotation();
+
+
+	// UpdateMatrices only needs to be called internaly 
+	// Any time the world or view matric are changed you need to update.
 	void UpdateMatrices();
 
-
 	float m_aspectRatio;
+
+
+
+
 
 	glm::mat4 m_worldMatrix;
 
@@ -47,6 +62,8 @@ private:
 	glm::mat4 m_projectionMatrix;
 
 	glm::mat4 m_projectionViewMatrix;
+
+	float m_cameraSpeed;
 
 };
 

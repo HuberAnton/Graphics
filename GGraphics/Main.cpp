@@ -10,8 +10,9 @@
 #include "Shader.h"
 #include "Application.h"
 #include "OBJMesh.h"
+#define STB_IMAGE_IMPLEMENTATION
 
-
+#include "..\stbimage\stb_image.h"
 
 int main()
 {
@@ -26,7 +27,7 @@ int main()
     GLFWwindow* window = glfwCreateWindow(1280, 720, "GGraphics", nullptr, nullptr);
 
     // Initiate open gl and check if a valid window has been created by windows
-    if(!window)
+    if (!window)
     {
         glfwTerminate();
         return -1;
@@ -43,54 +44,65 @@ int main()
         glfwTerminate();
         return -3;
     }
-    
+
     auto major = ogl_GetMajorVersion();
     auto minor = ogl_GetMinorVersion();
 
     printf("GL: %i.%i\n", major, minor);
-    
 
 
-    // Mesh data. 
+
+ 
     // We are using points we make in data.
     // With loading this should be commented out upon load.
-    // These are 'local co-ordinates I beleive'
+    // These are 'local co-ordinates' I beleive
+
+
+    // Mesh
+    //************************************************************
+
+
+
+    // It's honestly better to create a data type that then stores this data
+    // rather than having a bunch of floats.
+    // 3 Pos 2 Uv
     float vertices[] = {
+        // Front 
           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
            0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
+          // Back
           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
           -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
+          // Left
           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
           -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
+          // Right
            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
            0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
+           // Bottom
           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
            0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
+          // Top
           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
@@ -98,17 +110,16 @@ int main()
           -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
-    // This is dumb. 
-    // Everytime I change the model I need to adjust this number.
-    
+  
+
+
+
 
     // This is used when using a IBO.
     // It draws the order of objects. I feel there should be a pattern that is easily dealt with
 
+    //int index_buffer[]{ 0,1,3,1,2,3 };
 
-    // Note this is refeerenced later.
-    int index_buffer[]{ 0,1,3,1,2,3 };
-    
 
 
     // Unsigned int designator for the array of data.
@@ -121,16 +132,16 @@ int main()
     glGenBuffers(1, &VBO);
 
 
-    
-    unsigned int IBO;
+
+    //unsigned int IBO;
     //glGenBuffers(1, &IBO);
-    
+
 
 
     // We are now bound(selected the state) to the vao and can make changes.
     glBindVertexArray(VAO);
     // Bind the VBO to the current array buffer.
-    glBindBuffer(GL_ARRAY_BUFFER ,VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     // The current array buffer data is now defined. 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
 
@@ -139,7 +150,7 @@ int main()
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
     //// Define what d
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
-    
+
 
 
 
@@ -150,11 +161,47 @@ int main()
     // The vertex attributes are these.
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
 
+    glEnableVertexAttribArray(1);
+
+    // Uv data.
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
+
     glBindVertexArray(0);
-    
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    
+
+
+    // Textures
+    //************************************************************
+
+    // Make an unsigned int to pass to open gl.
+    unsigned int textureDemo;
+
+    // Used by stbi load and passed into the glTexImage.
+    int x, y, n;
+
+
+    // Need the texture locaiton
+    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
+
+    // Open gl assaigns a number to this int and knows the number is 
+    // a reference to a texture.
+
+    glGenTextures(1, &textureDemo);
+    glBindTexture(GL_TEXTURE_2D, textureDemo);
+    // Notea that it might be rgba instead depending on what
+    // type of file the texture is.
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else
+    {
+        std::cout << "No texture bud" << std::endl;
+    }
+
+    // Deallocates the memory.
+    stbi_image_free(data);
 
     // Camera
     //************************************************************
@@ -172,11 +219,11 @@ int main()
     model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
-    // Mesh Loading attempt
+    // Mesh Loading - obj loading
     //************************************************************
 
     // Load fucntion is now called in constructor... for better or worse.
-    OBJMesh Bunny("..\\Dependencies\\OBJ\\Bunny.obj");
+    //OBJMesh Bunny("..\\Dependencies\\OBJ\\Bunny.obj");
 
     
     //Bunny.load("..\\Dependencies\\OBJ\\Bunny.obj");
@@ -184,20 +231,20 @@ int main()
 
 
 
-    // Shader - Handled in class. Very basic.
+    // Shader - Handled in class. Very basic
     //************************************************************
    
-    std::string vertLocaiton = "..\\Shaders\\simple_vert.glsl";
-    std::string fragLocation = "..\\Shaders\\simple_color_frag.glsl";
+    std::string vertLocaiton = "..\\Dependencies\\Shaders\\simple_vert.glsl";
+    std::string fragLocation = "..\\Dependencies\\Shaders\\simple_color_frag.glsl";
 
 
     Shader basicShader(vertLocaiton, fragLocation);
 
 
 
+    unsigned int shader_program_ID = basicShader.GetShaderId();
     
  
-    unsigned int shader_program_ID = basicShader.GetShaderId();
 
 
     //********************
@@ -206,14 +253,21 @@ int main()
     //********************
     Application app;
 
-   // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+
+
+    // Debug shenanigans and unchanged variables for below loop.
+    //************************************************************
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
+
+
     glm::vec4 color = glm::vec4(1, 0, 0, 1);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
     // The loop for the window.
     // Game stuff goes in there.
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -221,25 +275,27 @@ int main()
 
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = projection * view;
-
+        //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
         glUseProgram(shader_program_ID);
-
         // All the data being passed to the shaders goes here. 
         // This is for the mesh square.
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
-        uniform_location = glGetUniformLocation(shader_program_ID, "color");
-        glUniform4fv(uniform_location, 1, glm::value_ptr(color));
-        // This should happen before being sent to the grpahics card.
-        // This is used with the vao to draw shapes in an order.
-        // It uses the 
-        //glBindVertexArray(VAO);
+        //uniform_location = glGetUniformLocation(shader_program_ID, "color");
+        //glUniform4fv(uniform_location, 1, glm::value_ptr(color));
 
-        //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
+   
+
+        // Has something to do with using multiple textures.
+        glActiveTexture(GL_TEXTURE0);
+
+
+        glBindTexture(GL_TEXTURE_2D, textureDemo);
+        glBindVertexArray(VAO);
 
 
 
@@ -262,6 +318,7 @@ int main()
 
     glDeleteBuffers(1, &VAO);
     glDeleteBuffers(1, &VBO);
+
 
     glfwTerminate();
 	return 0;
