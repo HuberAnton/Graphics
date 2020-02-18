@@ -50,6 +50,12 @@ void DemoCamera::SetPostion(glm::vec3 a_position)
 
 
 // Probably could combine with postion.
+
+
+// So this will need to use the forwardand adjust the look at fuction
+// since rotation is basicaly changing the vector that makes the look position.
+// That will cover pitch and yaw but I will need to think more about
+// roll for the moment.
 void DemoCamera::SetRotation(glm::mat4 a_rotation)
 {
 

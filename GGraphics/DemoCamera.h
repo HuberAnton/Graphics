@@ -30,7 +30,7 @@ public:
 	// Getters
 	// I feel some aren't neccesary but you never know.
 
-	glm::mat4 getWorldTransform() {return m_worldMatrix;}
+	glm::mat4 getWorldTransform() { return m_worldMatrix; }
 
 	glm::mat4 getView() { return m_viewMatrix; }
 
