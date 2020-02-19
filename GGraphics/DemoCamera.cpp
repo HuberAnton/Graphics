@@ -2,17 +2,11 @@
 
 
 
-DemoCamera::DemoCamera()
+DemoCamera::DemoCamera() : m_worldMatrix(1), m_viewMatrix(1), m_projectionMatrix(1)
 {
-	m_worldMatrix = glm::mat4(1.0f);
-	m_viewMatrix = glm::mat4(1.0f);
-	m_projectionMatrix = glm::mat4(1.0f);
-	m_projectionViewMatrix = glm::mat4(1.0f);
-	//m_aspectRatio = 1.0f;
 	m_aspectRatio = 16.0f / 9.0f;
-	m_cameraSpeed = 0.2f;
+	m_cameraSpeed = 1.0f;
 	SetPerspective(3.14159f * 0.5f, m_aspectRatio, 0.01f, 100.0f);
-	// Currently does not look at anything.
 	SetLookAt(glm::vec3(0,0,-3.0f), glm::vec3(0,0,0), glm::vec3(0,1,0));
 }
 
@@ -22,10 +16,9 @@ void DemoCamera::SetPerspective(float a_fov_y, float a_aspect_ratio,
 	float a_near_distance, float a_far_distance)
 {
 	m_aspectRatio = a_aspect_ratio;
-	m_projectionMatrix = glm::perspective(a_fov_y, a_aspect_ratio, a_near_distance, a_far_distance);
+	m_projectionMatrix = glm::perspective(a_fov_y, m_aspectRatio, a_near_distance, a_far_distance);
 	UpdateMatrices();
 }
-
 
 void DemoCamera::SetLookAt(glm::vec3 a_camPosition, glm::vec3 a_lookPosition, glm::vec3 a_camUp)
 {
@@ -59,8 +52,6 @@ void DemoCamera::SetPostion(glm::vec3 a_position)
 void DemoCamera::SetRotation(glm::mat4 a_rotation)
 {
 
-
-
 }
 
 
@@ -84,38 +75,32 @@ void DemoCamera::Update(float a_deltaTime)
 
 	if (glfwGetKey(window, GLFW_KEY_W))
 	{
-		// I need to get the forward of the camera here.
-		// I should know this
-		
-		m_displacementVector -= glm::vec3(m_worldMatrix[2]) * m_cameraSpeed;
-
+		m_displacementVector -= glm::vec3(m_worldMatrix[2]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S))
 	{
-		// I need to get the forward of the camera here.
-		// I should know this
-		m_displacementVector += glm::vec3(m_worldMatrix[2]) * m_cameraSpeed;
+		m_displacementVector += glm::vec3(m_worldMatrix[2]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A))
 	{
-		m_displacementVector -= glm::vec3(m_worldMatrix[0]) * m_cameraSpeed;
+		m_displacementVector -= glm::vec3(m_worldMatrix[0]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D))
 	{
-		m_displacementVector += glm::vec3(m_worldMatrix[0]) * m_cameraSpeed;
+		m_displacementVector += glm::vec3(m_worldMatrix[0]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL))
 	{
-		m_displacementVector -= glm::vec3(m_worldMatrix[1]) * m_cameraSpeed;
+		m_displacementVector -= glm::vec3(m_worldMatrix[1]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE))
 	{
-		m_displacementVector += glm::vec3(m_worldMatrix[1]) * m_cameraSpeed;
+		m_displacementVector += glm::vec3(m_worldMatrix[1]) * m_cameraSpeed * a_deltaTime;
 		input = true;
 	}
 
@@ -123,11 +108,6 @@ void DemoCamera::Update(float a_deltaTime)
 	{
 		SetPostion(m_displacementVector);
 	}
-
-	UpdateMatrices();
-
-	
-	//SetLookAt(m_displacementVector, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 }
 
 

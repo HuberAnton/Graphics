@@ -150,17 +150,21 @@
     <ClCompile Include="DemoCamera.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
+    <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="Quartonians.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Dependencies\stb_image.h" />
+    <ClInclude Include="..\Dependencies\stbimage\stb_image.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DemoCamera.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="OBJMesh.h" />
+    <ClInclude Include="Primitives.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>

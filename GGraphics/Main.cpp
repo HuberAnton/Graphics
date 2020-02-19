@@ -12,46 +12,21 @@
 #include "OBJMesh.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "DemoCamera.h"
+#include "Object.h"
+
 
 
 #include "..\stbimage\stb_image.h"
 
+// Window and open gl init
+
 int main()
 {
-    // Initial  
-    // Allows for gl function calls.
-    if (glfwInit() == false)
-    {
-        glfwTerminate();
-        return -1;
-    }
-    // Creates a window for open gl to run in with dimensions (x,y), name of window, which screen. (not 100% sure on last).
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "GGraphics", nullptr, nullptr);
 
-    // Initiate open gl and check if a valid window has been created by windows
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-    // Makes the window passed in the current context for graphics shenannigans.
-    glfwMakeContextCurrent(window);
-
-
-    // Terminate opengl if failed.
-    if (ogl_LoadFunctions() == ogl_LOAD_FAILED)
-    {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        return -3;
-    }
-
-    auto major = ogl_GetMajorVersion();
-    auto minor = ogl_GetMinorVersion();
-
-    printf("GL: %i.%i\n", major, minor);
-
+    //********************
+    // Has window init deltaTime and camera.
+    //********************
+    Application app;
 
 
  
@@ -60,7 +35,7 @@ int main()
     // These are 'local co-ordinates' I beleive
 
 
-    // Mesh
+    // Mesh demo
     //************************************************************
 
 
@@ -68,111 +43,109 @@ int main()
     // It's honestly better to create a data type that then stores this data
     // rather than having a bunch of floats.
     // 3 Pos 2 Uv
-    float vertices[] = {
-        // Front 
-          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-          // Back
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-          -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          // Left
-          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          // Right
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-           // Bottom
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-          // Top
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-          -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-  
+    //float vertices[] = {
+    //    // Front 
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    //       0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    //      // Back
+    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    //       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    //       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    //      -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    //      // Left
+    //      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //      -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    //      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //      // Right
+    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    //       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //       0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //       // Bottom
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //       0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    //      // Top
+    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    //      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    //};
+
+    //// This is used when using a IBO.
+    //// It draws the order of objects. I feel there should be a pattern that is easily dealt with
+
+    ////int index_buffer[]{ 0,1,3,1,2,3 };
 
 
 
-
-    // This is used when using a IBO.
-    // It draws the order of objects. I feel there should be a pattern that is easily dealt with
-
-    //int index_buffer[]{ 0,1,3,1,2,3 };
-
-
-
-    // Unsigned int designator for the array of data.
-    unsigned int VAO;
-    // The Vao is assaigned a number here by the function call.
-    glGenVertexArrays(1, &VAO);
-    // Unsigned int designator for the buffer.
-    unsigned int VBO;
-    // Buffer is now assaigned a number here by the function call.
-    glGenBuffers(1, &VBO);
+    //// Unsigned int designator for the array of data.
+    //unsigned int VAO;
+    //// The Vao is assaigned a number here by the function call.
+    //glGenVertexArrays(1, &VAO);
+    //// Unsigned int designator for the buffer.
+    //unsigned int VBO;
+    //// Buffer is now assaigned a number here by the function call.
+    //glGenBuffers(1, &VBO);
 
 
 
-    //unsigned int IBO;
-    //glGenBuffers(1, &IBO);
+    ////unsigned int IBO;
+    ////glGenBuffers(1, &IBO);
 
 
 
-    // We are now bound(selected the state) to the vao and can make changes.
-    glBindVertexArray(VAO);
-    // Bind the VBO to the current array buffer.
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // The current array buffer data is now defined. 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
+    //// We are now bound(selected the state) to the vao and can make changes.
+    //glBindVertexArray(VAO);
+    //// Bind the VBO to the current array buffer.
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //// The current array buffer data is now defined. 
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
 
 
-    // IBO shenanigans
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    //// Define what d
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
+    //// IBO shenanigans
+    ////glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    ////// Define what d
+    ////glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
 
 
 
 
 
-    // Defining what is happening
-    glEnableVertexAttribArray(0);
+    //// Defining what is happening
+    //glEnableVertexAttribArray(0);
 
-    // The vertex attributes are these.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+    //// The vertex attributes are these.
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
 
-    glEnableVertexAttribArray(1);
+    //glEnableVertexAttribArray(1);
 
-    // Uv data.
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
+    //// Uv data.
+    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
 
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    
+    
+    
     // Textures
     //************************************************************
 
@@ -210,35 +183,17 @@ int main()
     // Camera
     //************************************************************
 
-    // For projection matrix.
-    //glm::mat4 projection = glm::perspective(1.507f, 16.0f/9.0f, 0.1f, 50.0f);
-    // For view of camera.
-    // Note that this is all arbitrary informaion.
-    //glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 2), glm::vec3(0,0,0), glm::vec3(0, 1, 0));
-    //glm::mat4 view = glm::mat4(1.0f);
-    //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-    DemoCamera camera;
-
-
-
-
-    // Model?
-    // Should be a part of the indivdual objects
-    glm::mat4 model = glm::mat4(1);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
+    //DemoCamera camera;
 
     // Mesh Loading - obj loading
     //************************************************************
 
-    // Load fucntion is now called in constructor... for better or worse.
-    //OBJMesh Bunny("..\\Dependencies\\OBJ\\Bunny.obj");
+    // Used only for the demoing of a cube
+    //glm::mat4 model = glm::mat4(1);
+    //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    
-    //Bunny.load("..\\Dependencies\\OBJ\\Bunny.obj");
-
-
+    Object Bunni;
+    Bunni.LoadModel("..\\Dependencies\\OBJ\\Bunny.obj");
 
 
     // Shader - Handled in class. Very basic
@@ -250,19 +205,7 @@ int main()
 
     Shader basicShader(vertLocaiton, fragLocation);
 
-
-
     unsigned int shader_program_ID = basicShader.GetShaderId();
-    
- 
-
-
-    //********************
-    // Only in charge of delta time atm and ultimatly
-    // needs to contain all the above.
-    //********************
-    Application app;
-
 
 
 
@@ -279,14 +222,14 @@ int main()
     
     // The loop for the window.
     // Game stuff goes in there.
-    while (!glfwWindowShouldClose(window) && glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
+    while (!glfwWindowShouldClose(glfwGetCurrentContext()) && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE) != GLFW_PRESS)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
-        camera.Update(app.GetDeltaTime());
+        
         //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
         // This is passed to the shader below to scale the models on screen.
-        glm::mat4 pv = camera.getProjectionViewMatrix();
+        glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
         //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
@@ -296,41 +239,44 @@ int main()
         auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
         glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
         uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
-        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
+        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(Bunni.GetModel()));
         //uniform_location = glGetUniformLocation(shader_program_ID, "color");
         //glUniform4fv(uniform_location, 1, glm::value_ptr(color));
         /*uniform_location = glGetUniformLocation(shader_program_ID, "diffuse_texture");
         glUniform1i(uniform_location, 0);*/
-   
+
 
         // Has something to do with using multiple textures.
-        glActiveTexture(GL_TEXTURE0);
-
-
-        glBindTexture(GL_TEXTURE_2D, textureDemo);
-        glBindVertexArray(VAO);
-
-
-
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        //glActiveTexture(GL_TEXTURE0);
+        //glBindTexture(GL_TEXTURE_2D, textureDemo);
         
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
+
+        // Part of the demo mesh.
+        // glBindVertexArray(VAO);
+
+
+
+        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
         //********************************
         // Bunny model
         //********************************
-        //Bunny.draw();
+        Bunni.Draw();
 
         
         // Swaps the front buffer and back buffer
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(glfwGetCurrentContext());
         
         glfwPollEvents();
         
     }
 
-    glDeleteBuffers(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+
+    // Part of the demo mesh.
+    //glDeleteBuffers(1, &VAO);
+    //glDeleteBuffers(1, &VBO);
 
 
     glfwTerminate();

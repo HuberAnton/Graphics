@@ -12,6 +12,10 @@ class DemoCamera
 {
 public:
 
+	// If I use this camera I probs need to have the different types of cameras
+	// inherit most of this. The input handling would be different and the constructors
+	// would need different info.
+
 	DemoCamera();
 
 	//Setters
@@ -24,7 +28,7 @@ public:
 
 	void SetRotation(glm::mat4 a_rotation);
 
-	// Window passed in for context.
+	// Note that can get windo with current context.
 	void Update(float a_deltaTime);
 
 	// Getters
@@ -41,24 +45,15 @@ public:
 
 private:
 
-	
 
-
-
-	// UpdateMatrices only needs to be called internaly 
-	// Any time the world or view matric are changed you need to update.
 	void UpdateMatrices();
 
 	float m_aspectRatio;
-
-
-	
 
 	glm::mat4 m_worldMatrix;
 
 	glm::mat4 m_viewMatrix;
 	glm::mat4 m_projectionMatrix;
-
 	glm::mat4 m_projectionViewMatrix;
 
 	float m_cameraSpeed;
