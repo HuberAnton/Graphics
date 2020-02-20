@@ -18,7 +18,8 @@ OBJMesh::~OBJMesh() {
 	}
 }
 
-bool OBJMesh::load(const char* filename, bool loadTextures /* = true */, bool flipTextureV /* = false */) {
+bool OBJMesh::load(const char* filename, bool loadTextures /* = true */, bool flipTextureV /* = false */)
+{
 
 	if (m_meshChunks.empty() == false) {
 		printf("Mesh already initialised, can't re-initialise!\n");
@@ -145,7 +146,6 @@ bool OBJMesh::load(const char* filename, bool loadTextures /* = true */, bool fl
 
 		m_meshChunks.push_back(chunk);
 	}
-	
 	// load obj
 	return true;
 }

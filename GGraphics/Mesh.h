@@ -6,7 +6,7 @@
 
 /*
 Note that the exaple on canvas has tricount and all parts needed for shaders.(Vao, vbo, ibo)
-It is assumed that you would bind the shaders.
+Not currently used. OBj loader is being used.
 
 */
 

@@ -143,9 +143,6 @@ int main()
 
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    
-    
-    
     // Textures
     //************************************************************
 
@@ -189,7 +186,7 @@ int main()
     //************************************************************
 
     // Used only for the demoing of a cube
-    //glm::mat4 model = glm::mat4(1);
+    // glm::mat4 model = glm::mat4(1);
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     Object Bunni;
@@ -227,10 +224,10 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
         
-        //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
+      
         // This is passed to the shader below to scale the models on screen.
         glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
-        //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
+        
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
         glUseProgram(shader_program_ID);
@@ -247,8 +244,8 @@ int main()
 
 
         // Has something to do with using multiple textures.
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, textureDemo);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureDemo);
         
 
         // Part of the demo mesh.

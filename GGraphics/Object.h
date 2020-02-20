@@ -1,9 +1,19 @@
 #pragma once
 #include "OBJMesh.h"
+#include "glm.hpp"
+
 
 class Object
 {
 public:
+
+	struct Vertex
+	{
+		glm::vec4 position;		// attrib location 0
+		glm::vec4 normal;		// attric location 1
+		glm::vec2 texcoord;		// attrib locatoin 2
+	};
+
 
 
 	Object();

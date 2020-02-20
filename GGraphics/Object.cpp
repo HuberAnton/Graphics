@@ -11,6 +11,8 @@ Object::Object() : m_modelMatrix(1)
 void Object::Draw()
 {
 	mesh->draw();
+
+
 }
 
 

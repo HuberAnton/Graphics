@@ -21,9 +21,6 @@
     <ClCompile Include="..\Dependencies\glcore\gl_core_4_5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Quartonians.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

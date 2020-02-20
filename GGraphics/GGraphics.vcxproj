@@ -153,7 +153,6 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
     <ClCompile Include="Primitives.cpp" />
-    <ClCompile Include="Quartonians.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
