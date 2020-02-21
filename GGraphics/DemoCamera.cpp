@@ -104,6 +104,13 @@ void DemoCamera::Update(float a_deltaTime)
 		input = true;
 	}
 
+	// Initialized mat4 with identity
+	auto rotation = glm::mat4(1);
+
+	//rotation = rotation * glm::rotate(float(m_rotationSpeed * a_deltaTime))
+
+
+
 	if (input == true)
 	{
 		SetPostion(m_displacementVector);

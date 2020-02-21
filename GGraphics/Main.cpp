@@ -13,7 +13,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "DemoCamera.h"
 #include "Object.h"
-
+#include "ObjManager.h"
 
 
 #include "..\stbimage\stb_image.h"
@@ -150,40 +150,37 @@ int main()
     //************************************************************
 
     // Make an unsigned int to pass to open gl.
-    unsigned int textureDemo;
+    //unsigned int textureDemo;
 
-    // Used by stbi load and passed into the glTexImage.
-    int x, y, n;
+    //// Used by stbi load and passed into the glTexImage.
+    //int x, y, n;
 
 
-    // Need the texture locaiton
-    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\scrabble.jpg", &x, &y, &n, 0);
+    //// Need the texture locaiton
+    //unsigned char* data = stbi_load("..\\Dependencies\\Textures\\scrabble.jpg", &x, &y, &n, 0);
 
-    // Open gl assaigns a number to this int and knows the number is 
-    // a reference to a texture.
+    //// Open gl assaigns a number to this int and knows the number is 
+    //// a reference to a texture.
 
-    glGenTextures(1, &textureDemo);
-    glBindTexture(GL_TEXTURE_2D, textureDemo);
-    // Notea that it might be rgba instead depending on what
-    // type of file the texture is.
-    if (data)
-    {
-        //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "No texture bud" << std::endl;
-    }
+    //glGenTextures(1, &textureDemo);
+    //glBindTexture(GL_TEXTURE_2D, textureDemo);
+    //// Notea that it might be rgba instead depending on what
+    //// type of file the texture is.
+    //if (data)
+    //{
+    //    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    //    glGenerateMipmap(GL_TEXTURE_2D);
+    //}
+    //else
+    //{
+    //    std::cout << "No texture bud" << std::endl;
+    //}
 
-    // Deallocates the memory.
-    stbi_image_free(data);
+    //// Deallocates the memory.
+    //stbi_image_free(data);
 
-    // Camera
-    //************************************************************
 
-    //DemoCamera camera;
 
     // Mesh Loading - obj loading
     //************************************************************
@@ -192,20 +189,23 @@ int main()
     //glm::mat4 model = glm::mat4(1);
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    Object Bunni;
-    Bunni.LoadModel("..\\Dependencies\\OBJ\\Bunny.obj");
+    //Object Bunni;
+    //Bunni.LoadModel("..\\Dependencies\\OBJ\\Bunny.obj");
+
+    ObjManager manager(app.GetCamera().getProjectionViewMatrixP());
+
+    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
 
 
     // Shader - Handled in class. Very basic
     //************************************************************
    
-    std::string vertLocaiton = "..\\Dependencies\\Shaders\\simple_vert.glsl";
-    std::string fragLocation = "..\\Dependencies\\Shaders\\simple_color_frag.glsl";
+    
 
 
-    Shader basicShader(vertLocaiton, fragLocation);
+    //Shader basicShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
 
-    unsigned int shader_program_ID = basicShader.GetShaderId();
+    //unsigned int shader_program_ID = basicShader.GetShaderId();
 
 
 
@@ -229,17 +229,20 @@ int main()
         
         //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
         // This is passed to the shader below to scale the models on screen.
-        glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
+        //glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
         //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
-        glUseProgram(shader_program_ID);
+        //glUseProgram(shader_program_ID);
         // All the data being passed to the shaders goes here. 
         // This is for the mesh square.
-        auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
-        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
-        uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
-        glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(Bunni.GetModel()));
+        //auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
+        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
+        //uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
+        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
+        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(Bunni.GetModel()));
+
+
         //uniform_location = glGetUniformLocation(shader_program_ID, "color");
         //glUniform4fv(uniform_location, 1, glm::value_ptr(color));
         /*uniform_location = glGetUniformLocation(shader_program_ID, "diffuse_texture");
@@ -252,19 +255,19 @@ int main()
         
 
         // Part of the demo mesh.
-        // glBindVertexArray(VAO);
+        //glBindVertexArray(VAO);
 
 
 
-        // glDrawArrays(GL_TRIANGLES, 0, 36);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
         
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
         //********************************
         // Bunny model
         //********************************
-        Bunni.Draw();
-
+        //Bunni.Draw();
+        manager.Draw();
         
         // Swaps the front buffer and back buffer
         glfwSwapBuffers(glfwGetCurrentContext());

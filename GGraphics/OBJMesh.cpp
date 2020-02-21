@@ -176,7 +176,7 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 	int normalTexUniform = glGetUniformLocation(program, "normalTexture");
 	int dispTexUniform = glGetUniformLocation(program, "displacementTexture");
 
-
+	
 
 	// set texture slots (these don't change per material)
 	if (diffuseTexUniform >= 0)

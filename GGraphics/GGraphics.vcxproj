@@ -149,8 +149,10 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DemoCamera.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjManager.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
     <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="Quartonians.cpp" />
@@ -161,8 +163,10 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DemoCamera.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjManager.h" />
     <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="Shader.h" />

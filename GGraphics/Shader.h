@@ -10,7 +10,7 @@
 class Shader
 {
 public:
-	Shader(std::string a_vectorLocation, std::string a_fragmentShader);
+	Shader(const char* a_vectorLocation, const char* a_fragmentShader);
 
 	unsigned int GetShaderId() { return m_shaderProgramId; }
 private:

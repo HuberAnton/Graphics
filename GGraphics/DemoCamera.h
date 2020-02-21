@@ -42,7 +42,9 @@ public:
 	
 	glm::mat4 getProjectionViewMatrix() { return m_projectionViewMatrix; }
 
-
+	// Pointer
+	glm::mat4* getProjectionViewMatrixP() { return &m_projectionViewMatrix; }
+	
 private:
 
 
