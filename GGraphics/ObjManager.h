@@ -9,8 +9,8 @@ class ObjManager
 
 public:
 	ObjManager(glm::mat4* a_projectionView);
-
-	void Draw();
+	~ObjManager();
+	void Draw(glm::mat4& a_pv);
 	void Load(const char* a_fileLocation);
 
 

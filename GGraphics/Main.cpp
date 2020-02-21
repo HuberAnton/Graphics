@@ -39,7 +39,6 @@ int main()
     //************************************************************
 
 
-
     // It's honestly better to create a data type that then stores this data
     // rather than having a bunch of floats.
     // 3 Pos 2 Uv
@@ -87,14 +86,9 @@ int main()
     //      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
     //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     //};
-
     //// This is used when using a IBO.
     //// It draws the order of objects. I feel there should be a pattern that is easily dealt with
-
     ////int index_buffer[]{ 0,1,3,1,2,3 };
-
-
-
     //// Unsigned int designator for the array of data.
     //unsigned int VAO;
     //// The Vao is assaigned a number here by the function call.
@@ -103,48 +97,29 @@ int main()
     //unsigned int VBO;
     //// Buffer is now assaigned a number here by the function call.
     //glGenBuffers(1, &VBO);
-
-
-
     ////unsigned int IBO;
     ////glGenBuffers(1, &IBO);
-
-
-
     //// We are now bound(selected the state) to the vao and can make changes.
     //glBindVertexArray(VAO);
     //// Bind the VBO to the current array buffer.
     //glBindBuffer(GL_ARRAY_BUFFER, VBO);
     //// The current array buffer data is now defined. 
     //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-
-
     //// IBO shenanigans
     ////glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
     ////// Define what d
     ////glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
-
-
-
-
-
     //// Defining what is happening
     //glEnableVertexAttribArray(0);
-
     //// The vertex attributes are these.
     //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
-
     //glEnableVertexAttribArray(1);
-
     //// Uv data.
     //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
-
     //glBindVertexArray(0);
-
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    
-    
+
+
     
     // Textures
     //************************************************************
@@ -189,23 +164,19 @@ int main()
     //glm::mat4 model = glm::mat4(1);
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    //Object Bunni;
-    //Bunni.LoadModel("..\\Dependencies\\OBJ\\Bunny.obj");
 
     ObjManager manager(app.GetCamera().getProjectionViewMatrixP());
 
     manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
-
+    manager.Load("..\\Dependencies\\OBJ\\Dragon.obj");
 
     // Shader - Handled in class. Very basic
     //************************************************************
-   
-    
-
-
+  
+    // Used only for the demoing of a cube 
     //Shader basicShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
-
     //unsigned int shader_program_ID = basicShader.GetShaderId();
+
 
 
 
@@ -229,7 +200,7 @@ int main()
         
         //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
         // This is passed to the shader below to scale the models on screen.
-        //glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
+        glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
         //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
@@ -267,7 +238,13 @@ int main()
         // Bunny model
         //********************************
         //Bunni.Draw();
-        manager.Draw();
+
+
+
+        //********************************
+        // Object manager
+        //********************************
+        manager.Draw(pv);
         
         // Swaps the front buffer and back buffer
         glfwSwapBuffers(glfwGetCurrentContext());

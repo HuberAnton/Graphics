@@ -18,13 +18,12 @@ public:
 
 	void Draw();
 	void LoadModel(const char* a_fileLocation);
-	void LoadTexture(const char* a_textureLocation);
 
 	void SetShader(Shader a_shader) { m_shaderProgram = a_shader; }
 	unsigned int GetShader() { return m_shaderProgram.GetShaderId(); }
 
 	glm::mat4 GetModel() { return m_modelMatrix; }
-
+	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }
 private:
 
 	glm::mat4 m_modelMatrix;

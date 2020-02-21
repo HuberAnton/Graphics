@@ -28,9 +28,3 @@ void Object::LoadModel(const char* a_fileLocation)
 
 
 
-// This should not be here.
-void Object::LoadTexture(const char* a_textureLocation)
-{
-
-}
-
