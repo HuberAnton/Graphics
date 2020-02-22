@@ -18,7 +18,10 @@
 
 #include "..\stbimage\stb_image.h"
 
-// Window and open gl init
+
+// Things to do.
+// A LOT of undeleted memory. 
+// Create a shader manager and place it in app.
 
 int main()
 {
@@ -28,11 +31,6 @@ int main()
     //********************
     Application app;
 
-
- 
-    // We are using points we make in data.
-    // With loading this should be commented out upon load.
-    // These are 'local co-ordinates' I beleive
 
 
     // Mesh demo
@@ -125,35 +123,44 @@ int main()
     //************************************************************
 
     // Make an unsigned int to pass to open gl.
-    //unsigned int textureDemo;
+    unsigned int textureDemo;
 
     //// Used by stbi load and passed into the glTexImage.
-    //int x, y, n;
+    int x, y, n;
 
 
     //// Need the texture locaiton
-    //unsigned char* data = stbi_load("..\\Dependencies\\Textures\\scrabble.jpg", &x, &y, &n, 0);
+    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
 
     //// Open gl assaigns a number to this int and knows the number is 
     //// a reference to a texture.
 
-    //glGenTextures(1, &textureDemo);
-    //glBindTexture(GL_TEXTURE_2D, textureDemo);
-    //// Notea that it might be rgba instead depending on what
-    //// type of file the texture is.
-    //if (data)
-    //{
-    //    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    //    glGenerateMipmap(GL_TEXTURE_2D);
-    //}
-    //else
-    //{
-    //    std::cout << "No texture bud" << std::endl;
-    //}
+    glGenTextures(1, &textureDemo);
+    glBindTexture(GL_TEXTURE_2D, textureDemo);
+    // Notea that it might be rgba instead depending on what
+    // type of file the texture is.
+    if (data)
+    {
+        //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "No texture bud" << std::endl;
+    }
 
-    //// Deallocates the memory.
-    //stbi_image_free(data);
+    // Deallocates the memory.
+    stbi_image_free(data);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -165,10 +172,15 @@ int main()
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 
-    ObjManager manager(app.GetCamera().getProjectionViewMatrixP());
+
+
+    // Obj manager should be inside app.
+    ObjManager manager(&app.GetCamera().getProjectionViewMatrix());
 
     manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
-    manager.Load("..\\Dependencies\\OBJ\\Dragon.obj");
+    //manager.Load("..\\Dependencies\\OBJ\\Dragon.obj");
+    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
+
 
     // Shader - Handled in class. Very basic
     //************************************************************
@@ -214,15 +226,15 @@ int main()
         //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(Bunni.GetModel()));
 
 
-        //uniform_location = glGetUniformLocation(shader_program_ID, "color");
-        //glUniform4fv(uniform_location, 1, glm::value_ptr(color));
+
         /*uniform_location = glGetUniformLocation(shader_program_ID, "diffuse_texture");
         glUniform1i(uniform_location, 0);*/
 
 
         // Has something to do with using multiple textures.
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, textureDemo);
+        glActiveTexture(GL_TEXTURE0);
+
+        glBindTexture(GL_TEXTURE_2D, textureDemo);
         
 
         // Part of the demo mesh.

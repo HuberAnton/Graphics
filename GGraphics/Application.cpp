@@ -11,8 +11,6 @@ Application::Application()
        
     }
 
-
-
 	window = glfwCreateWindow(1280, 720, "GGraphics", nullptr, nullptr);
     if (!window)
     {
@@ -22,7 +20,6 @@ Application::Application()
 
     // Makes the window passed in the current context for graphics shenannigans.
     glfwMakeContextCurrent(window);
-
 
     // Terminate opengl if failed.
     if (ogl_LoadFunctions() == ogl_LOAD_FAILED)
@@ -40,7 +37,6 @@ Application::Application()
 	m_lastFrame = (float)glfwGetTime();
 	m_deltaTime = 0;
 }
-
 
 
 // Does all the shenanigans needed for the u

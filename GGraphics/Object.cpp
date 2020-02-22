@@ -7,6 +7,11 @@ Object::Object(const char* vertex, const char* frag) : m_modelMatrix(1), m_shade
 	
 }
 
+//Object::Object() : m_modelMatrix(1)
+//{
+//
+//}
+
 
 void Object::Draw()
 {

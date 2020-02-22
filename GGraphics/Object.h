@@ -15,6 +15,8 @@ public:
 
 
 	Object(const char* vertex, const char* frag);
+	Object();
+
 
 	void Draw();
 	void LoadModel(const char* a_fileLocation);

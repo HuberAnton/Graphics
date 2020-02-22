@@ -3,6 +3,8 @@
 #include "ObjManager.h"
 #include "Object.h"
 #include <vector>
+#include "Shader.h"
+
 
 class ObjManager
 {
@@ -18,8 +20,8 @@ public:
 private:
 	std::vector<Object*> m_modelList;
 
+	//Shader m_testShader;
+
 	glm::mat4* m_projectionView;
-
-
 };
 

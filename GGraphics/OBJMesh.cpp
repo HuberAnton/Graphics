@@ -258,6 +258,7 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 		//		glBindTexture(GL_TEXTURE_2D, 0);
 		//}
 
+
 		// bind and draw geometry
 		glBindVertexArray(c.vao);
 		if (usePatches)

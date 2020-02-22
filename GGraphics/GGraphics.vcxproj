@@ -157,6 +157,7 @@
     <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="Quartonians.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\stbimage\stb_image.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="OBJMesh.h" />
     <ClInclude Include="Primitives.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

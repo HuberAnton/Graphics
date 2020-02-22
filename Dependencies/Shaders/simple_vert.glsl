@@ -14,6 +14,5 @@ out vec2 final_texture_coodinates;
 void main()
 {
     final_texture_coodinates = texture_coordinates;
-    gl_Position = (projection_view_matrix * model_matrix) * vec4(local_position, 1);
-
+    gl_Position = (projection_view_matrix * model_matrix) * vec4(local_position,1);
 }
