@@ -7,18 +7,11 @@ Object::Object(const char * a_name,const char* vertex, const char* frag, const c
 	m_name = a_name;
 }
 
-//Object::Object() : m_modelMatrix(1)
-//{
-//
-//}
-
-
 void Object::Draw()
 {
 
 	mesh->draw();
 }
-
 
 void Object::LoadModel(const char* a_fileLocation)
 {

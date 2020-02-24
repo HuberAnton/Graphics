@@ -4,7 +4,7 @@
 #include "Object.h"
 #include <vector>
 #include "Shader.h"
-
+#include "Light.h"
 
 class ObjManager
 {
@@ -19,8 +19,10 @@ public:
 
 private:
 	std::vector<Object*> m_modelList;
+	std::vector<Light*> m_lights;
 
-	//Shader m_testShader;
+	
+
 
 	glm::mat4* m_projectionView;
 };

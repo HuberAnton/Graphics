@@ -31,11 +31,8 @@ int main()
     //********************
     Application app;
 
-
-
     // Mesh demo
     //************************************************************
-
 
     // It's honestly better to create a data type that then stores this data
     // rather than having a bunch of floats.
@@ -117,52 +114,33 @@ int main()
     //glBindVertexArray(0);
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-
-    
     // Textures
     //************************************************************
 
     // Make an unsigned int to pass to open gl.
-    unsigned int textureDemo;
-
-    //// Used by stbi load and passed into the glTexImage.
-    int x, y, n;
-
-
-    //// Need the texture locaiton
-    unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
-
-    //// Open gl assaigns a number to this int and knows the number is 
-    //// a reference to a texture.
-
-    glGenTextures(1, &textureDemo);
-    glBindTexture(GL_TEXTURE_2D, textureDemo);
-    // Notea that it might be rgba instead depending on what
-    // type of file the texture is.
-    if (data)
-    {
-        //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "No texture bud" << std::endl;
-    }
-
-    // Deallocates the memory.
-    stbi_image_free(data);
-
-
-
-
-
-
-
-
-
-
-
+    //unsigned int textureDemo;
+    ////// Used by stbi load and passed into the glTexImage.
+    //int x, y, n;
+    ////// Need the texture locaiton
+    //unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
+    ////// Open gl assaigns a number to this int and knows the number is 
+    ////// a reference to a texture.
+    //glGenTextures(1, &textureDemo);
+    //glBindTexture(GL_TEXTURE_2D, textureDemo);
+    //// Notea that it might be rgba instead depending on what
+    //// type of file the texture is.
+    //if (data)
+    //{
+    //    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    //    glGenerateMipmap(GL_TEXTURE_2D);
+    //}
+    //else
+    //{
+    //    std::cout << "No texture bud" << std::endl;
+    //}
+    //// Deallocates the memory.
+    //stbi_image_free(data);
 
     // Mesh Loading - obj loading
     //************************************************************
@@ -170,9 +148,6 @@ int main()
     // Used only for the demoing of a cube
     //glm::mat4 model = glm::mat4(1);
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-
-
 
     // Obj manager should be inside app.
     ObjManager manager(&app.GetCamera().GetProjectionViewMatrix());
@@ -182,15 +157,14 @@ int main()
     manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
 
 
+
+
     // Shader - Handled in class. Very basic
     //************************************************************
   
     // Used only for the demoing of a cube 
     //Shader basicShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
     //unsigned int shader_program_ID = basicShader.GetShaderId();
-
-
-
 
     // Debug shenanigans and unchanged variables for below loop.
     //************************************************************
@@ -212,8 +186,6 @@ int main()
         app.UpdateApplication();
         
         //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
-        // This is passed to the shader below to scale the models on screen.
-        glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
         
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
@@ -226,29 +198,21 @@ int main()
         //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
         //glActiveTexture(GL_TEXTURE0);
         //glBindTexture(GL_TEXTURE_2D, textureDemo);
-
-         
-        
-
         // Part of the demo mesh.
         //glBindVertexArray(VAO);
-
-
-
         //glDrawArrays(GL_TRIANGLES, 0, 36);
-        
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
-
-        //********************************
-        // Bunny model
-        //********************************
-        //Bunni.Draw();
-
-        app.GetCamera().GetWorldTransform()[3];
 
         //********************************
         // Object manager
         //********************************
+
+       
+        // This is passed to the shader below to scale the models on screen.
+        // Fix this.
+        glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
+
+
         manager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
         
         // Swaps the front buffer and back buffer

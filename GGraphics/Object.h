@@ -17,7 +17,7 @@ public:
 
 
 	Object(const char * a_name, const char* vertex, const char* frag, const char* a_textureLocation);
-	Object();
+
 
 
 	void Draw();

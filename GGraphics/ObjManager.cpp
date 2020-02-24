@@ -76,10 +76,8 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(m_modelList[i]->GetModel()));
 			
-			// Shenanigans! -  It startedfd working after it was placed below model and pv.
-			// Could be that uniforms need to go in order to some degree? Like
-			// First vertex uniforms THEN frag. 
-			//glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
+
+		
 			glm::vec3 modelColor = glm::vec3(1.0f, 0.5f, 0.31f);
 			uniform_location = glGetUniformLocation(shader_program_ID, "modelColor");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(modelColor));
