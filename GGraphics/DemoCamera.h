@@ -15,7 +15,7 @@ public:
 	// If I use this camera I probs need to have the different types of cameras
 	// inherit most of this. The input handling would be different and the constructors
 	// would need different info.
-
+	
 	DemoCamera();
 
 	//Setters
@@ -34,13 +34,13 @@ public:
 	// Getters
 	// I feel some aren't neccesary but you never know.
 
-	glm::mat4 getWorldTransform() { return m_worldMatrix; }
+	glm::mat4 GetWorldTransform() { return m_worldMatrix; }
 
-	glm::mat4 getView() { return m_viewMatrix; }
+	glm::mat4 GetView() { return m_viewMatrix; }
 
-	glm::mat4 getProjection() { return m_projectionMatrix; }
+	glm::mat4 GetProjection() { return m_projectionMatrix; }
 	
-	glm::mat4 getProjectionViewMatrix() { return m_projectionViewMatrix; }
+	glm::mat4 GetProjectionViewMatrix() { return m_projectionViewMatrix; }
 
 	// Pointer
 	//glm::mat4* getProjectionViewMatrixP() { return &m_projectionViewMatrix; }

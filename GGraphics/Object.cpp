@@ -2,9 +2,9 @@
 #include <iostream>
 
 
-Object::Object(const char* vertex, const char* frag) : m_modelMatrix(1), m_shaderProgram(vertex, frag)
+Object::Object(const char * a_name,const char* vertex, const char* frag, const char* a_textureLocation) : m_modelMatrix(1), m_shaderProgram(vertex, frag), m_texture(a_textureLocation)
 {
-	
+	m_name = a_name;
 }
 
 //Object::Object() : m_modelMatrix(1)

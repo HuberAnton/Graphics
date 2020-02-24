@@ -5,7 +5,7 @@
 DemoCamera::DemoCamera() : m_worldMatrix(1), m_viewMatrix(1), m_projectionMatrix(1)
 {
 	m_aspectRatio = 16.0f / 9.0f;
-	m_cameraSpeed = 1.0f;
+	m_cameraSpeed = 2.0f;
 	SetPerspective(3.14159f * 0.5f, m_aspectRatio, 0.01f, 100.0f);
 	SetLookAt(glm::vec3(0,0,-3.0f), glm::vec3(0,0,0), glm::vec3(0,1,0));
 }

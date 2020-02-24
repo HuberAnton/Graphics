@@ -15,7 +15,7 @@
 #include "Object.h"
 #include "ObjManager.h"
 
-
+// Textures.  
 #include "..\stbimage\stb_image.h"
 
 
@@ -175,11 +175,11 @@ int main()
 
 
     // Obj manager should be inside app.
-    ObjManager manager(&app.GetCamera().getProjectionViewMatrix());
+    ObjManager manager(&app.GetCamera().GetProjectionViewMatrix());
 
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
+    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
     //manager.Load("..\\Dependencies\\OBJ\\Dragon.obj");
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj");
+    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
 
 
     // Shader - Handled in class. Very basic
@@ -200,7 +200,8 @@ int main()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glm::vec4 color = glm::vec4(1, 0, 0, 1);
+
+
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
     // The loop for the window.
@@ -212,8 +213,8 @@ int main()
         
         //camera.SetLookAt(glm::vec3(0,0,sinf(glfwGetTime()) - 3), glm::vec3(0,0,0), glm::vec3(0,1,0));
         // This is passed to the shader below to scale the models on screen.
-        glm::mat4 pv = app.GetCamera().getProjectionViewMatrix();
-        //model = glm::rotate(model, glm::radians(10.0f) * app.GetDeltaTime(), glm::vec3(1,1, 0));
+        glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
+        
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
         //glUseProgram(shader_program_ID);
@@ -223,18 +224,10 @@ int main()
         //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
         //uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
         //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
-        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(Bunni.GetModel()));
+        //glActiveTexture(GL_TEXTURE0);
+        //glBindTexture(GL_TEXTURE_2D, textureDemo);
 
-
-
-        /*uniform_location = glGetUniformLocation(shader_program_ID, "diffuse_texture");
-        glUniform1i(uniform_location, 0);*/
-
-
-        // Has something to do with using multiple textures.
-        glActiveTexture(GL_TEXTURE0);
-
-        glBindTexture(GL_TEXTURE_2D, textureDemo);
+         
         
 
         // Part of the demo mesh.
@@ -251,12 +244,12 @@ int main()
         //********************************
         //Bunni.Draw();
 
-
+        app.GetCamera().GetWorldTransform()[3];
 
         //********************************
         // Object manager
         //********************************
-        manager.Draw(pv);
+        manager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
         
         // Swaps the front buffer and back buffer
         glfwSwapBuffers(glfwGetCurrentContext());
