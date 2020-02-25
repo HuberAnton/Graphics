@@ -2,14 +2,18 @@
 #include <iostream>
 
 
-Object::Object(const char * a_name,const char* vertex, const char* frag, const char* a_textureLocation) : m_modelMatrix(1), m_shaderProgram(vertex, frag), m_texture(a_textureLocation)
+
+// Things to do make a primitive class
+// Mesh should be created outside so should texture.
+
+
+Object::Object(const char * a_name, const char* a_textureLocation) : m_modelMatrix(1),  m_texture(a_textureLocation)
 {
 	m_name = a_name;
 }
 
 void Object::Draw()
 {
-
 	mesh->draw();
 }
 
@@ -21,8 +25,5 @@ void Object::LoadModel(const char* a_fileLocation)
 	{
 		std::cout << "No mesh" << std::endl;
 	}
-
 }
-
-
 

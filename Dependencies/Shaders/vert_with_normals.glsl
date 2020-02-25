@@ -18,10 +18,11 @@ out vec3 FragPos;
 
 void main()
 {
-
     final_texture_coodinates = texture_coordinates;
-	
 	FragPos = vec3(model_matrix * local_position);
 	normal = Anormal;
     gl_Position = (projection_view_matrix * model_matrix) * local_position;
 }
+
+
+

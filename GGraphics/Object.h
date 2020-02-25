@@ -16,16 +16,14 @@ class Object
 public:
 
 
-	Object(const char * a_name, const char* vertex, const char* frag, const char* a_textureLocation);
-
-
+	Object(const char * a_name, const char* a_textureLocation);
 
 	void Draw();
 	void LoadModel(const char* a_fileLocation);
 
-	void SetShader(Shader a_shader) { m_shaderProgram = a_shader; }
+	void SetShader(Shader* a_shader) { m_shaderProgram = a_shader; }
 
-	unsigned int GetShader() { return m_shaderProgram.GetShaderId(); }
+	unsigned int GetShader() { return m_shaderProgram->GetShaderId(); }
 
 	unsigned int GetTexture() { return m_texture.GetTextureId(); }
 
@@ -43,8 +41,8 @@ private:
 	glm::mat4 m_modelMatrix;
 	// Material - includes textures
 	// This needs to be changed to a pointer when I have a shader manager.
-	Shader m_shaderProgram;
+	Shader* m_shaderProgram;
 
-	OBJMesh* mesh;
+	OBJMesh* mesh = nullptr;
 };
 

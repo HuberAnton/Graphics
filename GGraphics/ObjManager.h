@@ -19,8 +19,8 @@ public:
 
 private:
 	std::vector<Object*> m_modelList;
-	std::vector<Light*> m_lights;
-
+	//std::vector<Light*> m_lights;
+	Light m_light;
 	
 
 
