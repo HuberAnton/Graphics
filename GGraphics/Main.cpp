@@ -19,13 +19,15 @@
 #include "..\stbimage\stb_image.h"
 
 
+
+
 // Things to do.
 // A LOT of undeleted memory. 
 // Create a shader manager and place it in app.
 
 int main()
 {
-
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //********************
     // Has window init deltaTime and camera.
     //********************
@@ -150,11 +152,17 @@ int main()
     //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     // Obj manager should be inside app.
-    ObjManager manager(&app.GetCamera().GetProjectionViewMatrix());
+    ObjManager objManager(&app.GetCamera().GetProjectionViewMatrix());
+    Shader* alexsshaderofLAME = new Shader("..\\Dependencies\\Shaders\\vert_with_normals.glsl",
+        "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
 
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
+    objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
+    
+
     //manager.Load("..\\Dependencies\\OBJ\\Dragon.obj");
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
+    objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
+    //manager.Load("..\\Dependencies\\OBJ\\House.obj", "House", "..\\Dependencies\\Textures\\woodenbox.jpg");
+
 
 
 
@@ -162,6 +170,9 @@ int main()
     // Shader - Handled in class. Very basic
     //************************************************************
   
+
+
+
     // Used only for the demoing of a cube 
     //Shader basicShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
     //unsigned int shader_program_ID = basicShader.GetShaderId();
@@ -213,12 +224,12 @@ int main()
         glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
 
 
-        manager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
+        objManager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
         
         // Swaps the front buffer and back buffer
         glfwSwapBuffers(glfwGetCurrentContext());
         
-        glfwPollEvents();
+                glfwPollEvents();
         
     }
 

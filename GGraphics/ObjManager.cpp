@@ -2,15 +2,17 @@
 
 
 
-
-ObjManager::ObjManager(glm::mat4 *a_projectionView)// : m_testShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl")
+// Light is created a this point. It is a bit silly.
+ObjManager::ObjManager(glm::mat4 *a_projectionView): m_light(glm::vec3(0,30,0), glm::vec3(0,1,0), 0.2f)// : m_testShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl")
 {
 	m_projectionView = a_projectionView;
+	 
 }
 
 // Memory leaks dawg fix this.
 ObjManager::~ObjManager()
 {
+	
 	//for(int i = ; i)
 }
 
@@ -26,9 +28,8 @@ void ObjManager::Load(const char* a_fileLocation, const char* a_name, const char
 	// Each part needs a a load and a set. Or maybe a set since;
 	// Shaders are inteneded to have a manager and textures texures are intended to have a manager.
 	//											Vert												Frag										Texture								
-	Object* t = new Object(a_name ,"..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl", a_textureLocation);
+	Object* t = new Object(a_name, a_textureLocation);
 	//Object* t = new Object();
-
 	t->LoadModel(a_fileLocation);
 	t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 10,0,0)));
 	m_modelList.push_back(t);
@@ -62,29 +63,45 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(a_pv));
 			//glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(*m_projectionView));
 			
-			glm::vec3 lightPos = glm::vec3(12, 12, 0);
 
+
+			uniform_location = glGetUniformLocation(shader_program_ID, "specularStrength");
+			glUniform1f(uniform_location, (m_light.m_specular));
+
+		
+			// I think this is correct. Otherwise known as 'light color' :o
+			uniform_location = glGetUniformLocation(shader_program_ID, "diffuseColor");
+			glUniform3fv(uniform_location, 1, glm::value_ptr(m_light.m_diffuse));
+
+			// This is passed in for specular and diffuse calcs
 			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos));
+			glUniform3fv(uniform_location, 1, glm::value_ptr(m_light.m_position));
 
+
+
+
+			// Used for the specular. Not a part of light.
 			uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(a_cameraPos));
+			
 
-
-
-			// Need to fix this. I need a reference to the pv in the class.
+			// Model to draw in worldspce
 			uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(m_modelList[i]->GetModel()));
 			
 
+
+			// Model color for when no texture or additive to texture.
 		
 			glm::vec3 modelColor = glm::vec3(1.0f, 0.5f, 0.31f);
 			uniform_location = glGetUniformLocation(shader_program_ID, "modelColor");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(modelColor));
 
+
+
+			// Ambient lighting. Leave this
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
 			glUniform1f(uniform_location, 0.2f);
-
 
 			glm::vec3 ambientColor = glm::vec3(1, 1, 1);
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientColor");

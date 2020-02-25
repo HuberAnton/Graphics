@@ -10,14 +10,10 @@
 class Light
 {
 public:
-	Light();
-	Light();
+	Light(glm::vec3 a_position, glm::vec3 a_diffuse, float a_specular);
 
-
-
-
-	glm::vec3 m_direction;
+	glm::vec3 m_position;
 	glm::vec3 m_diffuse;
-	glm::vec3 m_specular;
+	float m_specular;
 };
 
