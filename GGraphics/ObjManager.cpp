@@ -62,10 +62,16 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(a_pv));
 			//glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(*m_projectionView));
 			
-			glm::vec3 lightPos = glm::vec3(12, 12, 0);
+			glm::vec3 lightPos1 = glm::vec3(sinf(glfwGetTime() * 10), -50, 0);
 
-			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos));
+			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition1");
+			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos1));
+
+			glm::vec3 lightPos2 = glm::vec3(sinf(-glfwGetTime() * 10), 12, 0);
+
+			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition2");
+			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos2));
+
 
 			uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(a_cameraPos));
@@ -78,9 +84,9 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			
 
 		
-			glm::vec3 modelColor = glm::vec3(1.0f, 0.5f, 0.31f);
+			/*glm::vec3 modelColor = glm::vec3(1.0f, 0.5f, 0.31f);
 			uniform_location = glGetUniformLocation(shader_program_ID, "modelColor");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(modelColor));
+			glUniform3fv(uniform_location, 1, glm::value_ptr(modelColor));*/
 
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
 			glUniform1f(uniform_location, 0.2f);

@@ -3,11 +3,18 @@
 uniform sampler2D diffuse_texture;
 uniform float ambientStrength;
 uniform vec3 ambientColor;
-uniform vec3 lightPosition;
+
 uniform vec3 cameraPostion;
 
-uniform vec3 modelColor = vec3(1,1,1);
-uniform vec3 lightColor = vec3(1, 1, 1);
+uniform vec3 modelColor = vec3(0.01,0.01,0.01);
+
+uniform vec3 lightPosition1;
+uniform vec3 lightPosition2;
+
+
+uniform vec3 lightColor1 = vec3(1, 0, 1);
+uniform vec3 lightColor2 = vec3(0, 1, 1);
+
 
 float specularStrength = 0.5;
 
@@ -38,13 +45,24 @@ void main()
 	// Get the direction of the light.
 	// Simple vector math.
 	// Since only need the direction it is normalized.
-	vec3 lightDir = normalize(lightPosition - FragPos);
+	vec3 lightDir1 = normalize(lightPosition1 - FragPos);
 	
 	
-	float diff = max(dot(norm, lightDir) ,0.0);
+	float diff = max(dot(norm, lightDir1) ,0.0);
 	
 	
-	vec3 diffuse = diff * lightColor;
+	vec3 diffuse = diff * lightColor1;
+	
+	vec3 lightDir2 = normalize(lightPosition2 - FragPos);
+	
+	
+	diff = max(dot(norm, lightDir2) ,0.0);
+	
+	
+	
+	
+	
+	diffuse += diff * lightColor2; 
 	
 	// End Diffuse
 	
@@ -54,20 +72,31 @@ void main()
 	vec3 viewDir = normalize(cameraPostion - FragPos);
 	
 	// note that these are created above.
-	vec3 reflrectDir = reflect(-lightDir, norm);
+	vec3 reflrectDir = reflect(-lightDir1, norm);
 	
 	float spec = pow(max(dot(viewDir, reflrectDir), 0.0), 32);
 	
 	
-	vec3 specular = specularStrength * spec * lightColor;
+	vec3 specular = specularStrength * spec * lightColor1;
+	
+	
+	reflrectDir = reflect(-lightDir2, norm);
+	
+	
+	spec = pow(max(dot(viewDir, reflrectDir), 0.0), 32);
+	
+	
+	specular += specularStrength * spec * lightColor2;
+	
+	
 	
 	// End specular
 	
 	
 	// Putting it all together.
 	
-	//vec3 result = (ambient + diffuse + specular) * modelColor;
-	vec3 result = (ambient + diffuse + specular) * vec3(texturecolor);
+	vec3 result = (ambient + diffuse + specular) + modelColor;
+	//vec3 result = (ambient + diffuse + specular) * vec3(texturecolor);
 	
 	
 	
