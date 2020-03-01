@@ -15,32 +15,48 @@ uniform vec3 lightPosition2;
 uniform vec3 lightColor1 = vec3(1, 0, 1);
 uniform vec3 lightColor2 = vec3(0, 1, 1);
 
+uniform vec3[numberOfLights]
 
 float specularStrength = 0.5;
-
-
-uniform vec4 color;
 
 in vec3 FragPos;
 in vec3 normal;
 in vec2 final_texture_coodinates;
 out vec4 final_color;
 
+
+#define numberOfLights = 2;
+
+vec3 CalculateDiffuse(vec3 a_norm, vec3 a_lightPosition, vec3 a_FragPos, vec3 a_lightColor)
+{
+	
+	vec3 lightDir = normalize(lightPosition - FragPos);
+	
+	float diff = max(dot(norm, lightDir) ,0.0);
+
+	return diff * lightColor;
+	
+}
+
+
+
+
+
 void main()
 {
-	// Demo to see how to pass colors in as well as textures.
     vec4 texturecolor = texture(diffuse_texture, final_texture_coodinates);
-	// final_color = texturecolor * color;
-	// final_color = color;
-	// final_color = texturecolor;
 	
-	// Ambient
+	// Ambient. Should eaxch light add to this?
 	vec3 ambient = ambientStrength * ambientColor;
 	
-	
-	// Diffuse
-	// Ensure the value of the normal is within -1 to 1;
 	vec3 norm = normalize(normal);
+	
+	// Diffuse calls function above.
+	for(int i = 0; i < numberOfLights; i++)
+	{
+		vec3 diffuse += CalculateDiffuse(norm, lightPosition, FragPos, lightColor);
+	}
+	
 	
 	// Get the direction of the light.
 	// Simple vector math.
