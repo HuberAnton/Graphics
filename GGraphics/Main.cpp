@@ -150,13 +150,15 @@ int main()
     // Obj manager should be inside app.
     ObjManager manager(&app.GetCamera().GetProjectionViewMatrix());
 
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
-   
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
+    //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
+    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
 
-    manager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
-    manager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
-    manager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
+
+    //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
+
+    //manager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
+    //manager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
+    //manager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
 
 
 

@@ -14,20 +14,19 @@
 class Texture
 {
 public:
+	Texture();
 	Texture(const char * a_textureLocation);
 
 
 
 
-
-	unsigned int GetDiffuse() { return m_diffuse; }
-	unsigned int GetNormals() { return m_normals; }
-
+	unsigned int GetDiffuse()	{ return m_diffuse; }
+	unsigned int GetSpecular()	{ return m_specular; }
+	unsigned int GetNormals()	{ return m_normals; }
 private:
-				
-	unsigned int m_diffuse;
-	unsigned int m_normals;
-
-
+	// Need to add support.
+	unsigned int m_diffuse;		// Slot 1
+	unsigned int m_specular;	// Slot 2
+	unsigned int m_normals;		// Slot 3
 };
 

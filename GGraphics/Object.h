@@ -19,6 +19,7 @@ public:
 	Object(const char * a_name, const char* vertex, const char* frag, const char* a_textureLocation);
 	Object(const char* a_name, const char* vertex, const char* frag);
 
+	~Object();
 
 	void Draw();
 	void LoadModel(const char* a_fileLocation);
@@ -37,7 +38,7 @@ private:
 	
 	// This should be a pointer and might need a different name since it's
 	// a bit... lacking.
-	Texture m_texture = nullptr;
+	Texture m_texture;
 	
 
 	glm::mat4 m_modelMatrix;
