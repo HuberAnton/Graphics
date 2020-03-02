@@ -18,8 +18,8 @@ Texture::Texture(const char* a_textureLocation)
     // Open gl assaigns a number to this int and knows the number is 
     // a reference to a texture.
 
-    glGenTextures(1, &m_textureId);
-    glBindTexture(GL_TEXTURE_2D, m_textureId);
+    glGenTextures(1, &m_diffuse);
+    glBindTexture(GL_TEXTURE_2D, m_diffuse);
     // Notea that it might be rgba instead depending on what
     // type of file the texture is.
     if (data)
@@ -30,9 +30,10 @@ Texture::Texture(const char* a_textureLocation)
     }
     else
     {
-        std::cout << "No texture bud" << std::endl;
+        std::cout << "No diffuse bud" << std::endl;
     }
 
     // Deallocates the memory.
     stbi_image_free(data);
+
 }

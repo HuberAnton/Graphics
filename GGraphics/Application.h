@@ -10,7 +10,6 @@ class Application
 public:
 	Application();
 
-	// Should be done at the start of everyframe?
 	void UpdateApplication();
 
 	float GetDeltaTime();
@@ -30,5 +29,4 @@ private:
 	
 	GLFWwindow* window;
 
-	// This should contain the camera.
 };

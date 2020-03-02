@@ -17,7 +17,7 @@ public:
 
 
 	Object(const char * a_name, const char* vertex, const char* frag, const char* a_textureLocation);
-
+	Object(const char* a_name, const char* vertex, const char* frag);
 
 
 	void Draw();
@@ -27,10 +27,9 @@ public:
 
 	unsigned int GetShader() { return m_shaderProgram.GetShaderId(); }
 
-	unsigned int GetTexture() { return m_texture.GetTextureId(); }
+	Texture GetTexture() { return m_texture; }
 
-
-
+	
 	glm::mat4 GetModel() { return m_modelMatrix; }
 	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }
 private:
@@ -38,7 +37,8 @@ private:
 	
 	// This should be a pointer and might need a different name since it's
 	// a bit... lacking.
-	Texture m_texture;
+	Texture m_texture = nullptr;
+	
 
 	glm::mat4 m_modelMatrix;
 	// Material - includes textures

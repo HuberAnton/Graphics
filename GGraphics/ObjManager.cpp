@@ -11,8 +11,30 @@ ObjManager::ObjManager(glm::mat4 *a_projectionView)// : m_testShader("..\\Depend
 // Memory leaks dawg fix this.
 ObjManager::~ObjManager()
 {
+	/*for(object* ob : m_modellist)
+	{
+		delete ob;
+	}
+
+	for(light* lt : m_lights)
+	{
+		delete lt;
+	}*/
+
+	// delete m_projectionView;
 	//for(int i = ; i)
 }
+
+
+
+void ObjManager::CreateLight(glm::vec3 a_direction, glm::vec3 a_color, float a_specularStrength)
+{
+	Light* t = new Light(a_direction, a_color, a_specularStrength);
+	m_lights.push_back(t);
+}
+
+
+
 
 
 
@@ -52,25 +74,64 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 
 			// This should be done better.
-			if (m_modelList[i]->GetTexture() != NULL)
+			if (m_modelList[i]->GetTexture().GetDiffuse())
 			{
 				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture().GetDiffuse());
 			}
 
+
+
+
+
+			
 			auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(a_pv));
 			//glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(*m_projectionView));
 			
-			glm::vec3 lightPos1 = glm::vec3(sinf(glfwGetTime() * 10), -50, 0);
+			// Since it's used again.
+ 			int amountOfLights = this->m_lights.size();
 
-			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition1");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos1));
+			uniform_location = glGetUniformLocation(shader_program_ID, "numberOfLights");
+			glUniform1i(uniform_location, amountOfLights);
 
-			glm::vec3 lightPos2 = glm::vec3(sinf(-glfwGetTime() * 10), 12, 0);
+			// Passing for the lights.
+ 			for (int i = 0; i < amountOfLights; i++)
+			{
+				// Every uniform needs to be passed individually 
+				// This syntax sucks but lets do it.
+				// Out stream? I feel like this is a bad way to do this.
+				// I should be able to concatonate string literals and do that
+				// instead.
+				std::ostringstream pos;
+				
+				pos << "lights[" << i << "].position";
+				std::string uniformName = pos.str();
 
-			uniform_location = glGetUniformLocation(shader_program_ID, "lightPosition2");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(lightPos2));
+				//uniform_location = glGetUniformLocation(shader_program_ID, "lights[" + i% + "].positon");
+
+
+				uniform_location = glGetUniformLocation(shader_program_ID, uniformName.c_str());
+				glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_position));
+
+				std::ostringstream color;
+				
+				color << "lights[" << i << "].color";
+				std::string uniformName1 = color.str();
+
+				uniform_location = glGetUniformLocation(shader_program_ID, uniformName1.c_str());
+				glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_color));
+
+				std::ostringstream spec;
+
+				spec << "lights[" << i << "].specularStrength";
+				std::string uniformName2 = color.str();
+
+				uniform_location = glGetUniformLocation(shader_program_ID, uniformName2.c_str());
+				glUniform1f(uniform_location, this->m_lights[i]->m_specularStrength);
+			}
+
+
 
 
 			uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
@@ -83,11 +144,6 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(m_modelList[i]->GetModel()));
 			
 
-		
-			/*glm::vec3 modelColor = glm::vec3(1.0f, 0.5f, 0.31f);
-			uniform_location = glGetUniformLocation(shader_program_ID, "modelColor");
-			glUniform3fv(uniform_location, 1, glm::value_ptr(modelColor));*/
-
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
 			glUniform1f(uniform_location, 0.2f);
 
@@ -95,11 +151,6 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			glm::vec3 ambientColor = glm::vec3(1, 1, 1);
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientColor");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(ambientColor));
-
-
-
-			//uniform_location = glGetUniformLocation(shader_program_ID, "color");
-			//glUniform4fv(uniform_location, 1, glm::value_ptr(color));
 
 
 			// The texturing and other shenanigans is in here.

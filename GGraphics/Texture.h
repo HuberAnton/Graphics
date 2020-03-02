@@ -17,9 +17,17 @@ public:
 	Texture(const char * a_textureLocation);
 
 
-	unsigned int GetTextureId() { return m_textureId; }
-	
+
+
+
+	unsigned int GetDiffuse() { return m_diffuse; }
+	unsigned int GetNormals() { return m_normals; }
+
 private:
-	unsigned int m_textureId;
+				
+	unsigned int m_diffuse;
+	unsigned int m_normals;
+
+
 };
 
