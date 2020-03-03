@@ -20,8 +20,15 @@
 
 
 // Things to do.
-// A LOT of undeleted memory. 
-// Create a shader manager and place it in app.
+// Break up object creation into seperate loads.:
+// Create a shader manager and place it in app.:
+// Conatin all your texture binding to 1 place.
+// Need a draw for textures that exist.:
+// Rewrite your shaders. Or just rename variables
+// so that they are the standard type of names.:
+// Revist lights a little and make sure they
+// contain all the neccisary parts(minus attenuation):
+// Make a primitives class.
 
 int main()
 {
@@ -117,30 +124,7 @@ int main()
     // Textures
     //************************************************************
 
-    // Make an unsigned int to pass to open gl.
-    //unsigned int textureDemo;
-    ////// Used by stbi load and passed into the glTexImage.
-    //int x, y, n;
-    ////// Need the texture locaiton
-    //unsigned char* data = stbi_load("..\\Dependencies\\Textures\\woodenbox.jpg", &x, &y, &n, 0);
-    ////// Open gl assaigns a number to this int and knows the number is 
-    ////// a reference to a texture.
-    //glGenTextures(1, &textureDemo);
-    //glBindTexture(GL_TEXTURE_2D, textureDemo);
-    //// Notea that it might be rgba instead depending on what
-    //// type of file the texture is.
-    //if (data)
-    //{
-    //    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    //    glGenerateMipmap(GL_TEXTURE_2D);
-    //}
-    //else
-    //{
-    //    std::cout << "No texture bud" << std::endl;
-    //}
-    //// Deallocates the memory.
-    //stbi_image_free(data);
+    // Now has own class. Look at Texture::Texture(const char* a_textureLocation) for info.
 
     // Mesh Loading - obj loading
     //************************************************************
@@ -153,22 +137,24 @@ int main()
     //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
     manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
 
+    
+    Object* t = manager.FindObject("Bunny1");
+    // This currently does not return the correct bit of information.
+    t->GetTexture().SetDiffuse("..\\Dependencies\\Textures\\woodenbox.jpg");
 
     //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
 
-    //manager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
-    //manager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
-    //manager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
-
+    manager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
+    manager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
+    manager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
 
 
 
     // Shader - Handled in class. Very basic
     //************************************************************
   
-    // Used only for the demoing of a cube 
-    //Shader basicShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
-    //unsigned int shader_program_ID = basicShader.GetShaderId();
+    // Has own class but no manager yet. Is currently created on a per object basis.
+    // Needs work.
 
     // Debug shenanigans and unchanged variables for below loop.
     //************************************************************
@@ -188,9 +174,7 @@ int main()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
-        
-     
-        
+
         // Passed to the shader to adjust the color on the fly.
         //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
         //glUseProgram(shader_program_ID);
@@ -213,7 +197,7 @@ int main()
 
        
         // This is passed to the shader below to scale the models on screen.
-        // Fix this.
+        // Fix this. Should be a stored reference in the manager.
         glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
 
 
@@ -223,7 +207,6 @@ int main()
         glfwSwapBuffers(glfwGetCurrentContext());
         
         glfwPollEvents();
-        
     }
 
 

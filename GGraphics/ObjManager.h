@@ -17,6 +17,9 @@ public:
 	void Load(const char* a_fileLocation, const char* a_name);
 	void CreateLight(glm::vec3 a_direction, glm::vec3 a_color, float a_specularStrength);
 
+	Object* FindObject(const char* a_objectName);
+
+
 private:
 	std::vector<Object*> m_modelList;
 	std::vector<Light*> m_lights;

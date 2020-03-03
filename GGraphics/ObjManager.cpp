@@ -23,16 +23,11 @@ ObjManager::~ObjManager()
 }
 
 
-
 void ObjManager::CreateLight(glm::vec3 a_direction, glm::vec3 a_color, float a_specularStrength)
 {
 	Light* t = new Light(a_direction, a_color, a_specularStrength);
 	m_lights.push_back(t);
 }
-
-
-
-
 
 
 // This is a mess and can be done MUCH better
@@ -69,6 +64,21 @@ void ObjManager::Load(const char* a_fileLocation, const char* a_name)
 }
 
 
+// Utility for finding objects for assainments.
+Object* ObjManager::FindObject(const char* a_objectName)
+{
+	for (Object* ob : m_modelList)
+	{
+		if (ob->GetName() == a_objectName)
+		{
+			return ob;
+		}
+	}
+	// No object of name found. Should return [0] just so it doesn't break.
+	std::cout << "No object of name " + (std::string)a_objectName + " found." << std::endl;
+	return m_modelList[0];
+}
+
 
 void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 {
@@ -79,7 +89,7 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 			// Shader is null so that is why issues with drawing.
 			// Create a manager for your shaders.
-			// Think about how to attach shaders.
+			// Think about how to attach s haders.
 			// unsigned int shader_program_ID = m_modelList[i]->GetShader();
   			unsigned int shader_program_ID = m_modelList[i]->GetShader();
 
@@ -90,11 +100,14 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture().GetDiffuse());
-			
+			std::cout << m_modelList[i]->GetTexture().GetDiffuse() << std::endl;
 
 
 
-
+			// Need access to sub meshes vao for meshes that have multiple 'peices' to them.
+			// This also includes multiple seperate objects contained within one file.
+			// Be aware that you have to bind the textures for the submesh then draw 
+			// then unbind ect.
 
 			
 			auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");

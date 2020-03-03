@@ -1,11 +1,5 @@
 #pragma once
-//#include "glm.hpp"
-//#include "gl_core_4_5.h"
-//#include "glfw3.h"
-//#include <iostream>
-//#include "ext.hpp"
-//
-//#include "..\stbimage\stb_image.h"
+
 
 
 // Sould handle all of the loading of textures and the identifier.
@@ -21,8 +15,11 @@ public:
 
 
 	unsigned int GetDiffuse()	{ return m_diffuse; }
+	bool SetDiffuse(const char* a_location);
 	unsigned int GetSpecular()	{ return m_specular; }
+	bool SetSpecular(const char* a_location);
 	unsigned int GetNormals()	{ return m_normals; }
+	bool SetNormal(const char* a_location);
 private:
 	// Need to add support.
 	unsigned int m_diffuse;		// Slot 1

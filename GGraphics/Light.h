@@ -16,4 +16,3 @@ public:
 	glm::vec3 m_color;
 	float m_specularStrength;
 };
-

@@ -81,7 +81,7 @@ void main()
 {
     vec4 textureColor = texture(diffuse_texture, final_texture_coodinates);
 	vec4 specularMap = texture(specular_texture, final_texture_coodinates);
-	vec4 normalMap = texture(normal_texture,final_texture_coodinates);
+	vec4 normalMap = texture(normal_texture, final_texture_coodinates);
 	
 	
 	
@@ -105,9 +105,9 @@ void main()
 
 	
 	//vec3 result = lightResult + modelColor;
-	//vec3 result = lightResult * vec3(textureColor);
+	vec3 result = lightResult * vec3(textureColor);
 	//vec3 result = vec3(specularMap);
-	vec3 result = vec3(normalMap);
+	//vec3 result = vec3(normalMap);
 	
 	final_color = vec4(result,1);
 }

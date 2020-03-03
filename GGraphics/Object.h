@@ -30,8 +30,10 @@ public:
 
 	Texture GetTexture() { return m_texture; }
 
-	
+	const char* GetName() { return m_name; }
+
 	glm::mat4 GetModel() { return m_modelMatrix; }
+
 	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }
 private:
 	const char* m_name;
