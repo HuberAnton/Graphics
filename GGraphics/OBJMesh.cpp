@@ -10,6 +10,9 @@ OBJMesh::OBJMesh(const char* filename)
 	load(filename);
 }
 
+
+
+
 OBJMesh::~OBJMesh() {
 	for (auto& c : m_meshChunks) {
 		glDeleteVertexArrays(1, &c.vao);

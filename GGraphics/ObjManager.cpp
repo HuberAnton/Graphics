@@ -3,7 +3,7 @@
 
 
 
-ObjManager::ObjManager(glm::mat4 *a_projectionView)// : m_testShader("..\\Dependencies\\Shaders\\simple_vert.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl")
+ObjManager::ObjManager(glm::mat4 *a_projectionView)
 {
 	m_projectionView = a_projectionView;
 }
@@ -48,6 +48,24 @@ void ObjManager::Load(const char* a_fileLocation, const char* a_name, const char
 	m_modelList.push_back(t);
 }
 
+void ObjManager::CreateObject(const char *a_objName /*= object*/)
+{
+	// For a safety thing... probably pointless like most of this but oh well.
+	// After doing this I am 100% sure that this is dumb. But it can hang out
+	// with the rest of the code.
+	if (a_objName == "object")
+	{
+		Object* t = new Object("object" + m_modelList.size());
+		m_modelList.push_back(t);
+	}
+	else
+	{
+		Object* t =	new Object(a_objName);
+		m_modelList.push_back(t);
+	}
+}
+
+
 void ObjManager::Load(const char* a_fileLocation, const char* a_name)
 {
 	// Note that the creation of shaders needs to happen before loading of assests like this.
@@ -65,6 +83,9 @@ void ObjManager::Load(const char* a_fileLocation, const char* a_name)
 
 
 // Utility for finding objects for assainments.
+// Private.
+// Make this a template and just search what is passed in?
+// Better then multiple functions that do slightly different things.
 Object* ObjManager::FindObject(const char* a_objectName)
 {
 	for (Object* ob : m_modelList)
@@ -99,11 +120,8 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 			// This should be done better.
 			
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture().GetDiffuse());
-			std::cout << m_modelList[i]->GetTexture().GetDiffuse() << std::endl;
-
-
-
+			glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture()->GetDiffuse());
+		
 			// Need access to sub meshes vao for meshes that have multiple 'peices' to them.
 			// This also includes multiple seperate objects contained within one file.
 			// Be aware that you have to bind the textures for the submesh then draw 
@@ -185,3 +203,33 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 	}
 }
 
+void ObjManager::SetTexture(const char* a_name, const char* a_location, TEXTURE_TYPE a_type /*= TEXTURE_TYPE::DIFFUSE*/)
+{
+	//Texture* t = FindObject(a_name)->GetTexture();
+
+	//// Everything after this might be better being a part of the texture class.
+	//switch (a_type)
+	//{
+	//case TEXTURE_TYPE::DIFFUSE:
+	//	t->SetDiffuse(a_location);
+	//	break;
+	//case TEXTURE_TYPE::SPECULAR:
+	//	t->SetSpecular(a_location); 
+	//	break;
+	//case TEXTURE_TYPE::NORMAL:
+	//	t->SetNormal(a_location);
+	//	break;
+	//}
+}
+
+void ObjManager::SetTexture(const char* a_name, Texture* a_texure)
+{
+	Object* obj = FindObject(a_name);
+	obj->SetTexture(a_texure);
+}
+
+void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
+{
+	Object* obj = FindObject(a_name);
+	obj->SetMesh(a_mesh);
+}

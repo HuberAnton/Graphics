@@ -150,16 +150,15 @@
     <ClCompile Include="DemoCamera.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjManager.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
-    <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="Quartonians.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Dependencies\stbimage\stb_image.h" />
@@ -167,15 +166,14 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DemoCamera.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjManager.h" />
     <ClInclude Include="OBJMesh.h" />
-    <ClInclude Include="Primitives.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,8 +30,6 @@ in vec3 vBiTangent;
 
 
 
-
-
 out vec4 final_color;
 
 
@@ -44,7 +42,7 @@ uniform struct Light{
 	vec3 color;
 	float specularStrength;
 } lights[MAXLIGHTS];
-
+// Note that this is a declaration of a variable.
 
 
 vec3 DoLights(vec3 a_norm, Light a_light, vec3 a_FragPos)

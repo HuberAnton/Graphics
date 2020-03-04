@@ -8,7 +8,7 @@ layout(location = 3) in vec4 Tangent;
 
 uniform mat4 projection_view_matrix;
 uniform mat4 model_matrix;
-uniform mat3 normalMatrix;
+uniform mat3 NormalMatrix;
 
 
 out vec2 final_texture_coodinates;
@@ -25,12 +25,12 @@ void main()
 	
 	
 	// Not sure about these
-	vTangent = normalMatrix * Tangent.xyz;
+	vTangent = NormalMatrix * Tangent.xyz;
 	vBiTangent = 
 	
 
 	// Does not give the expected result...
-	//normal =  normalMatrix * Anormal;
+	//normal =  NormalMatrix * Anormal;
 	normal = Anormal;
     gl_Position = (projection_view_matrix * model_matrix) * local_position;
 }

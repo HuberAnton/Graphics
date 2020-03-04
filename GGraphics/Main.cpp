@@ -14,7 +14,7 @@
 #include "DemoCamera.h"
 #include "Object.h"
 #include "ObjManager.h"
-
+#include "ShaderManager.h"
 // Textures.  
 #include "..\stbimage\stb_image.h"
 
@@ -29,6 +29,10 @@
 // Revist lights a little and make sure they
 // contain all the neccisary parts(minus attenuation):
 // Make a primitives class.
+// Add a mesh manager/asset manger.
+// Oh wait no... I just need an asset manager
+// with templated lists of things.
+// 2 dimensional array should work.
 
 int main()
 {
@@ -131,24 +135,40 @@ int main()
 
 
 
-    // Obj manager should be inside app.
-    ObjManager manager(&app.GetCamera().GetProjectionViewMatrix());
 
-    //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1", "..\\Dependencies\\Textures\\woodenbox.jpg");
-    manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
+    // Managers - These shoud hold all the assets and are created at
+    // start.
+     //************************************************************
+
+   
+    ObjManager objManager(&app.GetCamera().GetProjectionViewMatrix());
+
+    ShaderManager shaderManager;
+
+    shaderManager.CreateShader();
+
+    objManager.CreateObject();
+
+    // Loading models
+    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
+    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2");
+
 
     
-    Object* t = manager.FindObject("Bunny1");
-    // This currently does not return the correct bit of information.
-    t->GetTexture().SetDiffuse("..\\Dependencies\\Textures\\woodenbox.jpg");
-
-    //manager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2", "..\\Dependencies\\Textures\\Scrabble.jpg");
-
-    manager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
-    manager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
-    manager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
+    objManager.SetMesh();
 
 
+ 
+
+    // Setting textures
+    //objManager.SetTexture("Bunny1", "..\\Dependencies\\Textures\\Scrabble.jpg", TEXTURE_TYPE::DIFFUSE);
+    //objManager.SetTexture("Bunny2", "..\\Dependencies\\Textures\\woodenbox.jpg");
+
+
+    // Creating Lights
+    objManager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
+    objManager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
+    objManager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
 
     // Shader - Handled in class. Very basic
     //************************************************************
@@ -201,7 +221,7 @@ int main()
         glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
 
 
-        manager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
+        objManager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
         
         // Swaps the front buffer and back buffer
         glfwSwapBuffers(glfwGetCurrentContext());

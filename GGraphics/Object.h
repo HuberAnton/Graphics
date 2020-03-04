@@ -8,7 +8,7 @@
 #include "OBJMesh.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "Texture.h"
-
+#include "OBJMesh.h"
 
 
 class Object
@@ -18,36 +18,40 @@ public:
 
 	Object(const char * a_name, const char* vertex, const char* frag, const char* a_textureLocation);
 	Object(const char* a_name, const char* vertex, const char* frag);
+	Object(const char* a_name);
 
 	~Object();
 
 	void Draw();
 	void LoadModel(const char* a_fileLocation);
 
-	void SetShader(Shader a_shader) { m_shaderProgram = a_shader; }
 
-	unsigned int GetShader() { return m_shaderProgram.GetShaderId(); }
+	unsigned int GetShader() { return m_shaderProgram->GetShaderId(); }
+	void SetShader(Shader* a_shader) { m_shaderProgram = a_shader; }
 
-	Texture GetTexture() { return m_texture; }
+	void SetMesh(OBJMesh* a_mesh);
 
+
+	Texture* GetTexture() { return m_texture; }
+	void SetTexture(Texture* a_texture);
 	const char* GetName() { return m_name; }
 
-	glm::mat4 GetModel() { return m_modelMatrix; }
 
+	glm::mat4 GetModel() { return m_modelMatrix; }
 	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }
 private:
 	const char* m_name;
 	
 	// This should be a pointer and might need a different name since it's
 	// a bit... lacking.
-	Texture m_texture;
+	Texture* m_texture = nullptr;
 	
 
 	glm::mat4 m_modelMatrix;
 	// Material - includes textures
 	// This needs to be changed to a pointer when I have a shader manager.
-	Shader m_shaderProgram;
+	Shader* m_shaderProgram;
 
-	OBJMesh* mesh;
+	OBJMesh* m_mesh;
 };
 

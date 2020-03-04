@@ -46,6 +46,7 @@ public:
 	};
 
 	OBJMesh(const char* filename); 
+	OBJMesh() {};
 	~OBJMesh();
 
 	// will fail if a mesh has already been loaded in to this instance

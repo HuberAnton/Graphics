@@ -10,12 +10,15 @@
 class ShaderManager
 {
 public:
-		ShaderManager();
+	ShaderManager();
+	~ShaderManager();
+	void CreateShader();
 
-
+	Shader* GetShader(const char*);
 
 private:
 	// I need to have ways to access this information.
-	std::vector<Shader*> ShaderList;
+	std::vector<Shader*> m_ShaderList;
+	Shader* FindShader(const char* a_name);
 };
 
