@@ -20,12 +20,17 @@ public:
 
 	void CreateLight(glm::vec3 a_direction, glm::vec3 a_color, float a_specularStrength);
 
-	void SetTexture(const char* a_name, const char* a_location, TEXTURE_TYPE a_type = TEXTURE_TYPE::DIFFUSE);
+	//void SetTexture(const char* a_name, const char* a_location, TEXTURE_TYPE a_type = TEXTURE_TYPE::DIFFUSE);
 	// This is a placeholder until I place both inside of app.
 	void SetTexture(const char* a_name, Texture* a_texture);
 
-	void SetMesh(const char* a_name, OBJMesh* a_mesh);
 
+	// I really should have a templated set. They all
+	void SetMesh(const char* a_name, OBJMesh* a_mesh);
+	void SetMesh(const char* a_name, const char* a_meshLocation);
+
+
+	void SetShader(const char* a_name, Shader* a_shader);
 
 private:
 	std::vector<Object*> m_modelList;

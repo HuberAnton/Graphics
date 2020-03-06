@@ -1,5 +1,6 @@
 #include "ShaderManager.h"
 
+
 ShaderManager::ShaderManager()
 {
 	
@@ -42,3 +43,15 @@ Shader* ShaderManager::GetShader(const char * a_name)
 {
 	return FindShader(a_name);
 }
+
+// 0 == first element in array.
+Shader* ShaderManager::GetShader(int a_index)
+{
+	if (a_index > m_ShaderList.size())
+	{
+		std::cout << "Could not find shader " + a_index << std::endl;
+		return m_ShaderList[0];
+	}
+	return m_ShaderList[a_index];
+}
+

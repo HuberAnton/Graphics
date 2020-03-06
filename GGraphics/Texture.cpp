@@ -19,8 +19,7 @@ Texture::Texture()
 // Consider removing after object is refactored
 Texture::Texture(const char* a_textureLocation)
 {
-    if (a_textureLocation != nullptr)
-    {
+    
         // Used by stbi load and passed into the glTexImage.
         int x, y, n;
 
@@ -46,7 +45,7 @@ Texture::Texture(const char* a_textureLocation)
 
         // Deallocates the memory.
         stbi_image_free(data);
-    }
+    
 }
 
 
@@ -83,7 +82,7 @@ bool Texture::SetDiffuse(const char* a_location)        // Slot 1
     stbi_image_free(data);
 }
 
-bool Texture::SetSpecular(const char* a_location)
+bool Texture::SetSpecular(const char* a_location)   // Slot 2
 {
     // Used by stbi load and passed into the glTexImage.
     int x, y, n;
@@ -114,7 +113,7 @@ bool Texture::SetSpecular(const char* a_location)
 }
 
 
-bool Texture::SetNormal(const char* a_location)
+bool Texture::SetNormal(const char* a_location)     // Slot 3
 {
     // Used by stbi load and passed into the glTexImage.
     int x, y, n;

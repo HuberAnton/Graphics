@@ -22,7 +22,7 @@ uniform vec3 lightPosition2;
 
 
 in vec3 FragPos;
-in vec3 Normal;
+in vec3 normal;
 in vec2 final_texture_coodinates;
 in vec3 vTangent;
 in vec3 vBiTangent;
@@ -91,7 +91,7 @@ void main()
 
 	
 	
-	vec3 lightResult;
+	vec3 lightResult = vec3(0);
 	
 	lightResult += ambient;
 	
@@ -103,9 +103,11 @@ void main()
 
 	
 	//vec3 result = lightResult + modelColor;
-	vec3 result = lightResult * vec3(textureColor);
+	vec3 result = lightResult + vec3(textureColor);
 	//vec3 result = vec3(specularMap);
 	//vec3 result = vec3(normalMap);
+	
+	//vec3 result = vec3(0,1,0);
 	
 	final_color = vec4(result,1);
 }

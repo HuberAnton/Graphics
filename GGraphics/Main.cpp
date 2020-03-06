@@ -15,6 +15,7 @@
 #include "Object.h"
 #include "ObjManager.h"
 #include "ShaderManager.h"
+#include "TextureManager.h"
 // Textures.  
 #include "..\stbimage\stb_image.h"
 
@@ -35,6 +36,20 @@
 // Oh wait no... I just need an asset manager
 // with templated lists of things.
 // 2 dimensional array should work.
+
+
+
+// Look into:
+// structered uniforms. For passing whole structs. Look into fixing up uniforms.
+// send sam or murry a question about the end of year project.
+// Consider making mulitple shaders that are for;
+// 1. Just model color.
+// 2. Just light color using normals from model
+// 3. Model and light color using normals from model.
+// 4. Normals from map.
+// 5. Model textures.
+// 6. Model textures and lighting.
+// And the ability to swap between them at runtime.
 
 int main()
 {
@@ -146,20 +161,24 @@ int main()
     ObjManager objManager(&app.GetCamera().GetProjectionViewMatrix());
 
     ShaderManager shaderManager;
+    TextureManager texureManager;
 
     shaderManager.CreateShader();
+    texureManager.CreateTexture("..\\Dependencies\\Textures\\woodenbox.jpg");
 
-    objManager.CreateObject();
 
+
+    //objManager.CreateObject("Bunny1");
     // Loading models
-    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
+    objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
     //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2");
 
-
     
-    objManager.SetMesh();
+    //objManager.SetShader("Bunny1", shaderManager.GetShader(0));
+    
+    //objManager.SetMesh("Bunny1", "..\\Dependencies\\OBJ\\Bunny.obj");
 
-
+    //objManager.SetTexture("Bunny1", texureManager.GetTexture(0));
  
 
     // Setting textures

@@ -26,7 +26,7 @@ public:
 	void LoadModel(const char* a_fileLocation);
 
 
-	unsigned int GetShader() { return m_shaderProgram->GetShaderId(); }
+	Shader* GetShader() { return m_shaderProgram; }
 	void SetShader(Shader* a_shader) { m_shaderProgram = a_shader; }
 
 	void SetMesh(OBJMesh* a_mesh);
@@ -52,6 +52,6 @@ private:
 	// This needs to be changed to a pointer when I have a shader manager.
 	Shader* m_shaderProgram;
 
-	OBJMesh* m_mesh;
+	OBJMesh* m_mesh = nullptr;
 };
 

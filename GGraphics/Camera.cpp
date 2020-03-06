@@ -4,7 +4,7 @@
 Camera::Camera()
 {
 	// Camera starts off at 0.
-	m_cameraPostion = glm::vec3(1);	
+	m_cameraPostion = glm::mat4(1);	
 	// Camera facing is set and note that this value
 	// is only ever adjusted when you start rotation.
 	// If you think about it it makes sense. 
@@ -59,16 +59,16 @@ void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
 // I could query the window after the window size is changed
 // and then adjust the window accordingly.
 // It may need an overload if I go that way.
-glm::mat4 Camera::GetPerspeciveMatrix()
-{	
-	return m_projectionMatrix = glm::perspective(1.507f, 16.0f / 9.0f, 0.1f, 50.0f);
-}
+//glm::mat4 Camera::GetPerspeciveMatrix()
+//{	
+//	return m_projectionMatrix = glm::perspective(1.507f, 16.0f / 9.0f, 0.1f, 50.0f);
+//}
 
-glm::mat4 Camera::GetPerspectiveViewMatrix()
-{
-	m_cameraPostion += a_newPositoin;
-	UpdateCamera();
-}
+//glm::mat4 Camera::GetPerspectiveViewMatrix()
+//{
+//	//m_cameraPostion += a_newPositoin;
+//	UpdateCamera();
+//}
 
 // I don't think this is correct either.
 //void Camera::SetPosition(glm::vec3 a_newPositoin)

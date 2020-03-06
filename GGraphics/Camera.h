@@ -21,7 +21,7 @@ public:
 	// Needs delta time and input
 	void CheckInput(float a_deltaTime, GLFWwindow* window);
 
-	void SetPosition(glm::vec3 a_newPositoin);
+
 
 	
 
@@ -121,7 +121,7 @@ public:
 	glm::mat4 m_projectionViewMatrix;
 
 	glm::mat4 GetPerspeciveMatrix();
-	glm::mat4 GetPerspectiveViewMatrix();
+	//glm::mat4 GetPerspectiveViewMatrix();
 	// Angle shenanigans
 	float m_yaw;
 	float m_pitch;

@@ -15,7 +15,7 @@ public:
 	void CreateShader();
 
 	Shader* GetShader(const char*);
-
+	Shader* GetShader(int a_index);
 private:
 	// I need to have ways to access this information.
 	std::vector<Shader*> m_ShaderList;

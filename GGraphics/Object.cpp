@@ -10,24 +10,23 @@ Object::Object(const char * a_name,const char* vertex, const char* frag, const c
 Object::Object(const char* a_name, const char* vertex, const char* frag) : m_modelMatrix(1)
 {
 	m_name = a_name;
-	m_texture = new Texture();
-	m_shaderProgram = new Shader("BasicShader", vertex, frag);
+	//m_texture = new Texture();
+	//m_shaderProgram = new Shader("BasicShader", vertex, frag);
 }
 
-Object::Object(const char * a_name)
+Object::Object(const char * a_name) : m_modelMatrix(1)
 {
 	m_name = a_name;
-	m_mesh = new OBJMesh();
-	m_texture = new Texture();
-	m_shaderProgram = new Shader();
+	
 }
 
 Object::~Object()
 {
 	// If these are assets will they need to be deleted?
 	delete m_mesh;
-	delete m_texture;
-	delete m_shaderProgram;
+	m_mesh = nullptr;
+	m_texture = nullptr;
+	m_shaderProgram = nullptr;
 }
 
 
@@ -54,6 +53,7 @@ void Object::SetTexture(Texture* a_texture)
 	m_texture = a_texture;
 }
 
+// For use with just a 
 void Object::SetMesh(OBJMesh* a_mesh)
 {
 	m_mesh = a_mesh;
