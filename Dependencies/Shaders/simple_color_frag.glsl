@@ -22,7 +22,7 @@ uniform vec3 lightPosition2;
 
 
 in vec3 FragPos;
-in vec3 normal;
+in vec3 Normal;
 in vec2 final_texture_coodinates;
 in vec3 vTangent;
 in vec3 vBiTangent;

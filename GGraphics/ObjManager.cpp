@@ -6,6 +6,7 @@
 ObjManager::ObjManager(glm::mat4 *a_projectionView)
 {
 	m_projectionView = a_projectionView;
+	 
 }
 
 // Memory leaks dawg fix this.
@@ -40,9 +41,8 @@ void ObjManager::Load(const char* a_fileLocation, const char* a_name, const char
 	// Each part needs a a load and a set. Or maybe a set since;
 	// Shaders are inteneded to have a manager and textures texures are intended to have a manager.
 	//											Vert												Frag										Texture								
-	Object* t = new Object(a_name ,"..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl", a_textureLocation);
+	Object* t = new Object(a_name, a_textureLocation);
 	//Object* t = new Object();
-
 	t->LoadModel(a_fileLocation);
 	t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 10,0,0)));
 	m_modelList.push_back(t);
@@ -179,17 +179,15 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 			uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
 			glUniform3fv(uniform_location, 1, glm::value_ptr(a_cameraPos));
+			
 
-
-
-			// Need to fix this. I need a reference to the pv in the class.
+			// Model to draw in worldspce
 			uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
 			glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(m_modelList[i]->GetModel()));
 			
 
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
 			glUniform1f(uniform_location, 0.2f);
-
 
 			glm::vec3 ambientColor = glm::vec3(1, 1, 1);
 			uniform_location = glGetUniformLocation(shader_program_ID, "ambientColor");

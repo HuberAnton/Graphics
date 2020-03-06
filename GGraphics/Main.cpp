@@ -19,6 +19,8 @@
 #include "..\stbimage\stb_image.h"
 
 
+
+
 // Things to do.
 // Break up object creation into seperate loads.:
 // Create a shader manager and place it in app.:

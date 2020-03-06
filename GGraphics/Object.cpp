@@ -46,7 +46,6 @@ void Object::LoadModel(const char* a_fileLocation)
 	{
 		std::cout << "No mesh" << std::endl;
 	}
-
 }
 
 
