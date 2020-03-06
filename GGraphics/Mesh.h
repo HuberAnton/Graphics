@@ -21,7 +21,7 @@ public:
 	{
 		glm::vec4 postion;
 		glm::vec4 normal;
-		glm::vec2 texCord;
+		glm::vec2 Uv;
 	};
 
 	void InitialiseQuad();

@@ -4,8 +4,7 @@
 Camera::Camera()
 {
 	// Camera starts off at 0.
-	m_cameraPostion = glm::mat4(1);
-	m_cameraPostion = glm::translate(m_cameraPostion, glm::vec3(0,0,-3.0f));	
+	m_cameraPostion = glm::vec3(1);	
 	// Camera facing is set and note that this value
 	// is only ever adjusted when you start rotation.
 	// If you think about it it makes sense. 
@@ -13,11 +12,8 @@ Camera::Camera()
 	m_up = glm::vec3(0,1,0);
 	m_cameraFront = glm::vec3(0, 0, -1.0f);
 	m_yaw = -90.0f;
-	m_pitch = 0;
-
-	m_speed = 20.0f;
-
-	// World up
+	m_pitch = 1;
+	
 	UpdateCamera();
 }
 
@@ -40,12 +36,12 @@ void Camera::UpdateCamera()
 
 	//m_viewMatrix = glm::lookAt(m_cameraPostion, , m_up);
 	m_projectionViewMatrix = m_projectionMatrix * m_viewMatrix;
-}
-
-void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
-{
-	float velocity = m_speed * a_deltaTime;
-	glm::vec3 newPostion(1);
+}
+
+void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
+{
+	float velocity = m_speed * a_deltaTime;
+	glm::vec3 newPostion(1);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		newPostion += m_speed * m_cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -53,9 +49,9 @@ void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		newPostion -= glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		newPostion += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
-	m_cameraPostion = glm::translate(m_cameraPostion, newPostion);
-	UpdateCamera();
+		newPostion += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
+	m_cameraPostion = glm::translate(m_cameraPostion, newPostion);
+	UpdateCamera();
 }
 
 // Should be called during constructor and when
@@ -70,7 +66,8 @@ glm::mat4 Camera::GetPerspeciveMatrix()
 
 glm::mat4 Camera::GetPerspectiveViewMatrix()
 {
-	return m_projectionViewMatrix;
+	m_cameraPostion += a_newPositoin;
+	UpdateCamera();
 }
 
 // I don't think this is correct either.

@@ -5,7 +5,7 @@
 // the code for the shaders, compiles them then links them.
 // Might be lacking a delete command after shaders have been 
 // attached to the program.
-Shader::Shader(std::string a_vectorLocation, std::string a_fragmentShader)
+Shader::Shader(const char* a_name, const char* a_vectorLocation, const char* a_fragmentShader)
 {
     std::string shader_data_vert;
     std::ifstream in_file_stream_vert(a_vectorLocation, std::ifstream::in);
@@ -34,7 +34,7 @@ Shader::Shader(std::string a_vectorLocation, std::string a_fragmentShader)
         printf("Vertex shader failed.");
     }
 
-
+    
     //Fragment shader
     //************************************************************
 
