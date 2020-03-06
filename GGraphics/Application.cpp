@@ -40,7 +40,7 @@ Application::Application()
 
 
 // Does all the shenanigans needed for the u
-void Application::UpdateApplication()
+void Application::UpdateApplication(GLFWwindow* window)
 {
 	float thisFrame = (float)glfwGetTime();
 	m_deltaTime = thisFrame - m_lastFrame;

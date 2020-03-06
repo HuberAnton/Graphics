@@ -16,7 +16,10 @@ public:
 
 	Camera();
 
+	// Might be a private?
 	void UpdateCamera();
+	// Needs delta time and input
+	void CheckInput(float a_deltaTime, GLFWwindow* window);
 
 	void SetPosition(glm::vec3 a_newPositoin);
 
@@ -43,7 +46,7 @@ public:
 
 	// Actaully I'll wrtite it out just to remeber the process.
 	// Camera Pos is jus the postion of the camera.
-	glm::vec3 m_cameraPostion; //*** Needs to be accesible.
+	glm::mat4 m_cameraPostion; //*** Needs to be accesible.
 
 	// Camera diercion is worked out by getting the camera Target first
 	// So where ever the camera should be looking at in xyz postion which 
@@ -118,13 +121,13 @@ public:
 	glm::mat4 m_projectionViewMatrix;
 
 	glm::mat4 GetPerspeciveMatrix();
-
+	glm::mat4 GetPerspectiveViewMatrix();
 	// Angle shenanigans
 	float m_yaw;
 	float m_pitch;
 private:
 
 	float m_speed;
-
+	
 };
 
