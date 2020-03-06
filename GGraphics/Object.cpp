@@ -29,32 +29,23 @@ Object::~Object()
 	m_shaderProgram = nullptr;
 }
 
-
-
 void Object::Draw()
 {
 
 	m_mesh->draw();
 }
 
-void Object::LoadModel(const char* a_fileLocation)
+void Object::SetMesh(OBJMesh* a_mesh)
 {
-	m_mesh = new OBJMesh(a_fileLocation);
-
-	if (m_mesh == NULL)
-	{
-		std::cout << "No mesh" << std::endl;
-	}
+	m_mesh = a_mesh;
 }
-
 
 void Object::SetTexture(Texture* a_texture)
 {
 	m_texture = a_texture;
 }
 
-// For use with just a 
-void Object::SetMesh(OBJMesh* a_mesh)
-{
-	m_mesh = a_mesh;
+void Object::SetShader(Shader* a_shader) 
+{ 
+	m_shaderProgram = a_shader; 
 }

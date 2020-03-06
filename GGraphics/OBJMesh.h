@@ -45,7 +45,7 @@ public:
 		//Texture displacementTexture;		// bound slot 6
 	};
 
-	OBJMesh(const char* filename); 
+	OBJMesh(const char* filename, const char* a_name); 
 	OBJMesh() {};
 	~OBJMesh();
 
@@ -62,10 +62,16 @@ public:
 	size_t getMaterialCount() const { return m_materials.size();  }
 	Material& getMaterial(size_t index) { return m_materials[index];  }
 
+
+	const char* GetName() { return m_name; }
+
+
+
 private:
 	// Is this used for textures
 	void calculateTangents(std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
+	const char* m_name = nullptr;
 
 	// Mesh chunks for what?
 	struct MeshChunk {

@@ -23,19 +23,14 @@ public:
 	~Object();
 
 	void Draw();
-	void LoadModel(const char* a_fileLocation);
-
 
 	Shader* GetShader() { return m_shaderProgram; }
-	void SetShader(Shader* a_shader) { m_shaderProgram = a_shader; }
-
+	void SetShader(Shader* a_shader);
+	OBJMesh* GetMesh() { return m_mesh; }
 	void SetMesh(OBJMesh* a_mesh);
-
-
 	Texture* GetTexture() { return m_texture; }
 	void SetTexture(Texture* a_texture);
 	const char* GetName() { return m_name; }
-
 
 	glm::mat4 GetModel() { return m_modelMatrix; }
 	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }

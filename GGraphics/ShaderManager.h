@@ -12,9 +12,10 @@ class ShaderManager
 public:
 	ShaderManager();
 	~ShaderManager();
+	//void CreateShader(const char* a_name);
 	void CreateShader();
 
-	Shader* GetShader(const char*);
+	Shader* GetShader(const char* a_name);
 	Shader* GetShader(int a_index);
 private:
 	// I need to have ways to access this information.

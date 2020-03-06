@@ -27,7 +27,7 @@ public:
 
 	// I really should have a templated set. They all
 	void SetMesh(const char* a_name, OBJMesh* a_mesh);
-	void SetMesh(const char* a_name, const char* a_meshLocation);
+	//void SetMesh(const char* a_name, const char* a_meshLocation);
 
 
 	void SetShader(const char* a_name, Shader* a_shader);

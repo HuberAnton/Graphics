@@ -5,8 +5,9 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
-OBJMesh::OBJMesh(const char* filename)
+OBJMesh::OBJMesh(const char* filename, const char* a_name)
 {
+	m_name = a_name;
 	load(filename);
 }
 

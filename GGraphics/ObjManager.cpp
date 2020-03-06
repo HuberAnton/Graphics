@@ -66,20 +66,20 @@ void ObjManager::CreateObject(const char *a_objName /*= object*/)
 }
 
 
-void ObjManager::Load(const char* a_fileLocation, const char* a_name)
-{
-	// Note that the creation of shaders needs to happen before loading of assests like this.
-	// This construcor is really quite bad.
-	// Each part needs a a load and a set. Or maybe a set since;
-	// Shaders are inteneded to have a manager and textures texures are intended to have a manager.
-	//											Vert												Frag																		
-	//Object* t = new Object(a_name, "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
-	Object* t = new Object(a_name);
-
-	t->LoadModel(a_fileLocation);
-	t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 10, 0, 0)));
-	m_modelList.push_back(t);
-}
+//void ObjManager::Load(const char* a_fileLocation, const char* a_name)
+//{
+//	// Note that the creation of shaders needs to happen before loading of assests like this.
+//	// This construcor is really quite bad.
+//	// Each part needs a a load and a set. Or maybe a set since;
+//	// Shaders are inteneded to have a manager and textures texures are intended to have a manager.
+//	//											Vert												Frag																		
+//	//Object* t = new Object(a_name, "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
+//	Object* t = new Object(a_name);
+//
+//	t->LoadModel(a_fileLocation);
+//	t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 10, 0, 0)));
+//	m_modelList.push_back(t);
+//}
 
 
 // Utility for finding objects for assainments.
@@ -247,11 +247,11 @@ void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
 	obj->SetMesh(a_mesh);
 }
 
-void ObjManager::SetMesh(const char* a_name, const char* a_meshLocation)
-{
-	Object* obj = FindObject(a_name);
-	obj->LoadModel(a_meshLocation);
-}
+//void ObjManager::SetMesh(const char* a_name, const char* a_meshLocation)
+//{
+//	Object* obj = FindObject(a_name);
+//	obj->LoadModel(a_meshLocation);
+//}
 
 
 void ObjManager::SetShader(const char* a_name, Shader* a_shader)
