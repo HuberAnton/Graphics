@@ -22,7 +22,7 @@ public:
 
 	//void SetTexture(const char* a_name, const char* a_location, TEXTURE_TYPE a_type = TEXTURE_TYPE::DIFFUSE);
 	// This is a placeholder until I place both inside of app.
-	void SetTexture(const char* a_name, Texture* a_texture);
+	void SetTexture(const char* a_name, Texture* a_texture, unsigned int a_meshChunk = 0);
 
 
 	// I really should have a templated set. They all

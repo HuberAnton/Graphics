@@ -15,7 +15,7 @@ MeshManager::~MeshManager()
 	}
 }
 
-void MeshManager::CreateMesh(const char* a_location, const char* a_name)
+void MeshManager::CreateMesh(const char* a_name, const char* a_location)
 {
 	OBJMesh* t = new OBJMesh(a_location, a_name);
 	m_meshList.push_back(t);
@@ -41,7 +41,7 @@ OBJMesh* MeshManager::GetMesh(int a_index)
 {
 	if (a_index > m_meshList.size())
 	{
-		std::cout << "Could not find shader " + a_index << std::endl;
+		std::cout << "Could not find mesh " + a_index << std::endl;
 		return m_meshList[0];
 	}
 	return m_meshList[a_index];

@@ -56,11 +56,14 @@ void ObjManager::CreateObject(const char *a_objName /*= object*/)
 	if (a_objName == "object")
 	{
 		Object* t = new Object("object" + m_modelList.size());
+		t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 12, 0, 0)));
+		t->SetModel(glm::rotate(t->GetModel(), 45.0f, glm::vec3(0,1,0)));
 		m_modelList.push_back(t);
 	}
 	else
 	{
 		Object* t =	new Object(a_objName);
+		t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 12, 0, 0)));
 		m_modelList.push_back(t);
 	}
 }
@@ -119,14 +122,12 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 				glUseProgram(shader_program_ID);
 
 
-				// This should be done better and within the object class.
-				// It should be an 'assaign textures' kind of call in the model
-				// itself.
-				if (m_modelList[i]->GetTexture() != nullptr)
+				// Texture assaignment moved to objmesh.
+				/*if (m_modelList[i]->GetTexture() != nullptr)
 				{
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, m_modelList[i]->GetTexture()->GetDiffuse());
-				}
+				}*/
 				// Need access to sub meshes vao for meshes that have multiple 'peices' to them.
 				// This also includes multiple seperate objects contained within one file.
 				// Be aware that you have to bind the textures for the submesh then draw 
@@ -235,15 +236,21 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 
 // If texture manager set up.
-void ObjManager::SetTexture(const char* a_name, Texture* a_texture)
+// Needs an overloaded version for mesh chunks.
+// It will need a number, as in meshchunk[a_meshChunk] in obj(a_name) texure is a_texture
+// Or obj.GetMesh(a_meshChunk)
+void ObjManager::SetTexture(const char* a_name, Texture* a_texture, unsigned int a_meshChunk /*= 0*/)
 {
 	Object* obj = FindObject(a_name);
-	obj->SetTexture(a_texture);
+	// Get mesh chunk.
+	obj->SetTexture(a_texture, a_meshChunk);
+	std::cout << obj->GetName() << std::endl;
 }
 
 void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
 {
 	Object* obj = FindObject(a_name);
+	std::cout << obj->GetName() << std::endl;
 	obj->SetMesh(a_mesh);
 }
 
@@ -257,5 +264,6 @@ void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
 void ObjManager::SetShader(const char* a_name, Shader* a_shader)
 {
 	Object* obj = FindObject(a_name);
+	std::cout << obj->GetName() << std::endl;
 	obj->SetShader(a_shader);
 }

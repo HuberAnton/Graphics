@@ -7,6 +7,9 @@
 // attached to the program.
 Shader::Shader(const char* a_name, const char* a_vectorLocation, const char* a_fragmentShader)
 {
+
+    m_name = a_name;
+
     std::string shader_data_vert;
     std::ifstream in_file_stream_vert(a_vectorLocation, std::ifstream::in);
     std::stringstream string_stream_vert;

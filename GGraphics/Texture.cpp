@@ -6,9 +6,19 @@
 #include "ext.hpp"
 #include "..\stbimage\stb_image.h"
 
-
+// Not idea. Will be removed.
 Texture::Texture()
 {
+    m_name = "NoName";
+    // Just set to a value that SHOULDN'T be bound.
+    m_diffuse = 999;
+    m_specular = 999;
+    m_normals = 999;
+}
+
+Texture::Texture(const char* a_name)
+{
+    m_name = a_name;
     // Just set to a value that SHOULDN'T be bound.
     m_diffuse = 999;
     m_specular = 999;
@@ -16,35 +26,36 @@ Texture::Texture()
 }
 
 // 'Default' for testing a map. It really is only useful for a diffuse.
-// Consider removing after object is refactored
-Texture::Texture(const char* a_textureLocation)
+// Consider removing after object is refactored.
+// Obsolete.
+Texture::Texture(const char* a_name, const char* a_textureLocation)
 {
-    
-        // Used by stbi load and passed into the glTexImage.
-        int x, y, n;
+    m_name = a_name;
+    // Used by stbi load and passed into the glTexImage.
+    int x, y, n;
 
-        // Need the texture locaiton
-        unsigned char* data = stbi_load(a_textureLocation, &x, &y, &n, 0);
+    // Need the texture locaiton
+    unsigned char* data = stbi_load(a_textureLocation, &x, &y, &n, 0);
 
-        // Open gl assaigns a number to this int and knows the number is 
-        // a reference to a texture.
+    // Open gl assaigns a number to this int and knows the number is 
+    // a reference to a texture.
 
-        glGenTextures(1, &m_diffuse);
-        glBindTexture(GL_TEXTURE_2D, m_diffuse);
-        // Notea that it might be rgba instead depending on what
-        // type of file the texture is.
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "No diffuse bud" << std::endl;
-        }
+    glGenTextures(1, &m_diffuse);
+    glBindTexture(GL_TEXTURE_2D, m_diffuse);
+    // Notea that it might be rgba instead depending on what
+    // type of file the texture is.
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "No diffuse bud" << std::endl;
+    }
 
-        // Deallocates the memory.
-        stbi_image_free(data);
+    // Deallocates the memory.
+    stbi_image_free(data);
     
 }
 
@@ -52,7 +63,7 @@ Texture::Texture(const char* a_textureLocation)
 // If success return true;
 // Note that this might be redundant as a wrong load may cause crash.
 // Also it shouldn't be hard to tell something is missing.
-bool Texture::SetDiffuse(const char* a_location)        // Slot 1
+bool Texture::SetDiffuse(const char* a_location, bool a_flip)        // Slot 1
 {
     // Used by stbi load and passed into the glTexImage.
     int x, y, n;
@@ -65,6 +76,7 @@ bool Texture::SetDiffuse(const char* a_location)        // Slot 1
 
     glGenTextures(1, &m_diffuse);
     glBindTexture(GL_TEXTURE_2D, m_diffuse);
+    stbi_set_flip_vertically_on_load(a_flip);
     // Notea that it might be rgba instead depending on what
     // type of file the texture is.
     if (data)
@@ -82,7 +94,7 @@ bool Texture::SetDiffuse(const char* a_location)        // Slot 1
     stbi_image_free(data);
 }
 
-bool Texture::SetSpecular(const char* a_location)   // Slot 2
+bool Texture::SetSpecular(const char* a_location, bool a_flip)   // Slot 2
 {
     // Used by stbi load and passed into the glTexImage.
     int x, y, n;
@@ -95,6 +107,7 @@ bool Texture::SetSpecular(const char* a_location)   // Slot 2
 
     glGenTextures(1, &m_specular);
     glBindTexture(GL_TEXTURE_2D, m_specular);
+    stbi_set_flip_vertically_on_load(a_flip);
     // Notea that it might be rgba instead depending on what
     // type of file the texture is.
     if (data)
@@ -113,7 +126,7 @@ bool Texture::SetSpecular(const char* a_location)   // Slot 2
 }
 
 
-bool Texture::SetNormal(const char* a_location)     // Slot 3
+bool Texture::SetNormal(const char* a_location, bool a_flip)     // Slot 3
 {
     // Used by stbi load and passed into the glTexImage.
     int x, y, n;
@@ -126,6 +139,7 @@ bool Texture::SetNormal(const char* a_location)     // Slot 3
 
     glGenTextures(1, &m_normals);
     glBindTexture(GL_TEXTURE_2D, m_normals);
+    stbi_set_flip_vertically_on_load(a_flip);
     // Notea that it might be rgba instead depending on what
     // type of file the texture is.
     if (data)

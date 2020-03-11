@@ -23,7 +23,7 @@ Object::Object(const char * a_name) : m_modelMatrix(1)
 Object::~Object()
 {
 	// If these are assets will they need to be deleted?
-	delete m_mesh;
+	//delete m_mesh;
 	m_mesh = nullptr;
 	m_texture = nullptr;
 	m_shaderProgram = nullptr;
@@ -40,8 +40,9 @@ void Object::SetMesh(OBJMesh* a_mesh)
 	m_mesh = a_mesh;
 }
 
-void Object::SetTexture(Texture* a_texture)
+void Object::SetTexture(Texture* a_texture, unsigned int a_meshChunk)
 {
+	this->m_mesh->SetTexure(a_texture, a_meshChunk);
 	m_texture = a_texture;
 }
 

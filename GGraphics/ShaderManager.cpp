@@ -18,11 +18,21 @@ ShaderManager::~ShaderManager()
 // This is hard coded.
 // Ideally I want a bunch of shaders to be created on application start and 
 // a way to set them at runtime.
+// Obsolete.
 void ShaderManager::CreateShader()
 {
 	Shader* t = new Shader("Basic shader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
 	m_ShaderList.push_back(t);
 }
+
+// Ideal shader constuctor.
+void ShaderManager::CreateShader(const char* a_name, const char* a_vertLocation, const char* a_fragLocation)
+{
+	Shader* t = new Shader(a_name, a_vertLocation, a_fragLocation);
+	m_ShaderList.push_back(t);
+}
+
+
 
 
 Shader* ShaderManager::FindShader(const char * a_name)

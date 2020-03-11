@@ -28,9 +28,13 @@ public:
 	void SetShader(Shader* a_shader);
 	OBJMesh* GetMesh() { return m_mesh; }
 	void SetMesh(OBJMesh* a_mesh);
+	
+
 	Texture* GetTexture() { return m_texture; }
-	void SetTexture(Texture* a_texture);
+	void SetTexture(Texture* a_texture, unsigned int a_meshChunk);
 	const char* GetName() { return m_name; }
+
+
 
 	glm::mat4 GetModel() { return m_modelMatrix; }
 	void SetModel(glm::mat4 a_newPos) { m_modelMatrix = a_newPos; }
@@ -39,14 +43,18 @@ private:
 	
 	// This should be a pointer and might need a different name since it's
 	// a bit... lacking.
-	Texture* m_texture = nullptr;
 	
 
 	glm::mat4 m_modelMatrix;
-	// Material - includes textures
-	// This needs to be changed to a pointer when I have a shader manager.
-	Shader* m_shaderProgram;
 
+
+
+
+	// Note that these 3 should copya loaded asset instead of containing the same thing.
+	Shader* m_shaderProgram = nullptr;
+
+
+	Texture* m_texture = nullptr;
 	OBJMesh* m_mesh = nullptr;
 };
 

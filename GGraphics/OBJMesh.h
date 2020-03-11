@@ -3,7 +3,7 @@
 #include <glm.hpp>
 #include <string>
 #include <vector>
-//#include "Texture.h"
+#include "Texture.h"
 
 
 
@@ -65,7 +65,8 @@ public:
 
 	const char* GetName() { return m_name; }
 
-
+	void SetTexure(Texture* a_texutre, unsigned int a_meshChunk) 
+					{ m_meshChunks[a_meshChunk].texture = a_texutre; }
 
 private:
 	// Is this used for textures
@@ -78,6 +79,7 @@ private:
 		unsigned int	vao, vbo, ibo;
 		unsigned int	indexCount;
 		int				materialID;
+		Texture*		texture = nullptr;
 	};
 
 	std::string				m_filename;

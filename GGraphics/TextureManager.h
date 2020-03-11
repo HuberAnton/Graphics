@@ -3,15 +3,18 @@
 #include <vector>
 
 
+// This needs a system where it can take multiple
+// maps and know 
+
 class TextureManager
 {
 public:
 	TextureManager();
 	~TextureManager();
 
-	void CreateTexture(const char* a_location);
+	void CreateTexture(const char * a_name, const char* a_location, bool a_flip);
 
-	//Texture* GetTexture(const char* a_name);
+	Texture* GetTexture(const char* a_name);
 	Texture* GetTexture(int a_index);
 
 private:
@@ -22,6 +25,6 @@ private:
 	std::vector<Texture*> m_textureList;
 
 
-	//Texture* FindTexture(const char* a_name);
+	Texture* FindTexture(const char* a_name);
 };
 

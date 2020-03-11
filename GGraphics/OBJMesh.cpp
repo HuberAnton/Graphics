@@ -262,6 +262,43 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 		//		glBindTexture(GL_TEXTURE_2D, 0);
 		//}
 
+		// Binds correct textures associated with model chunks.
+		// This is not the greatest idea.
+ 		if (c.texture != nullptr)
+		{
+			// Diffuse.
+			glActiveTexture(GL_TEXTURE0);
+			if (c.texture->GetDiffuse() != 999)
+				glBindTexture(GL_TEXTURE_2D, c.texture->GetDiffuse());
+			else
+				// Not 100% sure if this is a safety.
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+			glActiveTexture(GL_TEXTURE1);
+			if (c.texture->GetNormals() != 999)
+					glBindTexture(GL_TEXTURE_2D, c.texture->GetNormals());
+			else
+				// Not 100% sure if this is a safety.
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+			glActiveTexture(GL_TEXTURE2);
+			if (c.texture->GetSpecular() != 999)
+				glBindTexture(GL_TEXTURE_2D, c.texture->GetSpecular());
+			else
+				// Not 100% sure if this is a safety.
+				glBindTexture(GL_TEXTURE_2D, 0);
+		}
+		else
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+
+		// FIX YOUR SHADER
 
 		// bind and draw geometry
 		glBindVertexArray(c.vao);

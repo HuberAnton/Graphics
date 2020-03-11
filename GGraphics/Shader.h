@@ -15,7 +15,7 @@ public:
 	unsigned int GetShaderId() { return m_shaderProgramId; }
 	const char* GetName() { return m_name; }
 private:
-	const char* m_name = nullptr;
+	const char* m_name;
 	unsigned int m_shaderProgramId = 999;
 };
 

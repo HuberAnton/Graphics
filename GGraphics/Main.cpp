@@ -16,6 +16,7 @@
 #include "ObjManager.h"
 #include "ShaderManager.h"
 #include "TextureManager.h"
+#include "MeshManager.h"
 // Textures.  
 #include "..\stbimage\stb_image.h"
 
@@ -151,7 +152,10 @@ int main()
     //************************************************************
 
 
+    // Shader - Handled in class. Very basic
+    //************************************************************
 
+    // Now has own class. Loot at Shader::Shader
 
     // Managers - These shoud hold all the assets and are created at
     // start.
@@ -162,15 +166,47 @@ int main()
 
     ShaderManager shaderManager;
     TextureManager texureManager;
-
-    shaderManager.CreateShader();
-    texureManager.CreateTexture("..\\Dependencies\\Textures\\woodenbox.jpg");
+    MeshManager meshManager;
 
 
+    // Resorce creation.
+    //************************************************************
+    shaderManager.CreateShader("BasicShader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
+    //texureManager.CreateTexture("woodenBox", "..\\Dependencies\\Textures\\woodenbox.jpg");
+    //texureManager.CreateTexture("scribble", "..\\Dependencies\\Textures\\Scrabble.jpg");
+    texureManager.CreateTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Sword.png", true);
+    texureManager.CreateTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Shield.png", true);
+    //meshManager.CreateMesh("Dragon", "..\\Dependencies\\OBJ\\Dragon.obj");
+    //meshManager.CreateMesh("Bunny", "..\\Dependencies\\OBJ\\Bunny.obj");
 
+    // Note this mesh has 2 mesh chunks so you need to load each texture seperatly.
+    meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
+
+    // Object creation.
+    // Note that this is not 100% correctly implemented.
+    // It does not(I think) create a copy of the resource so that
+    // it can then modify it seperatly.
+     //************************************************************
     //objManager.CreateObject("Bunny1");
+    //objManager.SetMesh("Bunny1", meshManager.GetMesh("Bunny"));
+    //objManager.SetShader("Bunny1", shaderManager.GetShader("BasicShader"));
+    //objManager.SetTexture("Bunny1", texureManager.GetTexture("woodenBox"));
+
+
+    //objManager.CreateObject("Dragon1");
+    //objManager.SetMesh("Dragon1", meshManager.GetMesh("Dragon"));
+    //objManager.SetShader("Dragon1", shaderManager.GetShader("BasicShader"));
+    //objManager.SetTexture("Dragon1", texureManager.GetTexture("scribble"));
+
+    objManager.CreateObject("SwordandShield");
+    objManager.SetMesh("SwordandShield", meshManager.GetMesh("SwordandShield"));
+    objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader"));
+    objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
+    //objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
+    
+
     // Loading models
-    objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
+    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
     //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2");
 
     
@@ -191,12 +227,7 @@ int main()
     objManager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
     objManager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
 
-    // Shader - Handled in class. Very basic
-    //************************************************************
-  
-    // Has own class but no manager yet. Is currently created on a per object basis.
-    // Needs work.
-
+    
     // Debug shenanigans and unchanged variables for below loop.
     //************************************************************
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

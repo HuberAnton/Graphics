@@ -78,8 +78,8 @@ vec3 DoLights(vec3 a_norm, Light a_light, vec3 a_FragPos)
 void main()
 {
     vec4 textureColor = texture(diffuse_texture, final_texture_coodinates);
-	vec4 specularMap = texture(specular_texture, final_texture_coodinates);
-	vec4 normalMap = texture(normal_texture, final_texture_coodinates);
+	//vec4 specularMap = texture(specular_texture, final_texture_coodinates);
+	//vec4 normalMap = texture(normal_texture, final_texture_coodinates);
 	
 	
 	
@@ -103,11 +103,12 @@ void main()
 
 	
 	//vec3 result = lightResult + modelColor;
-	vec3 result = lightResult + vec3(textureColor);
+	//vec3 result = lightResult + vec3(textureColor);
 	//vec3 result = vec3(specularMap);
 	//vec3 result = vec3(normalMap);
 	
 	//vec3 result = vec3(0,1,0);
 	
-	final_color = vec4(result,1);
+	//final_color = vec4(textureColor,1);
+	final_color = textureColor;
 }
