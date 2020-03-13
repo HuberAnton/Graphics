@@ -32,8 +32,9 @@ OBJMesh* MeshManager::FindMesh(const char* a_name)
 			return msh;
 		}
 	}
-	std::cout << "Shader " << a_name << " not found." << std::endl;
-	return m_meshList[0];
+	std::cout << "Mesh " << a_name << " not found." << std::endl;
+	return nullptr;
+	//return m_meshList[0];
 }
 
 // 0 is first element in array.

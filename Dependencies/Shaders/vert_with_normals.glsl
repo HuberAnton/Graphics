@@ -21,12 +21,13 @@ void main()
 {
     final_texture_coodinates = texture_coordinates;
 	FragPos = vec3(model_matrix * local_position);
-	
-	
-	// Not sure about these
+
+	// SHOULD BE DONE CPU SIDE
 	vTangent = inverse(transpose(mat3(model_matrix))) * Tangent.xyz;
+	
 	vBiTangent = cross(vec3(Anormal), vec3(Tangent)) * Tangent.w;
 	
+	// SHOULD BE DONE CPU SIDE
 	vNormal = inverse(transpose(mat3(model_matrix))) * vec3(Anormal);
     gl_Position = (projection_view_matrix * model_matrix) * local_position;
 }

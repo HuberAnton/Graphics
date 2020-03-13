@@ -10,6 +10,10 @@
 // it doesn't have to happen if the variables don't change.
 
 
+
+// NOT USED. Useing DemoCamera instead.
+// Should probably discard.
+
 class Camera
 {
 public:

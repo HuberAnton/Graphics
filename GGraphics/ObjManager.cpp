@@ -24,9 +24,10 @@ ObjManager::~ObjManager()
 }
 
 
-void ObjManager::CreateLight(glm::vec3 a_direction, glm::vec3 a_color, float a_specularStrength)
+void ObjManager::CreateLight(glm::vec3 a_position, glm::vec3 a_ambient, glm::vec3 a_diffuse, glm::vec3 a_specular,
+	float a_shininess, float a_constant, float a_linear, float a_quadratic)
 {
-	Light* t = new Light(a_direction, a_color, a_specularStrength);
+	Light* t = new Light(a_position, a_ambient, a_diffuse, a_specular, a_shininess, a_constant, a_linear, a_quadratic);
 	m_lights.push_back(t);
 }
 
@@ -56,14 +57,18 @@ void ObjManager::CreateObject(const char *a_objName /*= object*/)
 	if (a_objName == "object")
 	{
 		Object* t = new Object("object" + m_modelList.size());
-		t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 12, 0, 0)));
-		t->SetModel(glm::rotate(t->GetModel(), 45.0f, glm::vec3(0,1,0)));
+		t->SetModel(glm::translate(t->GetModel(), glm::vec3(0, 0, m_modelList.size() + 1 * 12)));
+		//t->SetModel(glm::rotate(t->GetModel(), 90.0f, glm::vec3(0,1,0)));
+		std::cout << t->GetModel()[3].x << " " << t->GetModel()[3].y << std::endl;
 		m_modelList.push_back(t);
 	}
 	else
 	{
 		Object* t =	new Object(a_objName);
-		t->SetModel(glm::translate(t->GetModel(), glm::vec3(m_modelList.size() * 12, 0, 0)));
+		//t->SetModel(glm::translate(t->GetModel(), glm::vec3(0, 0, m_modelList.size() + 1 * 12)));
+		t->SetModel(glm::translate(t->GetModel(), glm::vec3(0, 0, -3)));
+		//t->SetModel(glm::rotate(t->GetModel(), 90.0f, glm::vec3(0, 1, 0)));
+		//std::cout << t->GetModel()[3].x << " " << t->GetModel()[3].y << std::endl;
 		m_modelList.push_back(t);
 	}
 }
@@ -100,7 +105,8 @@ Object* ObjManager::FindObject(const char* a_objectName)
 	}
 	// No object of name found. Should return [0] just so it doesn't break.
 	std::cout << "No object of name " + (std::string)a_objectName + " found." << std::endl;
-	return m_modelList[0];
+	return nullptr;
+	//return m_modelList[0];
 }
 
 
@@ -143,7 +149,7 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 				uniform_location = glGetUniformLocation(shader_program_ID, "numberOfLights");
 				glUniform1i(uniform_location, amountOfLights);
-
+				
 				// Passing for the lights.
 				for (int i = 0; i < amountOfLights; i++)
 				{
@@ -152,36 +158,73 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 					// Out stream? I feel like this is a bad way to do this.
 					// I should be able to concatonate string literals and do that
 					// instead.
+
+					m_lights[i]->m_position = glm::vec3(sin((float)glfwGetTime() * (i + 1)), 0, cos((float)glfwGetTime() * (i + 1)));
 					std::ostringstream pos;
 
-					pos << "lights[" << i << "].position";
-					std::string uniformName = pos.str();
+					pos << "lights[" << i << "].m_position";
+					std::string uniformName0 = pos.str();
 
-					//uniform_location = glGetUniformLocation(shader_program_ID, "lights[" + i% + "].positon");
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName0.c_str());
+					glUniform3fv(uniform_location, 1, glm::value_ptr(m_lights[i]->m_position));
 
+					std::ostringstream ambient;
 
-					uniform_location = glGetUniformLocation(shader_program_ID, uniformName.c_str());
-					glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_position));
-
-					std::ostringstream color;
-
-					color << "lights[" << i << "].color";
-					std::string uniformName1 = color.str();
+					ambient << "lights[" << i << "].m_ambient";
+					std::string uniformName1 = ambient.str();
 
 					uniform_location = glGetUniformLocation(shader_program_ID, uniformName1.c_str());
-					glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_color));
+					glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_ambient));
 
-					std::ostringstream spec;
+					std::ostringstream diffuse;
 
-					spec << "lights[" << i << "].specularStrength";
-					std::string uniformName2 = color.str();
+					diffuse << "lights[" << i << "].m_diffuse";
+					std::string uniformName2 = diffuse.str();
 
 					uniform_location = glGetUniformLocation(shader_program_ID, uniformName2.c_str());
-					glUniform1f(uniform_location, this->m_lights[i]->m_specularStrength);
+					glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_diffuse));
+
+					std::ostringstream specular;
+
+					specular << "lights[" << i << "].m_specular";
+					std::string uniformName3 = specular.str();
+
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName3.c_str());
+					glUniform3fv(uniform_location, 1, glm::value_ptr(this->m_lights[i]->m_specular));
+
+					std::ostringstream shininess;
+
+					shininess << "lights[" << i << "].m_shininess";
+					std::string uniformName4 = shininess.str();
+
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName4.c_str());
+					glUniform1f(uniform_location, this->m_lights[i]->m_shininess);
+
+					std::ostringstream constant;
+
+					constant << "lights[" << i << "].m_constant";
+					std::string uniformName5 = constant.str();
+
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName5.c_str());
+					glUniform1f(uniform_location, this->m_lights[i]->m_constant);
+
+					std::ostringstream linear;
+
+					linear << "lights[" << i << "].m_linear";
+					std::string uniformName6 = linear.str();
+
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName6.c_str());
+					glUniform1f(uniform_location, this->m_lights[i]->m_linear);
+
+					std::ostringstream quadratic;
+
+					quadratic << "lights[" << i << "].m_quadratic";
+					std::string uniformName7 = quadratic.str();
+
+					uniform_location = glGetUniformLocation(shader_program_ID, uniformName7.c_str());
+					glUniform1f(uniform_location, this->m_lights[i]->m_quadratic);
+
 				}
-
-
-
 
 				uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
 				glUniform3fv(uniform_location, 1, glm::value_ptr(a_cameraPos));
@@ -190,14 +233,6 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 				// Model to draw in worldspce
 				uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
 				glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(m_modelList[i]->GetModel()));
-
-
-				uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
-				glUniform1f(uniform_location, 0.4f);
-
-				glm::vec3 ambientColor = glm::vec3(0.2, 0.2, 0.2);
-				uniform_location = glGetUniformLocation(shader_program_ID, "ambientColor");
-				glUniform3fv(uniform_location, 1, glm::value_ptr(ambientColor));
 
 
 				// The texturing and other shenanigans is in here.
@@ -246,15 +281,16 @@ void ObjManager::SetTexture(const char* a_name, Texture* a_texture, unsigned int
 	if (obj != nullptr)
 	{
 		obj->SetTexture(a_texture, a_meshChunk);
-		std::cout << obj->GetName() << std::endl;
 	}
 }
 
 void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
 {
 	Object* obj = FindObject(a_name);
-	std::cout << obj->GetName() << std::endl;
-	obj->SetMesh(a_mesh);
+	if (obj != nullptr)
+	{
+		obj->SetMesh(a_mesh);
+	}
 }
 
 //void ObjManager::SetMesh(const char* a_name, const char* a_meshLocation)
@@ -267,6 +303,8 @@ void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)
 void ObjManager::SetShader(const char* a_name, Shader* a_shader)
 {
 	Object* obj = FindObject(a_name);
-	std::cout << obj->GetName() << std::endl;
-	obj->SetShader(a_shader);
+	if (obj != nullptr)
+	{
+		obj->SetShader(a_shader);
+	}
 }

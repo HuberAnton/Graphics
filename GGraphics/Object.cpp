@@ -37,13 +37,19 @@ void Object::Draw()
 
 void Object::SetMesh(OBJMesh* a_mesh)
 {
-	m_mesh = a_mesh;
+	if (a_mesh != nullptr)
+	{
+		m_mesh = a_mesh;
+	}
 }
 
 void Object::SetTexture(Texture* a_texture, unsigned int a_meshChunk)
 {
-	this->m_mesh->SetTexure(a_texture, a_meshChunk);
-	m_texture = a_texture;
+	if (this->m_mesh != nullptr)
+	{
+		this->m_mesh->SetTexure(a_texture, a_meshChunk);
+		//m_texture = a_texture;
+	}
 }
 
 void Object::SetShader(Shader* a_shader) 

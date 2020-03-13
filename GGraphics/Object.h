@@ -41,19 +41,13 @@ public:
 private:
 	const char* m_name;
 	
-	// This should be a pointer and might need a different name since it's
-	// a bit... lacking.
-	
+
 
 	glm::mat4 m_modelMatrix;
 
 
-
-
-	// Note that these 3 should copya loaded asset instead of containing the same thing.
+	// Note that these 3 should copy assets.
 	Shader* m_shaderProgram = nullptr;
-
-
 	Texture* m_texture = nullptr;
 	OBJMesh* m_mesh = nullptr;
 };

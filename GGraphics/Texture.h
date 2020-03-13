@@ -5,16 +5,6 @@
 // Sould handle all of the loading of textures and the identifier.
 // Should be stored in a manager later down the line.
 
-enum class TEXTURE_TYPE
-{
-	DIFFUSE,
-	SPECULAR,
-	NORMAL
-};
-
-
-
-
 
 class Texture
 {

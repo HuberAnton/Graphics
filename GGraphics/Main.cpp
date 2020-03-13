@@ -24,19 +24,17 @@
 
 
 // Things to do.
-// Break up object creation into seperate loads.:
-// Create a shader manager and place it in app.:
-// Conatin all your texture binding to 1 place.
-// Need a draw for textures that exist.:
+// Break up object creation into seperate loads.:Y
+// Create a shader manager and place it in app.:M
+// Conatin all your texture binding to 1 place.:Y
+// Need a draw for textures that exist.:Y
 // Rewrite your shaders. Or just rename variables
-// so that they are the standard type of names.:
+// so that they are the standard type of names.:N
 // Revist lights a little and make sure they
-// contain all the neccisary parts(minus attenuation):
-// Make a primitives class.
-// Add a mesh manager/asset manger.
-// Oh wait no... I just need an asset manager
-// with templated lists of things.
-// 2 dimensional array should work.
+// contain all the neccisary parts.:Y
+// Make a primitives class.:N
+// Add a mesh manager/asset manger.:Y
+// Fix your damn uniforms. They are a TOTAL MESS.:N
 
 
 
@@ -151,11 +149,12 @@ int main()
     // Mesh Loading - obj loading
     //************************************************************
 
+     // Now has own class. Loot at OBJMesh::load()
 
     // Shader - Handled in class. Very basic
     //************************************************************
 
-    // Now has own class. Loot at Shader::Shader
+    // Now has own class. Loot at Shader::Shader()
 
     // Managers - These shoud hold all the assets and are created at
     // start.
@@ -177,31 +176,38 @@ int main()
     //************************************************************
 
     shaderManager.CreateShader("BasicShader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
-    //texureManager.CreateTexture("woodenBox", "..\\Dependencies\\Textures\\woodenbox.jpg");
-    //texureManager.CreateTexture("scribble", "..\\Dependencies\\Textures\\Scrabble.jpg");
+
 
     // Sword and shield textures.
     //************************************************************
 
-    texureManager.SetTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Sword.png", true);
-    texureManager.SetTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVNormalMap_Sword.png", true, MAP_TYPE::NORMAL);
-    texureManager.SetTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Shield.png", true);
-    texureManager.SetTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVNormalMap_Shield.png", true, MAP_TYPE::NORMAL);
+    texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Sword.png", true);
+    texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Sword.png", true, MAP_TYPE::NORMAL);
+
+    texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Shield.png", true);
+    texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Shield.png", true, MAP_TYPE::NORMAL);
+
 
     // Soul spear textures.
     //************************************************************
 
-    //texureManager.SetTexture("SoulSpear", "..\\Dependencies\\OBJ\\soulspear\\soulspear_diffuse.tga", false);
+    // texureManager.SetTexture("SoulSpear", "..\\Dependencies\\OBJ\\soulspear\\soulspear_diffuse.tga", false);
+    // Did not add other maps in this case.
+
+
 
     // Mesh Creation
     //************************************************************
 
+    // Demos - Not unwraped
     //meshManager.CreateMesh("Dragon", "..\\Dependencies\\OBJ\\Dragon.obj");
     //meshManager.CreateMesh("Bunny", "..\\Dependencies\\OBJ\\Bunny.obj");
 
-   // meshManager.CreateMesh("Spear", "..\\Dependencies\\OBJ\\soulspear\\soulspear.obj");
+    // The great spear of power.
+    // meshManager.CreateMesh("Spear", "..\\Dependencies\\OBJ\\soulspear\\soulspear.obj");
 
-    // Note this mesh has 2 mesh chunks so you need to load each texture seperatly.
+
+    // Note this mesh has 2 mesh chunks so you need to assaign each texture seperatly.
     meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
 
     // Object creation and asset assaginemnt.
@@ -225,36 +231,28 @@ int main()
     objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader"));
     objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
     objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
-    
-   /* objManager.CreateObject("spear");
-    objManager.SetMesh("spear", meshManager.GetMesh("Spear"));
-    objManager.SetShader("spear", shaderManager.GetShader("BasicShader"));
-    objManager.SetTexture("spear", texureManager.GetTexture("SoulSpear"), 0);*/
+
+    //objManager.CreateObject("spear");
+    //objManager.SetMesh("spear", meshManager.GetMesh("Spear"));
+    //objManager.SetShader("spear", shaderManager.GetShader("BasicShader"));
+    //objManager.SetTexture("spear", texureManager.GetTexture("SoulSpear"), 0);*/
    
-
-
-
-    // Loading models
-    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
-    //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny2");
-
-    
+    // May be out of date.
     //objManager.SetShader("Bunny1", shaderManager.GetShader(0));
-    
     //objManager.SetMesh("Bunny1", "..\\Dependencies\\OBJ\\Bunny.obj");
-
     //objManager.SetTexture("Bunny1", texureManager.GetTexture(0));
- 
 
-    // Setting textures
-    //objManager.SetTexture("Bunny1", "..\\Dependencies\\Textures\\Scrabble.jpg", TEXTURE_TYPE::DIFFUSE);
-    //objManager.SetTexture("Bunny2", "..\\Dependencies\\Textures\\woodenbox.jpg");
+
 
 
     // Creating Lights
-    objManager.CreateLight(glm::vec3(-10, 0, 0), glm::vec3(0.3, 0, 0), 0.4f);
-    objManager.CreateLight(glm::vec3(10, 0, 0), glm::vec3(0, 0, 0.3), 0.2f);
-    //objManager.CreateLight(glm::vec3(1, 1, 1), glm::vec3(1, 1, 1), 0.5f);
+    // Note that these should really be treated as an Object that emits light.
+    // OR 
+    // As something you add to an obj to make it emit light.
+    // Like an attach light function instead.
+    objManager.CreateLight(glm::vec3(10, 0, 10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.8, 0.2, 0.0), glm::vec3(1, 0, 0), 512, 1, 0.014, 0.0007);
+    objManager.CreateLight(glm::vec3(-10, 0, -10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.0, 0.5, 0.5), glm::vec3(0, 0, 1), 1024, 1, 0.014, 0.0007);
+
 
     
     // Debug shenanigans and unchanged variables for below loop.
@@ -264,8 +262,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
+    glm::vec3 direction(objManager.FindObject("SwordandShield")->GetModel()[3].x, objManager.FindObject("SwordandShield")->GetModel()[3].y, objManager.FindObject("SwordandShield")->GetModel()[3].z);
+    app.GetCamera().SetLookAt(glm::vec3(0, 0, 0.0f), -direction, glm::vec3(0, 1, 0));
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     
@@ -275,22 +273,6 @@ int main()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
-
-        // Passed to the shader to adjust the color on the fly.
-        //glm::vec4 color = glm::vec4(sinf((float)glfwGetTime() * 0.2f),sinf((float)glfwGetTime()* 0.5f),cosf((float)glfwGetTime() * 0.1f),1);
-        //glUseProgram(shader_program_ID);
-        // All the data being passed to the shaders goes here. 
-        // This is for the mesh square.
-        //auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
-        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(pv));
-        //uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
-        //glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(model));
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, textureDemo);
-        // Part of the demo mesh.
-        //glBindVertexArray(VAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); 
 
         //********************************
         // Object manager
@@ -309,13 +291,6 @@ int main()
         
         glfwPollEvents();
     }
-
-
-    // Part of the demo mesh.
-    //glDeleteBuffers(1, &VAO);
-    //glDeleteBuffers(1, &VBO);
-
-
     glfwTerminate();
 	return 0;
 }

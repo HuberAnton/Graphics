@@ -10,6 +10,8 @@ It is assumed that you would bind the shaders.
 
 */
 
+// NOT USED. Use OBJmesh instead.
+
 class Mesh
 {
 public:

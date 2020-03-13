@@ -26,7 +26,6 @@ void TextureManager::SetTexture(const char* a_name, const char * a_location, boo
 		t = new Texture(a_name);
 		m_textureList.push_back(t);
 	}
-
 	switch (a_type)
 	{
 	case MAP_TYPE::DIFFUSE:

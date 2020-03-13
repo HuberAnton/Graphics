@@ -94,7 +94,7 @@ Shader::Shader(const char* a_name, const char* a_vectorLocation, const char* a_f
         glGetProgramInfoLog(m_shaderProgramId, log_length, 0, log);
 
         std::string error_message(log);
-        error_message += "Shader_failed_to_compile";
+        error_message += "Shader_failed_to_compile\n";
         printf(error_message.c_str());
 
         delete[] log;

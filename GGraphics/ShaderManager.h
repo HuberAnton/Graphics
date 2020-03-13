@@ -12,7 +12,6 @@ class ShaderManager
 public:
 	ShaderManager();
 	~ShaderManager();
-	//void CreateShader(const char* a_name);
 	void CreateShader();
 	void CreateShader(const char* a_name, const char* a_vertLocation, const char* a_fragLocation);
 	Shader* GetShader(const char* a_name);
