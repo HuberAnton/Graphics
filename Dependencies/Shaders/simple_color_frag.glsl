@@ -1,8 +1,9 @@
 #version 450
 
 uniform sampler2D diffuse_texture;
-uniform sampler2D specular_texture;
 uniform sampler2D normal_texture;
+uniform sampler2D specular_texture;
+
 
 uniform float ambientStrength;
 uniform vec3 ambientColor;
@@ -22,7 +23,7 @@ uniform vec3 lightPosition2;
 
 
 in vec3 FragPos;
-in vec3 normal;
+in vec3 vNormal;
 in vec2 final_texture_coodinates;
 in vec3 vTangent;
 in vec3 vBiTangent;
@@ -45,21 +46,21 @@ uniform struct Light{
 // Note that this is a declaration of a variable.
 
 
-vec3 DoLights(vec3 a_norm, Light a_light, vec3 a_FragPos)
+vec3 DoLights(vec3 a_norm, Light a_light, vec3 a_FragPos, vec3 a_cameraPostion)
 {
-	vec3 lightDir = normalize(a_light.position - FragPos);
+	vec3 lightDir = normalize(a_light.position - a_FragPos);
 	
 	// Diffuse
 		
-	float diff = max(dot(a_norm, lightDir) ,0.0);
+	float diffscale = max(dot(a_norm, lightDir) ,0.0);
 
-	vec3 diffuse = diff * a_light.color;
+	vec3 diffuse = diffscale * a_light.color;
 	
 	// Diffuse end
 	
 	// Specular
 	
-	vec3 viewDir = normalize(cameraPostion - FragPos);
+	vec3 viewDir = normalize(a_cameraPostion - a_FragPos);
 	
 	// note that these are created above.
 	vec3 reflrectDir = reflect(-lightDir, a_norm);
@@ -67,10 +68,11 @@ vec3 DoLights(vec3 a_norm, Light a_light, vec3 a_FragPos)
 	float spec = pow(max(dot(viewDir, reflrectDir), 0.0), 32);
 	
 	
-	vec3 specular = a_light.specularStrength * spec * a_light.color;
-	
-	
-	return specular + diffuse;
+	//vec3 specular = a_light.specularStrength * spec * a_light.color;
+	vec3 specular = a_light.specularStrength * spec * vec3(1,1,1);
+	//return diff; float 
+	return diffuse + specular;
+	//return specular;
 	
 }
 
@@ -79,36 +81,43 @@ void main()
 {
     vec4 textureColor = texture(diffuse_texture, final_texture_coodinates);
 	//vec4 specularMap = texture(specular_texture, final_texture_coodinates);
-	//vec4 normalMap = texture(normal_texture, final_texture_coodinates);
+	vec4 normalMap = texture(normal_texture, final_texture_coodinates);
 	
 	
+	vec3 debugVal;
 	
 	
 	// Ambient. Should each light add to this?
 	vec3 ambient = ambientStrength * ambientColor;
 	
-	vec3 norm = normalize(normal);
-
+	vec3 N = normalize(vNormal);
+	vec3 T = normalize(vTangent);
+	vec3 B = normalize(vBiTangent);	
 	
+	mat3 TBN = mat3(T,B,N);
+	
+	
+	N = TBN * (vec3(normalMap) * 2 - 1);
 	
 	vec3 lightResult = vec3(0);
 	
-	lightResult += ambient;
+	debugVal = normalMap.xyz;
 	
+	lightResult += ambient;
+	float greyscale;
 	// Diffuse calls function above.
 	for(int i = 0; i < numberOfLights; i++)
 	{
-		lightResult += DoLights(norm, lights[i], FragPos);
+		lightResult += DoLights(N, lights[i], FragPos, cameraPostion);
 	}
+		
 
-	
-	//vec3 result = lightResult + modelColor;
-	//vec3 result = lightResult + vec3(textureColor);
-	//vec3 result = vec3(specularMap);
-	//vec3 result = vec3(normalMap);
-	
+	vec3 result = lightResult * vec3(textureColor);
+	//vec3 result = lightResult * vec3(0,1,0);
 	//vec3 result = vec3(0,1,0);
 	
 	//final_color = vec4(textureColor,1);
 	final_color = textureColor;
+	//final_color = vec4(greyscale,greyscale,greyscale, 1);
+	//final_color = vec4(debugVal.x, 0, debugVal.y, 1);
 }

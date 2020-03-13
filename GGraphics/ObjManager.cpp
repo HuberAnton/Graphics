@@ -193,9 +193,9 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 
 
 				uniform_location = glGetUniformLocation(shader_program_ID, "ambientStrength");
-				glUniform1f(uniform_location, 0.2f);
+				glUniform1f(uniform_location, 0.4f);
 
-				glm::vec3 ambientColor = glm::vec3(1, 1, 1);
+				glm::vec3 ambientColor = glm::vec3(0.2, 0.2, 0.2);
 				uniform_location = glGetUniformLocation(shader_program_ID, "ambientColor");
 				glUniform3fv(uniform_location, 1, glm::value_ptr(ambientColor));
 
@@ -243,8 +243,11 @@ void ObjManager::SetTexture(const char* a_name, Texture* a_texture, unsigned int
 {
 	Object* obj = FindObject(a_name);
 	// Get mesh chunk.
-	obj->SetTexture(a_texture, a_meshChunk);
-	std::cout << obj->GetName() << std::endl;
+	if (obj != nullptr)
+	{
+		obj->SetTexture(a_texture, a_meshChunk);
+		std::cout << obj->GetName() << std::endl;
+	}
 }
 
 void ObjManager::SetMesh(const char* a_name, OBJMesh* a_mesh)

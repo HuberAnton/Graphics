@@ -26,16 +26,16 @@ public:
 
 	const char* GetName() { return m_name; }
 
-
 	unsigned int GetDiffuse()	{ return m_diffuse; }
-	bool SetDiffuse(const char* a_location, bool a_flip);
+	bool SetDiffuse(const char* a_location, bool a_flip = false);
 	unsigned int GetSpecular()	{ return m_specular; }
-	bool SetSpecular(const char* a_location, bool a_flip);
+	bool SetSpecular(const char* a_location, bool a_flip = false);
 	unsigned int GetNormals()	{ return m_normals; }
-	bool SetNormal(const char* a_location, bool a_flip);
+	bool SetNormal(const char* a_location, bool a_flip = false);
 private:
 
 	const char* m_name;
+
 
 	// Need to add support.
 	unsigned int m_diffuse;		// Slot 0

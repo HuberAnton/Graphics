@@ -168,23 +168,45 @@ int main()
     TextureManager texureManager;
     MeshManager meshManager;
 
-
-    // Resorce creation.
+    
+    // Resorce Creation.
     //************************************************************
+    //************************************************************
+
+    // Shaders
+    //************************************************************
+
     shaderManager.CreateShader("BasicShader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
     //texureManager.CreateTexture("woodenBox", "..\\Dependencies\\Textures\\woodenbox.jpg");
     //texureManager.CreateTexture("scribble", "..\\Dependencies\\Textures\\Scrabble.jpg");
-    texureManager.CreateTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Sword.png", true);
-    texureManager.CreateTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Shield.png", true);
+
+    // Sword and shield textures.
+    //************************************************************
+
+    texureManager.SetTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Sword.png", true);
+    texureManager.SetTexture("Sword", "..\\Dependencies\\OBJ\\SwordandShield\\UVNormalMap_Sword.png", true, MAP_TYPE::NORMAL);
+    texureManager.SetTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVAlbedoMap_Shield.png", true);
+    texureManager.SetTexture("Shield", "..\\Dependencies\\OBJ\\SwordandShield\\UVNormalMap_Shield.png", true, MAP_TYPE::NORMAL);
+
+    // Soul spear textures.
+    //************************************************************
+
+    //texureManager.SetTexture("SoulSpear", "..\\Dependencies\\OBJ\\soulspear\\soulspear_diffuse.tga", false);
+
+    // Mesh Creation
+    //************************************************************
+
     //meshManager.CreateMesh("Dragon", "..\\Dependencies\\OBJ\\Dragon.obj");
     //meshManager.CreateMesh("Bunny", "..\\Dependencies\\OBJ\\Bunny.obj");
+
+   // meshManager.CreateMesh("Spear", "..\\Dependencies\\OBJ\\soulspear\\soulspear.obj");
 
     // Note this mesh has 2 mesh chunks so you need to load each texture seperatly.
     meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
 
-    // Object creation.
+    // Object creation and asset assaginemnt.
     // Note that this is not 100% correctly implemented.
-    // It does not(I think) create a copy of the resource so that
+    // It does not create a copy of the resource so that
     // it can then modify it seperatly.
      //************************************************************
     //objManager.CreateObject("Bunny1");
@@ -202,8 +224,15 @@ int main()
     objManager.SetMesh("SwordandShield", meshManager.GetMesh("SwordandShield"));
     objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader"));
     objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
-    //objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
+    objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
     
+   /* objManager.CreateObject("spear");
+    objManager.SetMesh("spear", meshManager.GetMesh("Spear"));
+    objManager.SetShader("spear", shaderManager.GetShader("BasicShader"));
+    objManager.SetTexture("spear", texureManager.GetTexture("SoulSpear"), 0);*/
+   
+
+
 
     // Loading models
     //objManager.Load("..\\Dependencies\\OBJ\\Bunny.obj", "Bunny1");
@@ -223,9 +252,9 @@ int main()
 
 
     // Creating Lights
-    objManager.CreateLight(glm::vec3(-10, 12, 0), glm::vec3(0, 0, 1), 0.5f);
-    objManager.CreateLight(glm::vec3(10, 12, 0), glm::vec3(1, 0, 0), 0.5f);
-    objManager.CreateLight(glm::vec3(20, 12, 0), glm::vec3(0, 1, 0), 0.5f);
+    objManager.CreateLight(glm::vec3(-10, 0, 0), glm::vec3(0.3, 0, 0), 0.4f);
+    objManager.CreateLight(glm::vec3(10, 0, 0), glm::vec3(0, 0, 0.3), 0.2f);
+    //objManager.CreateLight(glm::vec3(1, 1, 1), glm::vec3(1, 1, 1), 0.5f);
 
     
     // Debug shenanigans and unchanged variables for below loop.

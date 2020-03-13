@@ -1,7 +1,7 @@
 #version 450
 
 layout(location = 0) in vec4 local_position;
-layout(location = 1) in vec3 Anormal;
+layout(location = 1) in vec4 Anormal;
 layout(location = 2) in vec2 texture_coordinates;
 layout(location = 3) in vec4 Tangent;
 
@@ -11,7 +11,7 @@ uniform mat4 model_matrix;
 uniform mat3 NormalMatrix;
 
 out vec3 FragPos;
-out vec3 normal;
+out vec3 vNormal;
 out vec2 final_texture_coodinates;
 out vec3 vTangent;
 out vec3 vBiTangent;
@@ -24,13 +24,10 @@ void main()
 	
 	
 	// Not sure about these
-	vTangent = NormalMatrix * Tangent.xyz;
-	//vBiTangent = 
+	vTangent = inverse(transpose(mat3(model_matrix))) * Tangent.xyz;
+	vBiTangent = cross(vec3(Anormal), vec3(Tangent)) * Tangent.w;
 	
-
-	// Does not give the expected result...
-	normal =  NormalMatrix * -Anormal;
-	//normal = Anormal;
+	vNormal = inverse(transpose(mat3(model_matrix))) * vec3(Anormal);
     gl_Position = (projection_view_matrix * model_matrix) * local_position;
 }
 

@@ -17,14 +17,39 @@ TextureManager::~TextureManager()
 // This is just going to be hardcoded.
 // Ideally I would want this to read a file and load
 // in the correct maps it finds.
-void TextureManager::CreateTexture(const char* a_name, const char * a_location, bool a_flip)
+void TextureManager::SetTexture(const char* a_name, const char * a_location, bool a_flip, MAP_TYPE a_type /*= MAP_TYPE::DIFFUSE*/)
 {
-	Texture* t = new Texture(a_name);
-	t->SetDiffuse(a_location, a_flip);
-	//t->SetNormal();
-	//t->SetSpecular();
-	m_textureList.push_back(t);
+	Texture* t = FindTexture(a_name);
+	if (t == nullptr)
+	{
+		std::cout << "Creating new texture" << std::endl;
+		t = new Texture(a_name);
+		m_textureList.push_back(t);
+	}
+
+	switch (a_type)
+	{
+	case MAP_TYPE::DIFFUSE:
+		t->SetDiffuse(a_location, a_flip);
+		break;
+	case MAP_TYPE::NORMAL:
+		 t->SetNormal(a_location, a_flip);
+		break;
+	case MAP_TYPE::SPECULAR:
+		t->SetSpecular(a_location, a_flip);
+		break;
+	default:
+		break;
+	}
 }
+
+
+
+
+
+
+
+
 
 Texture* TextureManager::GetTexture(const char* a_name)
 {
@@ -51,5 +76,5 @@ Texture* TextureManager::FindTexture(const char* a_name)
 		}
 	}
 	std::cout << "Texture " << a_name << " not found." << std::endl;
-	return m_textureList[0];
+	return nullptr;
 }

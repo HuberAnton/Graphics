@@ -6,13 +6,24 @@
 // This needs a system where it can take multiple
 // maps and know 
 
+enum class MAP_TYPE
+{
+	DIFFUSE,
+	NORMAL,
+	SPECULAR
+};
+
+
+
+
+
 class TextureManager
 {
 public:
 	TextureManager();
 	~TextureManager();
 
-	void CreateTexture(const char * a_name, const char* a_location, bool a_flip);
+	void SetTexture(const char * a_name, const char* a_location, bool a_flip, MAP_TYPE a_type = MAP_TYPE::DIFFUSE);
 
 	Texture* GetTexture(const char* a_name);
 	Texture* GetTexture(int a_index);

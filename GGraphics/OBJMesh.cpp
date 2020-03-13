@@ -1,7 +1,6 @@
 #include "OBJMesh.h"
 #include "gl_core_4_5.h"
 #include <glm.hpp>
-
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
@@ -164,39 +163,39 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 		return;
 	}
 
-	// pull uniforms from the shader
-	int kaUniform = glGetUniformLocation(program, "Ka");
-	int kdUniform = glGetUniformLocation(program, "Kd");
-	int ksUniform = glGetUniformLocation(program, "Ks");
-	int keUniform = glGetUniformLocation(program, "Ke");
-	int opacityUniform = glGetUniformLocation(program, "opacity");
-	int specPowUniform = glGetUniformLocation(program, "specularPower");
+	//// pull uniforms from the shader
+	//int kaUniform = glGetUniformLocation(program, "Ka");
+	//int kdUniform = glGetUniformLocation(program, "Kd");
+	//int ksUniform = glGetUniformLocation(program, "Ks");
+	//int keUniform = glGetUniformLocation(program, "Ke");
+	//int opacityUniform = glGetUniformLocation(program, "opacity");
+	//int specPowUniform = glGetUniformLocation(program, "specularPower");
 
-	int alphaTexUniform = glGetUniformLocation(program, "alphaTexture");
-	int ambientTexUniform = glGetUniformLocation(program, "ambientTexture");
-	int diffuseTexUniform = glGetUniformLocation(program, "diffuseTexture");
-	int specTexUniform = glGetUniformLocation(program, "specularTexture");
-	int specHighlightTexUniform = glGetUniformLocation(program, "specularHighlightTexture");
-	int normalTexUniform = glGetUniformLocation(program, "normalTexture");
-	int dispTexUniform = glGetUniformLocation(program, "displacementTexture");
+	//int alphaTexUniform = glGetUniformLocation(program, "alphaTexture");
+	//int ambientTexUniform = glGetUniformLocation(program, "ambientTexture");
+	//int diffuseTexUniform = glGetUniformLocation(program, "diffuseTexture");
+	//int specTexUniform = glGetUniformLocation(program, "specularTexture");
+	//int specHighlightTexUniform = glGetUniformLocation(program, "specularHighlightTexture");
+	//int normalTexUniform = glGetUniformLocation(program, "normalTexture");
+	//int dispTexUniform = glGetUniformLocation(program, "displacementTexture");
 
-	
+	//
 
-	// set texture slots (these don't change per material)
-	if (diffuseTexUniform >= 0)
-		glUniform1i(diffuseTexUniform, 0);
-	if (alphaTexUniform >= 0)
-		glUniform1i(alphaTexUniform, 1);
-	if (ambientTexUniform >= 0)
-		glUniform1i(ambientTexUniform, 2);
-	if (specTexUniform >= 0)
-		glUniform1i(specTexUniform, 3);
-	if (specHighlightTexUniform >= 0)
-		glUniform1i(specHighlightTexUniform, 4);
-	if (normalTexUniform >= 0)
-		glUniform1i(normalTexUniform, 5);
-	if (dispTexUniform >= 0)
-		glUniform1i(dispTexUniform, 6);
+	//// set texture slots (these don't change per material)
+	//if (diffuseTexUniform >= 0)
+	//	glUniform1i(diffuseTexUniform, 0);
+	//if (alphaTexUniform >= 0)
+	//	glUniform1i(alphaTexUniform, 1);
+	//if (ambientTexUniform >= 0)
+	//	glUniform1i(ambientTexUniform, 2);
+	//if (specTexUniform >= 0)
+	//	glUniform1i(specTexUniform, 3);
+	//if (specHighlightTexUniform >= 0)
+	//	glUniform1i(specHighlightTexUniform, 4);
+	//if (normalTexUniform >= 0)
+	//	glUniform1i(normalTexUniform, 5);
+	//if (dispTexUniform >= 0)
+	//	glUniform1i(dispTexUniform, 6);
 
 	int currentMaterial = -1;
 
@@ -264,9 +263,13 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 
 		// Binds correct textures associated with model chunks.
 		// This is not the greatest idea.
+
  		if (c.texture != nullptr)
 		{
 			// Diffuse.
+			int DiffusetexLocation = glGetUniformLocation(program, "diffuse_texture");
+			if (DiffusetexLocation >= 0)
+				glUniform1i(DiffusetexLocation, 0);
 			glActiveTexture(GL_TEXTURE0);
 			if (c.texture->GetDiffuse() != 999)
 				glBindTexture(GL_TEXTURE_2D, c.texture->GetDiffuse());
@@ -274,6 +277,9 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 				// Not 100% sure if this is a safety.
 				glBindTexture(GL_TEXTURE_2D, 0);
 
+			int NormalLocation = glGetUniformLocation(program, "normal_texture");
+			if (NormalLocation >= 0)
+				glUniform1i(NormalLocation, 1);
 			glActiveTexture(GL_TEXTURE1);
 			if (c.texture->GetNormals() != 999)
 					glBindTexture(GL_TEXTURE_2D, c.texture->GetNormals());
@@ -281,6 +287,9 @@ void OBJMesh::draw(bool usePatches /* = false */) {
 				// Not 100% sure if this is a safety.
 				glBindTexture(GL_TEXTURE_2D, 0);
 
+			int SpecularLocation = glGetUniformLocation(program, "specular_texture");
+			if (SpecularLocation >= 0)
+				glUniform1i(SpecularLocation, 2);
 			glActiveTexture(GL_TEXTURE2);
 			if (c.texture->GetSpecular() != 999)
 				glBindTexture(GL_TEXTURE_2D, c.texture->GetSpecular());

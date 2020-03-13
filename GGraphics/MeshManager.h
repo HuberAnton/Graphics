@@ -10,7 +10,7 @@ public:
 	MeshManager();
 	~MeshManager();
 
-	void CreateMesh(const char* a_location, const char* a_name);
+	void CreateMesh(const char* a_name, const char* a_location);
 
 	OBJMesh* GetMesh(int a_index);
 	OBJMesh* GetMesh(const char* a_name);
