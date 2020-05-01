@@ -17,6 +17,7 @@
 #include "ShaderManager.h"
 #include "TextureManager.h"
 #include "MeshManager.h"
+#include "PhysicsScene.h"
 // Textures.  
 #include "..\stbimage\stb_image.h"
 
@@ -50,133 +51,65 @@
 // 6. Model textures and lighting.
 // And the ability to swap between them at runtime.
 
+
+// Adding the physics element to this.
+// In order to get it to work I'll need to:
+// Create a 2D scene by allowing creation of an orthographical camera.(glm has a function for that).:Y
+// Create, store, draw objects that are 2D. Might be a different class?
+// Is this an inheritance thing with a base class object into 2D and 3D variants?
+// Physics scenes need to be created and updated with multiple scenes should you want/need.
+// (Physiscs scene as in every actor in that physics scene interacts with each other only)
+// Rigid bodies and the ability to attach them to game objects.
+// A base class of 'Physiscs object' with a Line, aabb and circle classes derived from that.
+// (These are basicly what the physics object is. The rest of the object can be thought more 
+// as an image that is attached to the rest of it.
+// Best to have creation of basic shapes such as the line, circle and square so you can
+// create a physiscs object with the same dimensions.
+// These physics objects need to be able to detect collision has occured and then 
+// correctly resolve it. They each need a rule to correcly check against each other. 
+// 4 combinations off the top of my head.
+
+
+
+// This honestly might need a large amount of work to get it to funciton...
+// I feel the draw is fine but should happen after the physics of course.
+// As long as the objects are added to the draw list it should function without issue. 
+// MIGHT BE ISSUES WITH CAMERA LOCATION SO LEAVE MOVEMENT IN FOR THE TIME BEING.
+
+
+
+
+
+
+
 int main()
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //********************
     // Has window init deltaTime and camera.
     //********************
+    // CAMERA IS CREATED IN APP CONSTRUCTOR WITH HARDCODED VAL
     Application app;
 
-    // Mesh demo
-    //************************************************************
-
-    // It's honestly better to create a data type that then stores this data
-    // rather than having a bunch of floats.
-    // 3 Pos 2 Uv
-    //float vertices[] = {
-    //    // Front 
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-    //       0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-    //      // Back
-    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    //       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    //       0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    //      -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    //      // Left
-    //      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //      -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    //      -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //      // Right
-    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    //       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //       0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //       0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //       // Bottom
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //       0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    //       0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    //      -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    //      -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    //      // Top
-    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    //       0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //       0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    //      -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    //      -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    //};
-    //// This is used when using a IBO.
-    //// It draws the order of objects. I feel there should be a pattern that is easily dealt with
-    ////int index_buffer[]{ 0,1,3,1,2,3 };
-    //// Unsigned int designator for the array of data.
-    //unsigned int VAO;
-    //// The Vao is assaigned a number here by the function call.
-    //glGenVertexArrays(1, &VAO);
-    //// Unsigned int designator for the buffer.
-    //unsigned int VBO;
-    //// Buffer is now assaigned a number here by the function call.
-    //glGenBuffers(1, &VBO);
-    ////unsigned int IBO;
-    ////glGenBuffers(1, &IBO);
-    //// We are now bound(selected the state) to the vao and can make changes.
-    //glBindVertexArray(VAO);
-    //// Bind the VBO to the current array buffer.
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //// The current array buffer data is now defined. 
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-    //// IBO shenanigans
-    ////glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    ////// Define what d
-    ////glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), index_buffer, GL_STATIC_DRAW);
-    //// Defining what is happening
-    //glEnableVertexAttribArray(0);
-    //// The vertex attributes are these.
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
-    //glEnableVertexAttribArray(1);
-    //// Uv data.
-    //glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(sizeof(float) * 3));
-    //glBindVertexArray(0);
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Textures
-    //************************************************************
-
-    // Now has own class. Look at Texture::Texture(const char* a_textureLocation) for info.
-
-    // Mesh Loading - obj loading
-    //************************************************************
-
-     // Now has own class. Loot at OBJMesh::load()
-
-    // Shader - Handled in class. Very basic
-    //************************************************************
-
-    // Now has own class. Loot at Shader::Shader()
-
-    // Managers - These shoud hold all the assets and are created at
-    // start.
-     //************************************************************
-
    
-    ObjManager objManager(&app.GetCamera().GetProjectionViewMatrix());
+    ObjManager objManager(app.GetCamera().GetProjectionViewMatrix());
 
     ShaderManager shaderManager;
     TextureManager texureManager;
     MeshManager meshManager;
 
-    
+    PhysicsScene physicsScene;
+
     // Resorce Creation.
     //************************************************************
     //************************************************************
 
     // Shaders
     //************************************************************
-
+    // Bad name. Normals and texures
     shaderManager.CreateShader("BasicShader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\simple_color_frag.glsl");
-
+    // Bad name again. Uses frag pos for color.
+    shaderManager.CreateShader("2DShader", "..\\Dependencies\\Shaders\\vert_with_normals.glsl", "..\\Dependencies\\Shaders\\2D_Frag.glsl");
 
     // Sword and shield textures.
     //************************************************************
@@ -196,17 +129,6 @@ int main()
 
 
 
-    // Mesh Creation
-    //************************************************************
-
-    // Demos - Not unwraped
-    //meshManager.CreateMesh("Dragon", "..\\Dependencies\\OBJ\\Dragon.obj");
-    //meshManager.CreateMesh("Bunny", "..\\Dependencies\\OBJ\\Bunny.obj");
-
-    // The great spear of power.
-    // meshManager.CreateMesh("Spear", "..\\Dependencies\\OBJ\\soulspear\\soulspear.obj");
-
-
     // Note this mesh has 2 mesh chunks so you need to assaign each texture seperatly.
     meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
 
@@ -215,6 +137,7 @@ int main()
     // It does not create a copy of the resource so that
     // it can then modify it seperatly.
      //************************************************************
+
     //objManager.CreateObject("Bunny1");
     //objManager.SetMesh("Bunny1", meshManager.GetMesh("Bunny"));
     //objManager.SetShader("Bunny1", shaderManager.GetShader("BasicShader"));
@@ -228,10 +151,10 @@ int main()
 
     objManager.CreateObject("SwordandShield");
     objManager.SetMesh("SwordandShield", meshManager.GetMesh("SwordandShield"));
-    objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader"));
+    objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader")); 
     objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
     objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
-
+    
     //objManager.CreateObject("spear");
     //objManager.SetMesh("spear", meshManager.GetMesh("Spear"));
     //objManager.SetShader("spear", shaderManager.GetShader("BasicShader"));
@@ -250,22 +173,119 @@ int main()
     // OR 
     // As something you add to an obj to make it emit light.
     // Like an attach light function instead.
-    objManager.CreateLight(glm::vec3(10, 0, 10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.8, 0.2, 0.0), glm::vec3(1, 0, 0), 512, 1, 0.014, 0.0007);
-    objManager.CreateLight(glm::vec3(-10, 0, -10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.0, 0.5, 0.5), glm::vec3(0, 0, 1), 1024, 1, 0.014, 0.0007);
+    objManager.CreateLight(glm::vec3(10, 0, 10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.8, 0.2, 0.0), glm::vec3(1, 0, 0), 512, 1, (float)0.014, (float)0.007);
+    objManager.CreateLight(glm::vec3(-10, 0, -10), glm::vec3(0.3, 0.3, 0.3), glm::vec3(0.0, 0.5, 0.5), glm::vec3(0, 0, 1), 1024, 1, (float)0.014, (float)0.007);
 
+
+    //************************************************************
+    // PHYSICS OBJECT CREATION
+    //************************************************************
 
     
+    objManager.CreateObject("Square1");
+    meshManager.CreateMesh("Square1", PRIMITIVE::SQUARE, 1);
+    objManager.SetMesh("Square1", meshManager.GetMesh("Square1"));
+    objManager.SetShader("Square1", shaderManager.GetShader("2DShader")); 
+    objManager.FindObject("Square1")->SetPosition(glm::vec3(0, 0.0, 0));
+    AabbCollider2D* square1 = new AabbCollider2D(glm::vec2(objManager.FindObject("Square1")->GetPosition()), glm::vec2(2,2), glm::vec2(2,0));
+    objManager.SetRigidBody("Square1", square1);
+    physicsScene.AddActor(objManager.FindObject("Square1"));
+
+
+    objManager.CreateObject("Square2");
+    meshManager.CreateMesh("Square2", PRIMITIVE::SQUARE, 0.5f);
+    objManager.SetMesh("Square2", meshManager.GetMesh("Square2"));
+    objManager.SetShader("Square2", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("Square2")->SetPosition(glm::vec3(0, 1, 0));
+    AabbCollider2D* square2 = new AabbCollider2D(glm::vec2(objManager.FindObject("Square2")->GetPosition()), glm::vec2(1, 1), glm::vec2(2, 0), 0.2f);
+    objManager.SetRigidBody("Square2", square2);
+    physicsScene.AddActor(objManager.FindObject("Square2"));
+
+
+    objManager.CreateObject("Circle1");
+    meshManager.CreateMesh("Circle1", PRIMITIVE::CIRCLE, 0.5f);
+    objManager.SetMesh("Circle1", meshManager.GetMesh("Circle1"));
+    objManager.SetShader("Circle1", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("Circle1")->SetPosition(glm::vec3(0.0, 0, 0));
+    CircleColider* circle1 = new CircleColider(glm::vec2(objManager.FindObject("Circle1")->GetPosition()), glm::vec2(0,3), 1.0f, 0.5f);
+    objManager.SetRigidBody("Circle1", circle1);
+    physicsScene.AddActor(objManager.FindObject("Circle1"));
+
+
+    objManager.CreateObject("Circle2");
+    meshManager.CreateMesh("Circle2", PRIMITIVE::CIRCLE, 0.2f);
+    objManager.SetMesh("Circle2", meshManager.GetMesh("Circle2"));
+    objManager.SetShader("Circle2", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("Circle2")->SetPosition(glm::vec3(0.0, 0, 0));
+    CircleColider* circle2 = new CircleColider(glm::vec2(objManager.FindObject("Circle2")->GetPosition()), glm::vec2(1, 3), 0.2f, 0.2f);
+    objManager.SetRigidBody("Circle2", circle2);
+    physicsScene.AddActor(objManager.FindObject("Circle2"));
+
+
+
+    //************************************************************
+    // PHYSICS OBJECT CREATION
+    //************************************************************
+
+
+    objManager.CreateObject("TopBorder");
+    meshManager.CreateMesh("TopBorder", PRIMITIVE::PLANE);
+    objManager.SetMesh("TopBorder", meshManager.GetMesh("TopBorder"));
+    objManager.SetShader("TopBorder", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("TopBorder")->SetPosition(glm::vec3(0.0, 3, 0));
+    Plane* topBorder = new Plane(glm::vec2(glm::vec2(0, -1)), -2.9f);
+    objManager.SetRigidBody("TopBorder", topBorder);
+    physicsScene.AddActor(objManager.FindObject("TopBorder"));
+
+
+    objManager.CreateObject("BottomBorder");
+    meshManager.CreateMesh("BottomBorder", PRIMITIVE::PLANE);
+    objManager.SetMesh("BottomBorder", meshManager.GetMesh("BottomBorder"));
+    objManager.SetShader("BottomBorder", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("BottomBorder")->SetPosition(glm::vec3(0.0, -3, 0));
+    Plane* bottomBorder = new Plane(glm::vec2(glm::vec2(0, 1)), -2.9f);
+    objManager.SetRigidBody("BottomBorder", bottomBorder);
+    physicsScene.AddActor(objManager.FindObject("BottomBorder"));
+
+
+    objManager.CreateObject("LeftBorder");
+    meshManager.CreateMesh("LeftBorder", PRIMITIVE::PLANE);
+    objManager.SetMesh("LeftBorder", meshManager.GetMesh("LeftBorder"));
+    objManager.SetShader("LeftBorder", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("LeftBorder")->SetPosition(glm::vec3(5.3f, 0, 0));
+    objManager.FindObject("LeftBorder")->SetModel(glm::rotate(objManager.FindObject("LeftBorder")->GetModel(), glm::radians(90.0f), glm::vec3(0, 0, 1)));
+    Plane* leftBorder = new Plane(glm::vec2(glm::vec2(-1, 0)), -5.2);
+    objManager.SetRigidBody("LeftBorder", leftBorder);
+    physicsScene.AddActor(objManager.FindObject("LeftBorder"));
+
+
+    objManager.CreateObject("RightBorder");
+    meshManager.CreateMesh("RightBorder", PRIMITIVE::PLANE);
+    objManager.SetMesh("RightBorder", meshManager.GetMesh("RightBorder"));
+    objManager.SetShader("RightBorder", shaderManager.GetShader("2DShader"));
+    objManager.FindObject("RightBorder")->SetPosition(glm::vec3(-5.3f, 0, 0));
+    objManager.FindObject("RightBorder")->SetModel(glm::rotate(objManager.FindObject("RightBorder")->GetModel(), glm::radians(90.0f), glm::vec3(0, 0, 1)));
+    Plane* rightBorder = new Plane(glm::vec2(glm::vec2(1, 0)), -5.2);
+    objManager.SetRigidBody("RightBorder", rightBorder);
+    physicsScene.AddActor(objManager.FindObject("RightBorder"));
+
+    
+    
+
+
+
+
+
     // Debug shenanigans and unchanged variables for below loop.
     //************************************************************
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glm::vec3 direction(objManager.FindObject("SwordandShield")->GetModel()[3].x, objManager.FindObject("SwordandShield")->GetModel()[3].y, objManager.FindObject("SwordandShield")->GetModel()[3].z);
-    app.GetCamera().SetLookAt(glm::vec3(0, 0, 0.0f), -direction, glm::vec3(0, 1, 0));
+    //glm::vec3 direction(objManager.FindObject("SwordandShield")->GetModel()[3].x, objManager.FindObject("SwordandShield")->GetModel()[3].y, objManager.FindObject("SwordandShield")->GetModel()[3].z);
 
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     
     // The loop for the window.
     // Game stuff goes in there.
@@ -274,6 +294,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         app.UpdateApplication();
 
+        // Physics.
+        physicsScene.Update(app.GetDeltaTime());
         //********************************
         // Object manager
         //********************************
@@ -281,9 +303,11 @@ int main()
        
         // This is passed to the shader below to scale the models on screen.
         // Fix this. Should be a stored reference in the manager.
-        glm::mat4 pv = app.GetCamera().GetProjectionViewMatrix();
+        // This is dumb and needs to be fixed.
+        glm::mat4 pv = *app.GetCamera().GetProjectionViewMatrix();
 
-
+        // Obj manager should be in applicaiton and draw takes place
+        // after the updates.
         objManager.Draw(pv, app.GetCamera().GetWorldTransform()[3]);
         
         // Swaps the front buffer and back buffer

@@ -1,9 +1,11 @@
 #include "Application.h"
+
 #include <iostream>
 
-Application::Application()
-{
 
+Application::Application() : camera(CAMERA_TYPE::PERSPECTIVE)
+{
+   
     // Window init 
     if (glfwInit() == false)
     {
@@ -45,6 +47,9 @@ void Application::UpdateApplication()
 	float thisFrame = (float)glfwGetTime();
 	m_deltaTime = thisFrame - m_lastFrame;
 	m_lastFrame = thisFrame;
+    
+    // Needs to take place before or in the draw loop
+    // when objmanager is moved into here.
 	camera.Update(m_deltaTime);
 }
 

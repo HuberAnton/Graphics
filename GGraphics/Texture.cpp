@@ -25,45 +25,10 @@ Texture::Texture(const char* a_name)
     m_normals = 999;
 }
 
-// 'Default' for testing a map. It really is only useful for a diffuse.
-// Consider removing after object is refactored.
-// Obsolete.
-Texture::Texture(const char* a_name, const char* a_textureLocation)
-{
-    m_name = a_name;
-    // Used by stbi load and passed into the glTexImage.
-    int x, y, n;
 
-    // Need the texture locaiton
-    unsigned char* data = stbi_load(a_textureLocation, &x, &y, &n, 0);
-
-    // Open gl assaigns a number to this int and knows the number is 
-    // a reference to a texture.
-
-    glGenTextures(1, &m_diffuse);
-    glBindTexture(GL_TEXTURE_2D, m_diffuse);
-    // Notea that it might be rgba instead depending on what
-    // type of file the texture is.
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "No diffuse bud" << std::endl;
-    }
-
-    // Deallocates the memory.
-    stbi_image_free(data);
-    
-}
-
-
-// If success return true;
 // Note that this might be redundant as a wrong load may cause crash.
 // Also it shouldn't be hard to tell something is missing.
-bool Texture::SetDiffuse(const char* a_location, bool a_flip /*= false*/)        // Slot 1
+void Texture::SetDiffuse(const char* a_location, bool a_flip /*= false*/)        // Slot 1
 {
     stbi_set_flip_vertically_on_load(a_flip);
     // Used by stbi load and passed into the glTexImage.
@@ -92,7 +57,7 @@ bool Texture::SetDiffuse(const char* a_location, bool a_flip /*= false*/)       
     else
     {
         std::cout << "No diffuse bud." << std::endl;
-        return false;
+        return;
     }
    
     // Deallocates the memory.
@@ -100,7 +65,7 @@ bool Texture::SetDiffuse(const char* a_location, bool a_flip /*= false*/)       
     stbi_set_flip_vertically_on_load(0);
 }
 
-bool Texture::SetSpecular(const char* a_location, bool a_flip/*= false*/)   // Slot 2
+void Texture::SetSpecular(const char* a_location, bool a_flip/*= false*/)   // Slot 2
 {
     stbi_set_flip_vertically_on_load(a_flip);
     // Used by stbi load and passed into the glTexImage.
@@ -129,7 +94,7 @@ bool Texture::SetSpecular(const char* a_location, bool a_flip/*= false*/)   // S
     else
     {
         std::cout << "No specular bud" << std::endl;
-        return false;
+        return;
     }
     //stbi_set_flip_vertically_on_load(1);
     // Deallocates the memory.
@@ -138,7 +103,7 @@ bool Texture::SetSpecular(const char* a_location, bool a_flip/*= false*/)   // S
 }
 
 
-bool Texture::SetNormal(const char* a_location, bool a_flip /*= false*/)     // Slot 3
+void Texture::SetNormal(const char* a_location, bool a_flip /*= false*/)     // Slot 3
 {
     stbi_set_flip_vertically_on_load(a_flip);
     // Used by stbi load and passed into the glTexImage.
@@ -167,7 +132,7 @@ bool Texture::SetNormal(const char* a_location, bool a_flip /*= false*/)     // 
     else
     {
         std::cout << "No normal bud" << std::endl;
-        return false;
+        return;
     }
     //stbi_set_flip_vertically_on_load(1);
     // Deallocates the memory.

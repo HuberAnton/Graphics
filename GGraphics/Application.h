@@ -14,10 +14,6 @@ public:
 
 	float GetDeltaTime();
 	
-
-	
-
-
 	DemoCamera GetCamera() { return camera; }
 
 private:
@@ -25,7 +21,6 @@ private:
 	float m_deltaTime;
 
 	DemoCamera camera;
-
 	
 	GLFWwindow* window;
 

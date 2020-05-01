@@ -1,7 +1,6 @@
 #include "Object.h"
 #include <iostream>
 
-
 Object::Object(const char * a_name,const char* vertex, const char* frag, const char* a_textureLocation) : m_modelMatrix(1)
 {
 	m_name = a_name;
@@ -27,11 +26,12 @@ Object::~Object()
 	m_mesh = nullptr;
 	m_texture = nullptr;
 	m_shaderProgram = nullptr;
+	delete m_rigidBody;
+	m_rigidBody = nullptr;
 }
 
 void Object::Draw()
 {
-
 	m_mesh->draw();
 }
 
@@ -56,3 +56,10 @@ void Object::SetShader(Shader* a_shader)
 { 
 	m_shaderProgram = a_shader; 
 }
+
+// This needs to be handled better.
+void Object::FixedUpdate(glm::vec2 a_gravity, float a_timeStep)
+{
+	m_rigidBody->FixedUpdate(a_gravity, a_timeStep);
+}
+

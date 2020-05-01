@@ -2,24 +2,46 @@
 #include <iostream>
 
 
-DemoCamera::DemoCamera() : m_worldMatrix(1), m_viewMatrix(1), m_projectionMatrix(1)
+DemoCamera::DemoCamera(CAMERA_TYPE a_type) : m_worldMatrix(1), m_viewMatrix(1), m_projectionMatrix(1)
 {
 	m_aspectRatio = 16.0f / 9.0f;
 	m_cameraSpeed = 2.0f;
 	m_rotationSpeed = 1.0f;
-	SetPerspective(3.14159f * 0.5f, m_aspectRatio, 0.01f, 100.0f);
-	//SetLookAt(glm::vec3(0,0, -3.0f), glm::vec3(0,0,0), glm::vec3(0,1,0));
+
+	switch (a_type)
+	{
+	case CAMERA_TYPE::PERSPECTIVE:
+	{
+		SetPerspective(3.14159f * 0.5f, 0.01f, 100.0f);
+		break;
+	}
+	case CAMERA_TYPE::ORTHO:
+		SetOrtho(-1, 1);
+		break;
+	}
+
+	SetLookAt(glm::vec3(0,0, -3.0f), glm::vec3(0,0,0), glm::vec3(0,1,0));
 }
 
 
 
-void DemoCamera::SetPerspective(float a_fov_y, float a_aspect_ratio,
+void DemoCamera::SetPerspective(float a_fov_y, 
 	float a_near_distance, float a_far_distance)
 {
-	m_aspectRatio = a_aspect_ratio;
 	m_projectionMatrix = glm::perspective(a_fov_y, m_aspectRatio, a_near_distance, a_far_distance);
 	UpdateMatrices();
 }
+
+void DemoCamera::SetOrtho(float a_near, float a_far)
+{
+	// Play with the last 2 values for clip space?
+	m_projectionMatrix = glm::ortho(-m_aspectRatio, m_aspectRatio, a_near, a_far, -0.0f, 100000.0f);
+	UpdateMatrices();
+}
+
+
+
+
 
 void DemoCamera::SetLookAt(glm::vec3 a_camPosition, glm::vec3 a_lookPosition, glm::vec3 a_camUp)
 {
@@ -51,12 +73,12 @@ void DemoCamera::SetPostion(glm::vec3 a_position)
 
 
 
-
+// Commented out for physics simulation 
 
 void DemoCamera::Update(float a_deltaTime)
 {
-	// Note this is the ideal way to get the window 
-	// instead of passing it around.
+	 //Note this is the ideal way to get the window 
+	 //instead of passing it around.
 	auto window = glfwGetCurrentContext();
 	bool input = false;
 	// Identity matrix
@@ -119,7 +141,7 @@ void DemoCamera::Update(float a_deltaTime)
 	glfwSetCursorPos(window, 1280 * 0.5, 720 * 0.5);
 
 	// No rotation if no change.
-	if (delta_x || delta_y)
+	if (delta_x || delta_y) 
 	{
 		rotation = glm::rotate(rotation, float(m_rotationSpeed * a_deltaTime * -delta_x), glm::vec3(m_viewMatrix[1]));
 		rotation = glm::rotate(rotation, float(m_rotationSpeed * a_deltaTime * -delta_y), glm::vec3(1.0f, 0.0f, 0.0f));

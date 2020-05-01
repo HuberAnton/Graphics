@@ -46,12 +46,13 @@ public:
 	};
 
 	OBJMesh(const char* filename, const char* a_name); 
+	OBJMesh(std::vector<glm::vec4> a_verts, const char* a_name);
 	OBJMesh() {};
 	~OBJMesh();
 
 	// will fail if a mesh has already been loaded in to this instance
 	bool load(const char* filename, bool loadTextures = true, bool flipTextureV = false);
-
+	void PrimLoad(std::vector<glm::vec4> vertices);
 	// allow option to draw as patches for tessellation
 	void draw(bool usePatches = false);
 

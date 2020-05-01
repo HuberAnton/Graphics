@@ -11,7 +11,6 @@ class Shader
 {
 public:
 	Shader(const char* a_name, const char* a_vectorLocation, const char* a_fragmentShader);
-	Shader() {};
 	unsigned int GetShaderId() { return m_shaderProgramId; }
 	const char* GetName() { return m_name; }
 private:

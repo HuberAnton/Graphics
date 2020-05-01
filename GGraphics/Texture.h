@@ -11,17 +11,17 @@ class Texture
 public:
 	Texture();
 	Texture(const char * a_name);
-	Texture(const char* a_name, const char * a_textureLocation);
+	//Texture(const char* a_name, const char * a_textureLocation);
 
 
 	const char* GetName() { return m_name; }
 
 	unsigned int GetDiffuse()	{ return m_diffuse; }
-	bool SetDiffuse(const char* a_location, bool a_flip = false);
+	void SetDiffuse(const char* a_location, bool a_flip = false);
 	unsigned int GetSpecular()	{ return m_specular; }
-	bool SetSpecular(const char* a_location, bool a_flip = false);
+	void SetSpecular(const char* a_location, bool a_flip = false);
 	unsigned int GetNormals()	{ return m_normals; }
-	bool SetNormal(const char* a_location, bool a_flip = false);
+	void SetNormal(const char* a_location, bool a_flip = false);
 private:
 
 	const char* m_name;

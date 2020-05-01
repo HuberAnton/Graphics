@@ -6,6 +6,8 @@
 #include "Shader.h"
 #include "Light.h"
 #include "Texture.h"
+#include "PhysicsObject.h"
+
 
 class ObjManager
 {
@@ -27,7 +29,9 @@ public:
 	// I really should have a templated set?
 	void SetMesh(const char* a_name, OBJMesh* a_mesh);
 
-
+	// Everything that creates a rigidboy gets passed in here so it can then
+	// be created.
+	void SetRigidBody(const char* a_name, PhysicsObject* a_rigidBody);
 
 	void SetShader(const char* a_name, Shader* a_shader);
 

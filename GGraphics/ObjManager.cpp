@@ -139,13 +139,15 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 				// Be aware that you have to bind the textures for the submesh then draw 
 				// then unbind ect.
 
+				
+
 
 				auto uniform_location = glGetUniformLocation(shader_program_ID, "projection_view_matrix");
 				glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(a_pv));
 				//glUniformMatrix4fv(uniform_location, 1, false, glm::value_ptr(*m_projectionView));
 
 				// Since it's used again.
-				int amountOfLights = this->m_lights.size();
+				int amountOfLights = (int)this->m_lights.size();
 
 				uniform_location = glGetUniformLocation(shader_program_ID, "numberOfLights");
 				glUniform1i(uniform_location, amountOfLights);
@@ -159,7 +161,8 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 					// I should be able to concatonate string literals and do that
 					// instead.
 
-					m_lights[i]->m_position = glm::vec3(sin((float)glfwGetTime() * (i + 1)), 0, cos((float)glfwGetTime() * (i + 1)));
+					// m_lights[i]->m_position += glm::vec3((double)sin((double)glfwGetTime() * ((double)i + 1) * 0.000002f), 0, cos((double)glfwGetTime() * ((double)i + 1) * 0.000002f));
+					
 					std::ostringstream pos;
 
 					pos << "lights[" << i << "].m_position";
@@ -229,6 +232,8 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 				uniform_location = glGetUniformLocation(shader_program_ID, "cameraPostion");
 				glUniform3fv(uniform_location, 1, glm::value_ptr(a_cameraPos));
 
+				//m_modelList[i]->SetModel(glm::scale(m_modelList[i]->GetModel(), glm::vec3(100, 100, 0)));
+
 
 				// Model to draw in worldspce
 				uniform_location = glGetUniformLocation(shader_program_ID, "model_matrix");
@@ -241,32 +246,6 @@ void ObjManager::Draw(glm::mat4 &a_pv, glm::vec3 a_cameraPos)
 		}
 	}
 }
-// Not uesd
-//void ObjManager::SetTexture(const char* a_name, const char* a_location, TEXTURE_TYPE a_type /*= TEXTURE_TYPE::DIFFUSE*/)
-//{
-//	Texture* t = FindObject(a_name)->GetTexture();
-//	if (t != nullptr)
-//	{
-//		
-//		// Everything after this might be better being a part of the texture class.
-//		switch (a_type)
-//		{
-//		case TEXTURE_TYPE::DIFFUSE:
-//			t->SetDiffuse(a_location);
-//			break;
-//		case TEXTURE_TYPE::SPECULAR:
-//			t->SetSpecular(a_location);
-//			break;
-//		case TEXTURE_TYPE::NORMAL:
-//			t->SetNormal(a_location);
-//			break;
-//		}
-//	}
-//	else
-//	{
-//		std::cout << "Texture uninitialised." << std::endl;
-//	}
-//}
 
 
 
@@ -306,5 +285,14 @@ void ObjManager::SetShader(const char* a_name, Shader* a_shader)
 	if (obj != nullptr)
 	{
 		obj->SetShader(a_shader);
+	}
+}
+
+void ObjManager::SetRigidBody(const char* a_name, PhysicsObject* a_rigidBody)
+{
+	Object* obj = FindObject(a_name);
+	if (obj != nullptr)
+	{
+		obj->SetPhysicsObject(a_rigidBody);
 	}
 }

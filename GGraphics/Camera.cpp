@@ -36,12 +36,18 @@ void Camera::UpdateCamera()
 
 	//m_viewMatrix = glm::lookAt(m_cameraPostion, , m_up);
 	m_projectionViewMatrix = m_projectionMatrix * m_viewMatrix;
-}
-
-void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
-{
-	float velocity = m_speed * a_deltaTime;
-	glm::vec3 newPostion(1);
+}
+
+
+
+void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
+
+{
+
+	float velocity = m_speed * a_deltaTime;
+
+	glm::vec3 newPostion(1);
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		newPostion += m_speed * m_cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -49,9 +55,12 @@ void Camera::CheckInput(float a_deltaTime, GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		newPostion -= glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		newPostion += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
-	m_cameraPostion = glm::translate(m_cameraPostion, newPostion);
-	UpdateCamera();
+		newPostion += glm::normalize(glm::cross(m_cameraFront, m_cameraUp)) * m_speed;
+
+	m_cameraPostion = glm::translate(m_cameraPostion, newPostion);
+
+	UpdateCamera();
+
 }
 
 // Should be called during constructor and when

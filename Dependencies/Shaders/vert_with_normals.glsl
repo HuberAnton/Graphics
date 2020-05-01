@@ -16,7 +16,6 @@ out vec2 final_texture_coodinates;
 out vec3 vTangent;
 out vec3 vBiTangent;
 
-
 void main()
 {
     final_texture_coodinates = texture_coordinates;
