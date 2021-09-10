@@ -114,11 +114,11 @@ int main()
     // Sword and shield textures.
     //************************************************************
 
-    texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Sword.png", true);
-    texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Sword.png", true, MAP_TYPE::NORMAL);
+    //texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Sword.png", true);
+    //texureManager.SetTexture("Sword", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Sword.png", true, MAP_TYPE::NORMAL);
 
-    texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Shield.png", true);
-    texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Shield.png", true, MAP_TYPE::NORMAL);
+    //texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVAlbedoMap_Shield.png", true);
+    //texureManager.SetTexture("Shield", "..\\Dependencies\\obj\\SwordandShield\\UVNormalMap_Shield.png", true, MAP_TYPE::NORMAL);
 
 
     // Soul spear textures.
@@ -130,7 +130,7 @@ int main()
 
 
     // Note this mesh has 2 mesh chunks so you need to assaign each texture seperatly.
-    meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
+    //meshManager.CreateMesh("SwordandShield", "..\\Dependencies\\OBJ\\SwordandShield\\meshSwordShield.obj");
 
     // Object creation and asset assaginemnt.
     // Note that this is not 100% correctly implemented.
@@ -149,12 +149,12 @@ int main()
     //objManager.SetShader("Dragon1", shaderManager.GetShader("BasicShader"));
     //objManager.SetTexture("Dragon1", texureManager.GetTexture("scribble"));
 
-    objManager.CreateObject("SwordandShield");
-    objManager.SetMesh("SwordandShield", meshManager.GetMesh("SwordandShield"));
-    objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader")); 
-    objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
-    objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
-    
+    //objManager.CreateObject("SwordandShield");
+    //objManager.SetMesh("SwordandShield", meshManager.GetMesh("SwordandShield"));
+    //objManager.SetShader("SwordandShield", shaderManager.GetShader("BasicShader")); 
+    //objManager.SetTexture("SwordandShield", texureManager.GetTexture("Shield"), 0);
+    //objManager.SetTexture("SwordandShield", texureManager.GetTexture("Sword"), 1);
+    //
     //objManager.CreateObject("spear");
     //objManager.SetMesh("spear", meshManager.GetMesh("Spear"));
     //objManager.SetShader("spear", shaderManager.GetShader("BasicShader"));
@@ -224,7 +224,7 @@ int main()
 
 
     //************************************************************
-    // PHYSICS OBJECT CREATION
+    // PHYSICS OBJECT BOUNDS
     //************************************************************
 
 
